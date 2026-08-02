@@ -1,319 +1,578 @@
-<button class="zalo" onclick="contactZalo()">  
-    📞 LIÊN HỆ ZALO  
-</button>  <script>  
-function contactZalo() {  
-    window.location.href = "https://zalo.me/0865561731";  
-}  
-</script>  <!DOCTYPE html>  <html lang="vi">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>ADMIN HI STORE</title>  <style>  
-*{  
-    box-sizing:border-box;  
-    margin:0;  
-    padding:0;  
-    font-family:Arial,sans-serif;  
-}  
-  
-body{  
-    background:#050505;  
-    color:white;  
-    min-height:100vh;  
-}  
-  
-header{  
-    background:#0b0b0b;  
-    padding:18px;  
-    text-align:center;  
-    border-bottom:1px solid #20e060;  
-}  
-  
-header h1{  
-    color:#20e060;  
-    font-size:25px;  
-}  
-  
-header p{  
-    color:#aaa;  
-    margin-top:5px;  
-}  
-  
-nav{  
-    display:flex;  
-    gap:8px;  
-    padding:12px;  
-    overflow-x:auto;  
-    background:#090909;  
-}  
-  
-nav button{  
-    white-space:nowrap;  
-    border:1px solid #20e060;  
-    background:#111;  
-    color:white;  
-    padding:10px 15px;  
-    border-radius:10px;  
-}  
-  
-.container{  
-    padding:15px;  
-    max-width:700px;  
-    margin:auto;  
-}  
-  
-.section{  
-    display:none;  
-}  
-  
-.section.active{  
-    display:block;  
-}  
-  
-.title{  
-    color:#20e060;  
-    margin:15px 0;  
-}  
-  
-.products{  
-    display:grid;  
-    grid-template-columns:1fr 1fr;  
-    gap:12px;  
-}  
-  
-.card{  
-    background:#101010;  
-    border:1px solid #222;  
-    border-radius:15px;  
-    padding:15px;  
-    box-shadow:0 0 10px rgba(32,224,96,.08);  
-}  
-  
-.card h3{  
-    font-size:17px;  
-    margin-bottom:8px;  
-}  
-  
-.card p{  
-    color:#aaa;  
-    font-size:13px;  
-    min-height:35px;  
-}  
-  
-.price{  
-    display:none;  
-    color:#20e060;  
-    font-size:18px;  
-    font-weight:bold;  
-    margin:10px 0;  
-}  
-  
-.card button,  
-.form button,  
-.zalo{  
-    width:100%;  
-    padding:11px;  
-    border:0;  
-    border-radius:9px;  
-    background:#20e060;  
-    color:#000;  
-    font-weight:bold;  
-    margin-top:8px;  
-}  
-  
-.form{  
-    background:#101010;  
-    padding:20px;  
-    border-radius:15px;  
-    border:1px solid #222;  
-}  
-  
-input{  
-    width:100%;  
-    padding:13px;  
-    margin:7px 0;  
-    border-radius:9px;  
-    border:1px solid #333;  
-    background:#050505;  
-    color:white;  
-    outline:none;  
-}  
-  
-input:focus{  
-    border-color:#20e060;  
-}  
-  
-.notice{  
-    background:#101010;  
-    border-left:4px solid #20e060;  
-    padding:14px;  
-    margin-bottom:15px;  
-    border-radius:8px;  
-    color:#ccc;  
-}  
-  
-footer{  
-    text-align:center;  
-    color:#666;  
-    padding:30px 10px;  
-}  
-</style>  </head>  <body>  <header>  
-    <h1>🟢 ADMIN HI STORE</h1>  
-    <p>Shop sản phẩm kỹ thuật số</p>  
-</header>  <nav>  
-    <button onclick="showSection('home')">🏠 Trang chủ</button>  
-    <button onclick="showSection('products')">📦 Sản phẩm</button>  
-    <button onclick="showSection('nap')">💰 Nạp tiền</button>  
-    <button onclick="showSection('login')">🔐 Đăng nhập</button>  
-    <button onclick="showSection('register')">📝 Đăng ký</button>  
-</nav>  <div class="container">  <!-- TRANG CHỦ -->  <section id="home" class="section active">  
-    <h2 class="title">✨ Chào mừng đến ADMIN HI STORE</h2>  <div class="notice">  
-    📦 Sản phẩm kỹ thuật số<br>  
-    ⚡ Giao diện tối ưu cho điện thoại<br>  
-    💰 Hỗ trợ nạp tiền<br>  
-    📞 Hỗ trợ qua Zalo  
-</div>  
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN HI STORE</title>
 
-<button class="zalo" onclick="contactZalo()">  
-    📞 LIÊN HỆ ZALO  
-</button>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
 
-</section>  <!-- SẢN PHẨM -->  <section id="products" class="section">  
-    <h2 class="title">📦 Danh mục sản phẩm</h2>  <div class="products">  
+body{
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
 
-    <div class="card">  
-        <h3>🎯 Aim Lock</h3>  
-        <p>Sản phẩm kỹ thuật số</p>  
-        <div class="price">💰 50.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+header{
+    background:#0b0b0b;
+    padding:20px;
+    text-align:center;
+    border-bottom:1px solid #20e060;
+}
 
-    <div class="card">  
-        <h3>🔑 Key Proxy ADR</h3>  
-        <p>Key kỹ thuật số</p>  
-        <div class="price">💰 30.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+header h1{
+    color:#20e060;
+    font-size:26px;
+}
 
-    <div class="card">  
-        <h3>🔑 Key Proxy IOS</h3>  
-        <p>Key kỹ thuật số</p>  
-        <div class="price">💰 30.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+header p{
+    color:#aaa;
+    margin-top:6px;
+}
 
-    <div class="card">  
-        <h3>📱 Menu ADR</h3>  
-        <p>Gói kỹ thuật số</p>  
-        <div class="price">💰 40.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+nav{
+    display:flex;
+    gap:8px;
+    padding:12px;
+    overflow-x:auto;
+    background:#090909;
+}
 
-    <div class="card">  
-        <h3>📱 Menu IOS</h3>  
-        <p>Gói kỹ thuật số</p>  
-        <div class="price">💰 40.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+nav button{
+    white-space:nowrap;
+    border:1px solid #20e060;
+    background:#111;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+}
 
-    <div class="card">  
-        <h3>👁️ ĐV + Nhìn xuyên keo</h3>  
-        <p>Sản phẩm kỹ thuật số</p>  
-        <div class="price">💰 50.000đ</div>  
-        <button onclick="showPrice(this)">Xem giá</button>  
-    </div>  
+.container{
+    padding:15px;
+    max-width:700px;
+    margin:auto;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+.title{
+    color:#20e060;
+    margin:15px 0;
+}
+
+.notice{
+    background:#101010;
+    border-left:4px solid #20e060;
+    padding:14px;
+    margin-bottom:15px;
+    border-radius:8px;
+    color:#ccc;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.card{
+    background:#101010;
+    border:1px solid #222;
+    border-radius:15px;
+    padding:15px;
+}
+
+.card h3{
+    font-size:17px;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#ccc;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.price{
+    color:#20e060;
+    font-weight:bold;
+}
+
+.form{
+    background:#101010;
+    padding:20px;
+    border-radius:15px;
+    border:1px solid #222;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border-radius:9px;
+    border:1px solid #333;
+    background:#050505;
+    color:white;
+    outline:none;
+}
+
+input:focus{
+    border-color:#20e060;
+}
+
+.form button{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#20e060;
+    color:#000;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+/* NÚT ZALO TRÒN */
+.floating-zalo{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#20e060;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-size:27px;
+    font-weight:bold;
+    box-shadow:0 5px 20px rgba(0,0,0,.5);
+    z-index:9999;
+}
+
+footer{
+    text-align:center;
+    color:#666;
+    padding:30px 10px;
+}
+
+@media(max-width:480px){
+    .products{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ZALO -->
+<a
+class="floating-zalo"
+href="https://zalo.me/0865561731"
+aria-label="Liên hệ Zalo">
+💬
+</a>
+
+
+<header>
+    <h1>🟢 ADMIN HI STORE</h1>
+    <p>Shop sản phẩm kỹ thuật số</p>
+</header>
+
+
+<nav>
+    <button onclick="showSection('home')">
+        🏠 Trang chủ
+    </button>
+
+    <button onclick="showSection('products')">
+        📦 Sản phẩm
+    </button>
+
+    <button onclick="showSection('nap')">
+        💰 Nạp tiền
+    </button>
+
+    <button onclick="showSection('login')">
+        🔐 Đăng nhập
+    </button>
+
+    <button onclick="showSection('register')">
+        📝 Đăng ký
+    </button>
+</nav>
+
+
+<div class="container">
+
+
+<!-- TRANG CHỦ -->
+<section id="home" class="section active">
+
+    <h2 class="title">
+        ✨ Chào mừng đến ADMIN HI STORE
+    </h2>
+
+    <div class="notice">
+
+        📦 Sản phẩm kỹ thuật số
+        <br>
+
+        ⚡ Giao diện tối ưu cho điện thoại
+        <br>
+
+        💰 Hỗ trợ nạp tiền
+        <br>
+
+        📞 Zalo:
+        <b>0865561731</b>
+
+    </div>
+
+</section>
+
+
+
+<!-- SẢN PHẨM -->
+<section id="products" class="section">
+
+    <h2 class="title">
+        📦 Danh mục sản phẩm
+    </h2>
+
+
+    <div class="products">
+
+
+        <!-- AIM LOCK -->
+        <div class="card">
+
+            <h3>🎯 Aim Lock</h3>
+
+            <p>
+                V1 —
+                <span class="price">50k</span>
+                <br>
+
+                V2 —
+                <span class="price">100k</span>
+                <br>
+
+                V3 —
+                <span class="price">200k</span>
+            </p>
+
+        </div>
+
+
+
+        <!-- KEY PROXY ADR -->
+        <div class="card">
+
+            <h3>🔑 Key Proxy ADR</h3>
+
+            <p>
+                1 ngày —
+                <span class="price">25k</span>
+                <br>
+
+                7 ngày —
+                <span class="price">80k</span>
+                <br>
+
+                30 ngày —
+                <span class="price">170k</span>
+            </p>
+
+        </div>
+
+
+
+        <!-- KEY PROXY IOS -->
+        <div class="card">
+
+            <h3>🔑 Key Proxy IOS</h3>
+
+            <p>
+                1 ngày —
+                <span class="price">25k</span>
+                <br>
+
+                7 ngày —
+                <span class="price">80k</span>
+                <br>
+
+                30 ngày —
+                <span class="price">170k</span>
+                <br>
+
+                60 ngày —
+                <span class="price">290k</span>
+                <br>
+
+                VV —
+                <span class="price">340k</span>
+            </p>
+
+        </div>
+
+
+
+        <!-- MENU ADR -->
+        <div class="card">
+
+            <h3>📱 Menu ADR</h3>
+
+            <p>
+                7 ngày —
+                <span class="price">150k</span>
+                <br>
+
+                30 ngày —
+                <span class="price">300k</span>
+            </p>
+
+        </div>
+
+
+
+        <!-- MENU IOS -->
+        <div class="card">
+
+            <h3>📱 Menu IOS</h3>
+
+            <p>
+                1 giờ —
+                <span class="price">10k</span>
+                <br>
+
+                7 ngày —
+                <span class="price">150k</span>
+                <br>
+
+                30 ngày —
+                <span class="price">250k</span>
+            </p>
+
+        </div>
+
+
+
+        <!-- ĐV -->
+        <div class="card">
+
+            <h3>👁️ ĐV + Nhìn xuyên keo IOS</h3>
+
+            <p>
+                Giá —
+                <span class="price">30k</span>
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- NẠP TIỀN -->
+<section id="nap" class="section">
+
+    <h2 class="title">
+        💰 Nạp tiền
+    </h2>
+
+    <div class="form">
+
+        <div class="notice">
+
+            💳 Nhập số tiền muốn nạp.
+            <br>
+            Sau đó liên hệ Zalo để được hướng dẫn.
+
+        </div>
+
+        <input
+        type="number"
+        placeholder="Nhập số tiền, ví dụ 3000"
+        >
+
+        <button onclick="contactZalo()">
+
+            📞 Liên hệ Zalo để nạp tiền
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ĐĂNG NHẬP -->
+<section id="login" class="section">
+
+    <h2 class="title">
+        🔐 Đăng nhập
+    </h2>
+
+    <div class="form">
+
+        <input
+        type="text"
+        placeholder="Tên đăng nhập"
+        >
+
+        <input
+        type="password"
+        placeholder="Mật khẩu"
+        >
+
+        <button onclick="loginDemo()">
+
+            ĐĂNG NHẬP
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ĐĂNG KÝ -->
+<section id="register" class="section">
+
+    <h2 class="title">
+        📝 Đăng ký tài khoản
+    </h2>
+
+    <div class="form">
+
+        <input
+        type="text"
+        placeholder="Tên đăng nhập"
+        >
+
+        <input
+        type="email"
+        placeholder="Email"
+        >
+
+        <input
+        type="password"
+        placeholder="Mật khẩu"
+        >
+
+        <input
+        type="password"
+        placeholder="Nhập lại mật khẩu"
+        >
+
+        <button onclick="registerDemo()">
+
+            ĐĂNG KÝ
+
+        </button>
+
+    </div>
+
+</section>
+
 
 </div>
 
-</section>  <!-- NẠP TIỀN -->  <section id="nap" class="section">  
-    <h2 class="title">💰 Nạp tiền</h2>  <div class="form">  
-    <div class="notice">  
-        💳 Vui lòng liên hệ quản trị viên để được hướng dẫn thanh toán.  
-    </div>  
 
-    <input type="number" placeholder="Nhập số tiền muốn nạp">  
+<footer>
 
-    <button onclick="contactZalo()">  
-        📞 Liên hệ Zalo để nạp tiền  
-    </button>  
-</div>
+    🟢 ADMIN HI STORE
+    <br>
 
-</section>  <!-- ĐĂNG NHẬP -->  <section id="login" class="section">  
-    <h2 class="title">🔐 Đăng nhập</h2>  <div class="form">  
-    <input type="text" placeholder="Tên đăng nhập">  
-    <input type="password" placeholder="Mật khẩu">  
+    📞 Zalo: 0865561731
+    <br>
 
-    <button onclick="loginDemo()">  
-        ĐĂNG NHẬP  
-    </button>  
-</div>
+    © 2026
 
-</section>  <!-- ĐĂNG KÝ -->  <section id="register" class="section">  
-    <h2 class="title">📝 Đăng ký tài khoản</h2>  <div class="form">  
-    <input type="text" placeholder="Tên đăng nhập">  
-    <input type="email" placeholder="Email">  
-    <input type="password" placeholder="Mật khẩu">  
-    <input type="password" placeholder="Nhập lại mật khẩu">  
+</footer>
 
-    <button onclick="registerDemo()">  
-        ĐĂNG KÝ  
-    </button>  
-</div>
 
-</section>  </div>  <footer>  
-    🟢 ADMIN HI STORE<br>  
-    © 2026  
-</footer>  <script>  
-  
-function showSection(id){  
-  
-    document.querySelectorAll(".section")  
-    .forEach(section=>{  
-        section.classList.remove("active");  
-    });  
-  
-    document.getElementById(id)  
-    .classList.add("active");  
-  
-    window.scrollTo({  
-        top:0,  
-        behavior:"smooth"  
-    });  
-}  
-  
-  
-function showPrice(button){  
-  
-    const card = button.parentElement;  
-    const price = card.querySelector(".price");  
-  
-    price.style.display =  
-        price.style.display === "block"  
-        ? "none"  
-        : "block";  
-}  
-  
-  
-function contactZalo(){  
-  
-    // Đổi số này thành số Zalo của bạn  
-    const zalo = "0865561731";  
-  
-    window.location.href =  
-        "https://zalo.me/" + zalo;  
-}  
-  
-  
-function loginDemo(){  
-  
-    alert("Giao diện đăng nhập đã sẵn sàng. Muốn đăng nhập thật cần kết nối cơ sở dữ liệu.");  
-}  
-  
-  
-function registerDemo(){  
-  
-    alert("Giao diện đăng ký đã sẵn sàng. Muốn đăng ký thật cần kết nối cơ sở dữ liệu.");  
-}  
-  
-</script>  </body>  
-</html>  Gồn 2 cái này vakf 1
+
+<script>
+
+function showSection(id){
+
+    document
+    .querySelectorAll(".section")
+    .forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+
+function contactZalo(){
+
+    window.location.href =
+    "https://zalo.me/0865561731";
+
+}
+
+
+
+function loginDemo(){
+
+    alert(
+        "Giao diện đăng nhập đã sẵn sàng. " +
+        "Muốn đăng nhập thật cần kết nối cơ sở dữ liệu."
+    );
+
+}
+
+
+
+function registerDemo(){
+
+    alert(
+        "Giao diện đăng ký đã sẵn sàng. " +
+        "Muốn đăng ký thật cần kết nối cơ sở dữ liệu."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
