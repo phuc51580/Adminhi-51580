@@ -148,6 +148,24 @@ input:focus{
     border-color:#20e060;
 }
 
+.user-box{
+    display:none;
+    background:#101010;
+    border:1px solid #20e060;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+.user-box button{
+    background:#20e060;
+    border:0;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
 .floating-zalo{
     position:fixed;
     right:18px;
@@ -183,7 +201,7 @@ footer{
 
 <body>
 
-<!-- NÚT ZALO -->
+<!-- ZALO -->
 <a
 class="floating-zalo"
 href="https://zalo.me/0865561731"
@@ -194,7 +212,15 @@ aria-label="Liên hệ Zalo">
 <header>
     <h1>🟢 ADMIN HI STORE</h1>
     <p>Shop sản phẩm kỹ thuật số</p>
+
+    <div class="user-box" id="userBox">
+        👤 Xin chào:
+        <b id="currentUser"></b>
+        <br>
+        <button onclick="logoutUser()">🚪 Đăng xuất</button>
+    </div>
 </header>
+
 
 <nav>
     <button onclick="showSection('home')">
@@ -218,6 +244,7 @@ aria-label="Liên hệ Zalo">
     </button>
 </nav>
 
+
 <div class="container">
 
 <!-- TRANG CHỦ -->
@@ -228,9 +255,12 @@ aria-label="Liên hệ Zalo">
     </h2>
 
     <div class="notice">
-        📦 Sản phẩm kỹ thuật số<br>
-        ⚡ Giao diện tối ưu cho điện thoại<br>
-        💰 Hỗ trợ nạp tiền<br>
+        📦 Sản phẩm kỹ thuật số
+        <br>
+        ⚡ Giao diện tối ưu cho điện thoại
+        <br>
+        💰 Hỗ trợ nạp tiền
+        <br>
         📞 Zalo: <b>0865561731</b>
     </div>
 
@@ -246,7 +276,7 @@ aria-label="Liên hệ Zalo">
 
     <div class="products">
 
-        <!-- AIM LOCK -->
+
         <div class="card">
             <h3>🎯 Aim Lock</h3>
             <p>Sản phẩm kỹ thuật số</p>
@@ -263,7 +293,6 @@ aria-label="Liên hệ Zalo">
         </div>
 
 
-        <!-- KEY PROXY ADR -->
         <div class="card">
             <h3>🔑 Key Proxy ADR</h3>
             <p>Key kỹ thuật số</p>
@@ -280,7 +309,6 @@ aria-label="Liên hệ Zalo">
         </div>
 
 
-        <!-- KEY PROXY IOS -->
         <div class="card">
             <h3>🔑 Key Proxy IOS</h3>
             <p>Key kỹ thuật số</p>
@@ -299,7 +327,6 @@ aria-label="Liên hệ Zalo">
         </div>
 
 
-        <!-- MENU ADR -->
         <div class="card">
             <h3>📱 Menu ADR</h3>
             <p>Gói kỹ thuật số</p>
@@ -315,7 +342,6 @@ aria-label="Liên hệ Zalo">
         </div>
 
 
-        <!-- MENU IOS -->
         <div class="card">
             <h3>📱 Menu IOS</h3>
             <p>Gói kỹ thuật số</p>
@@ -332,7 +358,6 @@ aria-label="Liên hệ Zalo">
         </div>
 
 
-        <!-- ĐV -->
         <div class="card">
             <h3>👁️ ĐV + Nhìn xuyên keo IOS</h3>
             <p>Sản phẩm kỹ thuật số</p>
@@ -390,14 +415,16 @@ aria-label="Liên hệ Zalo">
         <input
             type="text"
             placeholder="Tên đăng nhập"
+            id="loginUsername"
         >
 
         <input
             type="password"
             placeholder="Mật khẩu"
+            id="loginPassword"
         >
 
-        <button onclick="loginDemo()">
+        <button onclick="loginUser()">
             ĐĂNG NHẬP
         </button>
 
@@ -433,7 +460,7 @@ aria-label="Liên hệ Zalo">
             id="registerPassword2"
         >
 
-        <button onclick="registerDemo()">
+        <button onclick="registerUser()">
             ĐĂNG KÝ
         </button>
 
@@ -455,11 +482,13 @@ aria-label="Liên hệ Zalo">
 
 <script>
 
+/* CHUYỂN TRANG */
+
 function showSection(id){
 
     document
     .querySelectorAll(".section")
-    .forEach(section => {
+    .forEach(section=>{
         section.classList.remove("active");
     });
 
@@ -474,11 +503,15 @@ function showSection(id){
 }
 
 
+/* HIỆN / ẨN GIÁ */
+
 function showPrice(button){
 
-    const card = button.parentElement;
+    const card =
+        button.parentElement;
 
-    const price = card.querySelector(".price");
+    const price =
+        card.querySelector(".price");
 
     if(price.style.display === "block"){
 
@@ -496,37 +529,42 @@ function showPrice(button){
 }
 
 
+/* ZALO */
+
 function contactZalo(){
 
     window.location.href =
-    "https://zalo.me/0865561731";
+        "https://zalo.me/0865561731";
 
 }
 
 
-function loginDemo(){
+/* ĐĂNG KÝ */
 
-    alert(
-        "Giao diện đăng nhập đã sẵn sàng. " +
-        "Muốn đăng nhập thật cần kết nối cơ sở dữ liệu."
-    );
-
-}
-
-
-function registerDemo(){
+function registerUser(){
 
     const username =
-        document.getElementById("registerUsername").value;
+        document
+        .getElementById("registerUsername")
+        .value
+        .trim();
 
     const password =
-        document.getElementById("registerPassword").value;
+        document
+        .getElementById("registerPassword")
+        .value;
 
     const password2 =
-        document.getElementById("registerPassword2").value;
+        document
+        .getElementById("registerPassword2")
+        .value;
 
 
-    if(username === "" || password === ""){
+    if(
+        username === "" ||
+        password === "" ||
+        password2 === ""
+    ){
 
         alert("Vui lòng nhập đầy đủ thông tin!");
 
@@ -534,22 +572,196 @@ function registerDemo(){
     }
 
 
-    if(password !== password2){
+    if(password.length < 6){
 
-        alert("Mật khẩu nhập lại không khớp!");
+        alert(
+            "Mật khẩu phải có ít nhất 6 ký tự!"
+        );
 
         return;
     }
 
 
-    alert(
-        "Đăng ký giao diện thành công cho tài khoản: "
-        + username
+    if(password !== password2){
+
+        alert(
+            "Mật khẩu nhập lại không khớp!"
+        );
+
+        return;
+    }
+
+
+    const users =
+        JSON.parse(
+            localStorage.getItem("hiStoreUsers")
+        ) || {};
+
+
+    if(users[username]){
+
+        alert(
+            "Tên đăng nhập này đã tồn tại!"
+        );
+
+        return;
+    }
+
+
+    users[username] = {
+        password:password
+    };
+
+
+    localStorage.setItem(
+        "hiStoreUsers",
+        JSON.stringify(users)
     );
 
+
+    alert(
+        "Đăng ký thành công!"
+    );
+
+
+    document
+    .getElementById("registerUsername")
+    .value = "";
+
+    document
+    .getElementById("registerPassword")
+    .value = "";
+
+    document
+    .getElementById("registerPassword2")
+    .value = "";
+
+
+    showSection("login");
 }
+
+
+/* ĐĂNG NHẬP */
+
+function loginUser(){
+
+    const username =
+        document
+        .getElementById("loginUsername")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const users =
+        JSON.parse(
+            localStorage.getItem("hiStoreUsers")
+        ) || {};
+
+
+    if(!users[username]){
+
+        alert(
+            "Tài khoản không tồn tại!"
+        );
+
+        return;
+    }
+
+
+    if(
+        users[username].password !== password
+    ){
+
+        alert(
+            "Mật khẩu không đúng!"
+        );
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "hiStoreLoggedIn",
+        username
+    );
+
+
+    document
+    .getElementById("currentUser")
+    .innerText = username;
+
+    document
+    .getElementById("userBox")
+    .style.display = "block";
+
+
+    alert(
+        "Đăng nhập thành công! Xin chào " +
+        username
+    );
+
+
+    showSection("home");
+}
+
+
+/* ĐĂNG XUẤT */
+
+function logoutUser(){
+
+    localStorage.removeItem(
+        "hiStoreLoggedIn"
+    );
+
+
+    document
+    .getElementById("userBox")
+    .style.display = "none";
+
+
+    document
+    .getElementById("currentUser")
+    .innerText = "";
+
+
+    alert("Đã đăng xuất!");
+
+}
+
+
+/* KIỂM TRA TÀI KHOẢN KHI MỞ WEB */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        const username =
+            localStorage.getItem(
+                "hiStoreLoggedIn"
+            );
+
+
+        if(username){
+
+            document
+            .getElementById("currentUser")
+            .innerText = username;
+
+            document
+            .getElementById("userBox")
+            .style.display = "block";
+
+        }
+
+    }
+);
 
 </script>
 
 </body>
-  </html>
+</html>
