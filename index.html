@@ -4,40 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADMIN HI STORE</title>
+
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
-background:#111;
+background:#080808;
 color:white;
-font-family:Arial;
+}
+
+header{
+background:linear-gradient(90deg,#00ff66,#00aa44);
+padding:18px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+nav{
+display:flex;
+justify-content:space-around;
+padding:15px;
+background:#111;
+position:sticky;
+top:0;
+}
+
+nav a{
+color:#00ff66;
+text-decoration:none;
+font-weight:bold;
+}
+
+.banner{
+padding:40px 20px;
 text-align:center;
 }
-h1{
+
+.banner h1{
+font-size:35px;
 color:#00ff66;
 }
-.box{
-margin:30px auto;
-width:300px;
-padding:20px;
-border:2px solid #00ff66;
-border-radius:10px;
+
+.banner p{
+margin-top:10px;
+color:#ddd;
 }
-button{
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 28px;
 background:#00ff66;
-padding:10px 20px;
-border:none;
-border-radius:5px;
+color:#000;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:20px;
+}
+
+.card{
+background:#111;
+border:2px solid #00ff66;
+border-radius:12px;
+padding:20px;
+text-align:center;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card h2{
+color:#00ff66;
+margin-bottom:10px;
+}
+
+.price{
+margin:8px 0;
+}
+
+.zalo{
+position:fixed;
+right:15px;
+bottom:15px;
+background:#00ff66;
+color:black;
+padding:15px;
+border-radius:50%;
+text-decoration:none;
+font-size:22px;
 }
 </style>
 </head>
+
 <body>
 
-<h1>🟢 ADMIN HI STORE 🟢</h1>
+<header>🟢 ADMIN HI STORE 🟢</header>
 
-<div class="box">
-<h2>Chào mừng!</h2>
-<p>Website đang được xây dựng.</p>
-<button>Mua ngay</button>
+<nav>
+<a href="#">Đăng nhập</a>
+<a href="#">Đăng ký</a>
+<a href="#">Nạp tiền</a>
+</nav>
+
+<section class="banner">
+<h1>SHOP BÁN KEY - MENU - AIM LOCK</h1>
+<p>Uy tín • Nhanh chóng • Hỗ trợ 24/7</p>
+<a class="btn" href="https://zalo.me/0865561731">Liên hệ Zalo</a>
+</section>
+
+<div class="grid">
+
+<div class="card">
+<h2>Aim Lock</h2>
+<div class="price">V1 - 50K</div>
+<div class="price">V2 - 100K</div>
+<div class="price">V3 - 200K</div>
+<a class="btn">Mua ngay</a>
 </div>
 
-</body>
-</html>
+<div class="card">
+<h2>Key Proxy iOS</h2>
+<div class="price">1 Ngày - 25K</div>
+<div class="price">7 Ngày - 80K</div>
+<div class="price">30 Ngày - 170K</div>
+<div class="price">60 Ngày - 290K</div>
+<a class="btn">Mua ngay</a>
+</div>
