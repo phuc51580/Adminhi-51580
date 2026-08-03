@@ -6,79 +6,381 @@
 <title>ADMIN HI STORE</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#050b12;color:#fff;min-height:100vh;padding-bottom:85px}
-header{padding:18px;text-align:center;background:#0b111a;border-bottom:1px solid #18e0d5}
-header h1{color:#18e0d5;font-size:24px}
-header p{color:#7e8b98;margin-top:5px}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif
+}
 
-.userbar{margin:15px;padding:14px;border-radius:20px;background:linear-gradient(135deg,#073941,#101923);display:flex;align-items:center;gap:12px}
-.avatar{width:48px;height:48px;border-radius:50%;border:2px solid #18e0d5;background:#111b26;display:flex;align-items:center;justify-content:center;font-size:25px}
-.userinfo{flex:1}
-.userinfo small{display:block;color:#788797;margin-top:4px}
-.balance{color:#18e0d5;font-weight:bold}
+body{
+    background:#050b12;
+    color:#fff;
+    min-height:100vh;
+    padding-bottom:90px
+}
 
-.container{max-width:760px;margin:auto;padding:15px}
-.page{display:none}
-.page.active{display:block}
+header{
+    padding:18px;
+    text-align:center;
+    background:#0b111a;
+    border-bottom:1px solid #18e0d5
+}
 
-.card{background:linear-gradient(145deg,#0d1823,#10151f);border:1px solid #1b2b39;border-radius:22px;padding:18px;margin-bottom:15px}
-.title{font-size:20px;font-weight:bold;margin-bottom:16px}
-.title span{color:#18e0d5}
+header h1{
+    color:#18e0d5;
+    font-size:24px
+}
 
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.category{background:#121c28;border:1px solid #243342;border-radius:16px;padding:15px 5px;text-align:center;color:white;cursor:pointer}
-.category.active{border-color:#18e0d5;box-shadow:0 0 12px #18e0d533}
-.category div{font-size:27px;margin-bottom:7px}
+header p{
+    color:#7e8b98;
+    margin-top:5px
+}
 
-.products{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.product{background:#111a25;border:1px solid #23313f;border-radius:18px;padding:15px}
-.product .icon{font-size:35px}
-.product h3{font-size:15px;margin:9px 0}
-.product p{font-size:12px;color:#7e8b98}
-.price{color:#18e0d5;font-weight:bold;font-size:17px;margin:12px 0}
+.userbar{
+    margin:15px;
+    padding:14px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#073941,#101923);
+    display:flex;
+    align-items:center;
+    gap:12px
+}
 
-button{border:0;cursor:pointer;border-radius:11px;padding:12px;font-weight:bold}
-.buy,.mainbtn{width:100%;background:#18ddd1;color:#00100f}
-.darkbtn{width:100%;background:#182431;color:#fff;margin-top:9px}
+.avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:2px solid #18e0d5;
+    background:#111b26;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px
+}
 
-input{width:100%;padding:14px;margin:6px 0;background:#070d14;color:white;border:1px solid #293846;border-radius:11px;outline:none}
-input:focus{border-color:#18e0d5}
+.userinfo{
+    flex:1
+}
 
-.notice{background:#102129;border-left:3px solid #18e0d5;padding:13px;border-radius:9px;color:#aab5c0;margin-bottom:13px}
+.userinfo small{
+    display:block;
+    color:#788797;
+    margin-top:4px
+}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.stat{background:#141e29;border-radius:14px;padding:13px 4px;text-align:center}
-.stat b{display:block;color:#18e0d5;font-size:17px;margin-bottom:5px}
-.stat small{color:#788797}
+.balance{
+    color:#18e0d5;
+    font-weight:bold
+}
 
-.history{background:#111c27;border-left:3px solid #18e0d5;border-radius:10px;padding:12px;margin-top:8px}
-.history small{display:block;color:#718090;margin-top:4px}
+.container{
+    max-width:760px;
+    margin:auto;
+    padding:15px
+}
+
+.page{
+    display:none
+}
+
+.page.active{
+    display:block
+}
+
+.card{
+    background:linear-gradient(145deg,#0d1823,#10151f);
+    border:1px solid #1b2b39;
+    border-radius:22px;
+    padding:18px;
+    margin-bottom:15px
+}
+
+.title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:16px
+}
+
+.title span{
+    color:#18e0d5
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px
+}
+
+.category{
+    background:#121c28;
+    border:1px solid #243342;
+    border-radius:16px;
+    padding:15px 5px;
+    text-align:center;
+    color:white;
+    cursor:pointer
+}
+
+.category.active{
+    border-color:#18e0d5;
+    box-shadow:0 0 12px #18e0d533
+}
+
+.category div{
+    font-size:27px;
+    margin-bottom:7px
+}
+
+.products{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px
+}
+
+.product{
+    background:#111a25;
+    border:1px solid #23313f;
+    border-radius:18px;
+    padding:15px
+}
+
+.product .icon{
+    font-size:35px
+}
+
+.product h3{
+    font-size:15px;
+    margin:9px 0
+}
+
+.product p{
+    font-size:12px;
+    color:#7e8b98
+}
+
+.price{
+    color:#18e0d5;
+    font-weight:bold;
+    font-size:17px;
+    margin:12px 0
+}
+
+button{
+    border:0;
+    cursor:pointer;
+    border-radius:11px;
+    padding:12px;
+    font-weight:bold
+}
+
+.buy,
+.mainbtn{
+    width:100%;
+    background:#18ddd1;
+    color:#00100f
+}
+
+.darkbtn{
+    width:100%;
+    background:#182431;
+    color:#fff;
+    margin-top:9px
+}
+
+.redbtn{
+    width:100%;
+    background:#8d2630;
+    color:#fff;
+    margin-top:8px
+}
+
+.greenbtn{
+    width:100%;
+    background:#16845d;
+    color:#fff;
+    margin-top:8px
+}
+
+.smallbtn{
+    padding:8px 10px;
+    font-size:12px;
+    margin-top:6px
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin:6px 0;
+    background:#070d14;
+    color:white;
+    border:1px solid #293846;
+    border-radius:11px;
+    outline:none
+}
+
+input:focus{
+    border-color:#18e0d5
+}
+
+.notice{
+    background:#102129;
+    border-left:3px solid #18e0d5;
+    padding:13px;
+    border-radius:9px;
+    color:#aab5c0;
+    margin-bottom:13px
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px
+}
+
+.stat{
+    background:#141e29;
+    border-radius:14px;
+    padding:13px 4px;
+    text-align:center
+}
+
+.stat b{
+    display:block;
+    color:#18e0d5;
+    font-size:17px;
+    margin-bottom:5px
+}
+
+.stat small{
+    color:#788797
+}
+
+.history{
+    background:#111c27;
+    border-left:3px solid #18e0d5;
+    border-radius:10px;
+    padding:12px;
+    margin-top:8px
+}
+
+.history small{
+    display:block;
+    color:#718090;
+    margin-top:4px
+}
+
+.qr{
+    width:100%;
+    max-width:330px;
+    display:block;
+    margin:15px auto;
+    border-radius:15px;
+    background:white;
+    padding:8px
+}
+
+.transfer-code{
+    background:#07151b;
+    border:1px dashed #18e0d5;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+    margin:12px 0
+}
+
+.transfer-code b{
+    color:#18e0d5;
+    font-size:20px;
+    word-break:break-all
+}
+
+.copybtn{
+    background:#263747;
+    color:white;
+    margin-top:8px;
+    width:100%
+}
+
+.deposit-item,
+.user-item{
+    background:#111c27;
+    border:1px solid #263746;
+    border-radius:14px;
+    padding:13px;
+    margin-top:10px
+}
+
+.deposit-item b,
+.user-item b{
+    color:#18e0d5
+}
+
+.adminbtn{
+    display:none;
+    background:#291b0c!important;
+    color:#ffd166!important
+}
 
 .zalo{
-position:fixed;right:18px;bottom:92px;width:58px;height:58px;
-border-radius:50%;background:#08a9e8;color:white;font-size:25px;
-z-index:50;box-shadow:0 4px 20px #0008
+    position:fixed;
+    right:18px;
+    bottom:92px;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#08a9e8;
+    color:white;
+    font-size:25px;
+    z-index:50;
+    box-shadow:0 4px 20px #0008
 }
 
 .bottom{
-position:fixed;left:0;right:0;bottom:0;height:75px;
-background:#0b1520f5;border-top:1px solid #1d303d;
-display:grid;grid-template-columns:repeat(5,1fr);z-index:40
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:75px;
+    background:#0b1520f5;
+    border-top:1px solid #1d303d;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:40
 }
-.bottom button{background:transparent;color:#718091;font-size:11px}
-.bottom button span{display:block;font-size:22px;margin-bottom:4px}
-.bottom button.active{color:#18e0d5}
 
-.adminbtn{
-display:none;
-background:#291b0c!important;
-color:#ffd166!important;
+.bottom button{
+    background:transparent;
+    color:#718091;
+    font-size:11px
+}
+
+.bottom button span{
+    display:block;
+    font-size:22px;
+    margin-bottom:4px
+}
+
+.bottom button.active{
+    color:#18e0d5
+}
+
+.admin-title{
+    color:#ffd166;
+    font-size:16px;
+    margin-top:15px;
+    margin-bottom:8px
 }
 
 @media(max-width:500px){
-.products{grid-template-columns:1fr 1fr}
-.categories{grid-template-columns:repeat(3,1fr)}
+
+    .products{
+        grid-template-columns:1fr 1fr
+    }
+
+    .categories{
+        grid-template-columns:repeat(3,1fr)
+    }
 }
 </style>
 </head>
@@ -86,77 +388,103 @@ color:#ffd166!important;
 <body>
 
 <header>
-<h1>🎮 ADMIN HI STORE</h1>
-<p>Shop sản phẩm kỹ thuật số</p>
+    <h1>🎮 ADMIN HI STORE</h1>
+    <p>Shop sản phẩm kỹ thuật số</p>
 </header>
 
 <div class="userbar">
-<div class="avatar">🎮</div>
-<div class="userinfo">
-<b id="userName">Khách</b>
-<small id="userStatus">Chưa đăng nhập</small>
-</div>
-<div class="balance" id="balance">0đ</div>
+
+    <div class="avatar">🎮</div>
+
+    <div class="userinfo">
+        <b id="userName">Khách</b>
+        <small id="userStatus">Chưa đăng nhập</small>
+    </div>
+
+    <div class="balance" id="balance">0đ</div>
+
 </div>
 
 <div class="container">
 
-<!-- SHOP -->
+<!-- ================= SHOP ================= -->
+
 <section id="home" class="page active">
 
 <div class="card">
-<div class="title">☷ <span>DANH MỤC</span></div>
+
+<div class="title">
+☷ <span>DANH MỤC</span>
+</div>
 
 <div class="categories">
 
 <div class="category active" onclick="showCategory('aim',this)">
-<div>🎯</div>Aim Lock
+<div>🎯</div>
+Aim Lock
 </div>
 
 <div class="category" onclick="showCategory('adr',this)">
-<div>🔑</div>Proxy ADR
+<div>🔑</div>
+Proxy ADR
 </div>
 
 <div class="category" onclick="showCategory('ios',this)">
-<div>📱</div>Proxy IOS
+<div>📱</div>
+Proxy IOS
 </div>
 
 <div class="category" onclick="showCategory('menuadr',this)">
-<div>🎯</div>Menu ADR
+<div>🎯</div>
+Menu ADR
 </div>
 
 <div class="category" onclick="showCategory('menuios',this)">
-<div>📱</div>Menu IOS
+<div>📱</div>
+Menu IOS
 </div>
 
 <div class="category" onclick="showCategory('dv',this)">
-<div>👁️</div>ĐV + Xuyên keo
+<div>👁️</div>
+ĐV + Xuyên keo
 </div>
 
 <div class="category" onclick="showCategory('acc',this)">
-<div>🎮</div>AC CLON
+<div>🎮</div>
+AC CLON
 </div>
 
 </div>
 </div>
 
 <div class="card">
-<div class="title">🛍️ <span>SẢN PHẨM</span></div>
+
+<div class="title">
+🛍️ <span>SẢN PHẨM</span>
+</div>
+
 <div id="products" class="products"></div>
+
 </div>
 
 </section>
 
 
-<!-- PROFILE -->
+<!-- ================= PROFILE ================= -->
+
 <section id="profile" class="page">
 
 <div class="card">
-<div class="title">👤 <span>TÀI KHOẢN</span></div>
+
+<div class="title">
+👤 <span>TÀI KHOẢN</span>
+</div>
 
 <div id="loggedOut">
 
-<div class="notice">Bạn chưa đăng nhập.</div>
+<div class="notice">
+Bạn chưa đăng nhập.
+</div>
 
 <button class="mainbtn" onclick="showPage('login')">
 🔐 ĐĂNG NHẬP
@@ -167,6 +495,7 @@ color:#ffd166!important;
 </button>
 
 </div>
+
 
 <div id="loggedIn" style="display:none">
 
@@ -196,10 +525,14 @@ color:#ffd166!important;
 </button>
 
 </div>
+
 </div>
 
 <div class="card">
-<div class="title">🎟️ <span>VOUCHER</span></div>
+
+<div class="title">
+🎟️ <span>VOUCHER</span>
+</div>
 
 <input id="voucherCode" placeholder="Nhập mã voucher">
 
@@ -212,37 +545,58 @@ color:#ffd166!important;
 </section>
 
 
-<!-- DEPOSIT -->
+<!-- ================= DEPOSIT ================= -->
+
 <section id="deposit" class="page">
 
 <div class="card">
 
-<div class="title">💳 <span>NẠP TIỀN</span></div>
-
-<div class="notice">
-Sau khi gửi yêu cầu, Admin sẽ kiểm tra và duyệt tiền.
+<div class="title">
+💳 <span>NẠP TIỀN</span>
 </div>
 
-<input id="depositAmount" type="number" placeholder="Số tiền muốn nạp">
+<div class="notice">
+
+Nhập số tiền → hệ thống tạo
+<strong>mã NAPTIEN</strong> riêng cho bạn.
+<br><br>
+Khi chuyển khoản hãy ghi đúng mã này vào nội dung chuyển khoản.
+
+</div>
+
+<input
+id="depositAmount"
+type="number"
+min="1000"
+placeholder="Số tiền muốn nạp">
 
 <button class="mainbtn" onclick="requestDeposit()">
-💰 GỬI YÊU CẦU NẠP
+💰 TẠO YÊU CẦU NẠP
 </button>
+
+<div id="depositResult"></div>
 
 </div>
 
 </section>
 
 
-<!-- HISTORY -->
+<!-- ================= HISTORY ================= -->
+
 <section id="history" class="page">
 
 <div class="card">
 
-<div class="title">📜 <span>LỊCH SỬ GIAO DỊCH</span></div>
+<div class="title">
+📜 <span>LỊCH SỬ GIAO DỊCH</span>
+</div>
 
 <div id="historyList">
-<div class="notice">Vui lòng đăng nhập để xem lịch sử.</div>
+
+<div class="notice">
+Vui lòng đăng nhập để xem lịch sử.
+</div>
+
 </div>
 
 </div>
@@ -250,16 +604,24 @@ Sau khi gửi yêu cầu, Admin sẽ kiểm tra và duyệt tiền.
 </section>
 
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
+
 <section id="login" class="page">
 
 <div class="card">
 
-<div class="title">🔐 <span>ĐĂNG NHẬP</span></div>
+<div class="title">
+🔐 <span>ĐĂNG NHẬP</span>
+</div>
 
-<input id="loginUsername" placeholder="Tên đăng nhập">
+<input
+id="loginUsername"
+placeholder="Tên đăng nhập">
 
-<input id="loginPassword" type="password" placeholder="Mật khẩu">
+<input
+id="loginPassword"
+type="password"
+placeholder="Mật khẩu">
 
 <button class="mainbtn" onclick="login()">
 ĐĂNG NHẬP
@@ -274,18 +636,29 @@ CHƯA CÓ TÀI KHOẢN
 </section>
 
 
-<!-- REGISTER -->
+<!-- ================= REGISTER ================= -->
+
 <section id="register" class="page">
 
 <div class="card">
 
-<div class="title">📝 <span>ĐĂNG KÝ</span></div>
+<div class="title">
+📝 <span>ĐĂNG KÝ</span>
+</div>
 
-<input id="registerUsername" placeholder="Tên đăng nhập">
+<input
+id="registerUsername"
+placeholder="Tên đăng nhập">
 
-<input id="registerPassword" type="password" placeholder="Mật khẩu">
+<input
+id="registerPassword"
+type="password"
+placeholder="Mật khẩu">
 
-<input id="registerPassword2" type="password" placeholder="Nhập lại mật khẩu">
+<input
+id="registerPassword2"
+type="password"
+placeholder="Nhập lại mật khẩu">
 
 <button class="mainbtn" onclick="register()">
 ĐĂNG KÝ
@@ -300,15 +673,18 @@ CHƯA CÓ TÀI KHOẢN
 </section>
 
 
-<!-- ADMIN -->
+<!-- ================= ADMIN ================= -->
+
 <section id="admin" class="page">
 
 <div class="card">
 
-<div class="title">👑 <span>ADMIN PANEL</span></div>
+<div class="title">
+👑 <span>ADMIN PANEL</span>
+</div>
 
 <div class="notice">
-Khu vực quản trị. Chỉ tài khoản có quyền Admin mới được sử dụng.
+Chỉ tài khoản có quyền Admin mới truy cập được.
 </div>
 
 <div class="stats">
@@ -330,13 +706,42 @@ Khu vực quản trị. Chỉ tài khoản có quyền Admin mới được sử
 
 </div>
 
-<br>
-
-<button class="mainbtn" onclick="loadAdmin()">
-🔄 TẢI DỮ LIỆU
+<button
+class="mainbtn"
+style="margin-top:15px"
+onclick="loadAdmin()">
+🔄 TẢI DỮ LIỆU ADMIN
 </button>
 
-<div id="adminData" style="margin-top:15px"></div>
+</div>
+
+
+<div class="card">
+
+<div class="admin-title">
+💰 YÊU CẦU NẠP TIỀN
+</div>
+
+<div id="adminDepositsList">
+<div class="notice">
+Bấm "TẢI DỮ LIỆU ADMIN".
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="admin-title">
+👥 DANH SÁCH TÀI KHOẢN
+</div>
+
+<div id="adminUsersList">
+<div class="notice">
+Bấm "TẢI DỮ LIỆU ADMIN".
+</div>
+</div>
 
 </div>
 
@@ -346,36 +751,84 @@ Khu vực quản trị. Chỉ tài khoản có quyền Admin mới được sử
 
 
 <!-- ZALO -->
-<button class="zalo" onclick="contactZalo()">💬</button>
+
+<button class="zalo" onclick="contactZalo()">
+💬
+</button>
 
 
 <!-- MENU -->
+
 <nav class="bottom">
 
-<button id="navHome" class="active" onclick="showPage('home')">
-<span>🔑</span>Mua Key
+<button
+id="navHome"
+class="active"
+onclick="showPage('home')">
+
+<span>🔑</span>
+Mua Key
+
 </button>
 
 <button onclick="showPage('history')">
-<span>📜</span>Lịch sử
+
+<span>📜</span>
+Lịch sử
+
 </button>
 
 <button onclick="showPage('deposit')">
-<span>💳</span>Nạp tiền
+
+<span>💳</span>
+Nạp tiền
+
 </button>
 
 <button onclick="showPage('profile')">
-<span>👤</span>Cá nhân
+
+<span>👤</span>
+Cá nhân
+
 </button>
 
-<button id="adminNav" class="adminbtn" onclick="showPage('admin')">
-<span>👑</span>Admin
+<button
+id="adminNav"
+class="adminbtn"
+onclick="showPage('admin')">
+
+<span>👑</span>
+Admin
+
 </button>
 
 </nav>
 
 
 <script>
+
+/* =========================================
+   CẤU HÌNH QR
+========================================= */
+
+/*
+   THAY 2 GIÁ TRỊ NÀY BẰNG NGÂN HÀNG CỦA BẠN.
+
+   Ví dụ:
+   BANK_ID = "MB"
+   ACCOUNT_NO = "0123456789"
+*/
+
+const BANK_ID = "MB";
+
+const ACCOUNT_NO = "0123456789";
+
+const ACCOUNT_NAME = "ADMIN HI STORE";
+
+
+/* =========================================
+   SẢN PHẨM
+========================================= */
 
 const products={
 
@@ -420,19 +873,48 @@ acc:[
 
 };
 
+
+/* =========================================
+   TIỀN
+========================================= */
+
 function money(n){
-return Number(n).toLocaleString("vi-VN")+"đ";
+
+return Number(n || 0)
+.toLocaleString("vi-VN")+"đ";
+
 }
 
 
-/* PRODUCTS */
+/* =========================================
+   ESCAPE
+========================================= */
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================
+   CATEGORY
+========================================= */
 
 function showCategory(type,button){
 
-document.querySelectorAll(".category")
+document
+.querySelectorAll(".category")
 .forEach(x=>x.classList.remove("active"));
 
+if(button){
 button.classList.add("active");
+}
 
 let html="";
 
@@ -448,11 +930,16 @@ html+=`
 
 <p>Sản phẩm kỹ thuật số</p>
 
-<div class="price">${money(p[1])}</div>
+<div class="price">
+${money(p[1])}
+</div>
 
-<button class="buy"
+<button
+class="buy"
 onclick="buyProduct('${type}',${index})">
+
 MUA NGAY
+
 </button>
 
 </div>
@@ -462,10 +949,13 @@ MUA NGAY
 });
 
 document.getElementById("products").innerHTML=html;
+
 }
 
 
-/* BUY */
+/* =========================================
+   MUA
+========================================= */
 
 async function buyProduct(type,index){
 
@@ -476,7 +966,9 @@ const token=localStorage.getItem("session");
 if(!token){
 
 alert("Vui lòng đăng nhập trước khi mua.");
+
 showPage("login");
+
 return;
 
 }
@@ -493,8 +985,10 @@ headers:{
 },
 
 body:JSON.stringify({
+
 product:product[0],
 price:product[1]
+
 })
 
 });
@@ -504,6 +998,7 @@ const data=await res.json();
 if(!res.ok){
 
 alert(data.message || "Không thể tạo đơn.");
+
 return;
 
 }
@@ -525,35 +1020,46 @@ alert("Không kết nối được server.");
 }
 
 
-/* REGISTER */
+/* =========================================
+   REGISTER
+========================================= */
 
 async function register(){
 
-const username=document
-.getElementById("registerUsername")
+const username=
+document.getElementById("registerUsername")
 .value.trim();
 
-const password=document
-.getElementById("registerPassword")
+const password=
+document.getElementById("registerPassword")
 .value;
 
-const password2=document
-.getElementById("registerPassword2")
+const password2=
+document.getElementById("registerPassword2")
 .value;
 
 if(username.length<3){
+
 alert("Tên đăng nhập tối thiểu 3 ký tự.");
+
 return;
+
 }
 
 if(password.length<4){
+
 alert("Mật khẩu tối thiểu 4 ký tự.");
+
 return;
+
 }
 
 if(password!==password2){
+
 alert("Mật khẩu nhập lại không khớp.");
+
 return;
+
 }
 
 try{
@@ -578,6 +1084,7 @@ const data=await res.json();
 if(!res.ok){
 
 alert(data.message || "Đăng ký thất bại.");
+
 return;
 
 }
@@ -599,21 +1106,24 @@ alert("Không kết nối được server.");
 }
 
 
-/* LOGIN */
+/* =========================================
+   LOGIN
+========================================= */
 
 async function login(){
 
-const username=document
-.getElementById("loginUsername")
+const username=
+document.getElementById("loginUsername")
 .value.trim();
 
-const password=document
-.getElementById("loginPassword")
+const password=
+document.getElementById("loginPassword")
 .value;
 
 if(!username || !password){
 
 alert("Vui lòng nhập đầy đủ thông tin.");
+
 return;
 
 }
@@ -640,18 +1150,23 @@ const data=await res.json();
 if(!res.ok){
 
 alert(data.message || "Sai tài khoản/mật khẩu.");
+
 return;
 
 }
 
 if(!data.token){
 
-alert("Server chưa trả token đăng nhập. Cần sửa server.js.");
+alert("Server chưa trả token.");
+
 return;
 
 }
 
-localStorage.setItem("session",data.token);
+localStorage.setItem(
+"session",
+data.token
+);
 
 alert("Đăng nhập thành công!");
 
@@ -668,15 +1183,19 @@ alert("Không kết nối được server.");
 }
 
 
-/* ACCOUNT */
+/* =========================================
+   ACCOUNT
+========================================= */
 
 async function loadAccount(){
 
-const token=localStorage.getItem("session");
+const token=
+localStorage.getItem("session");
 
 if(!token){
 
 updateGuest();
+
 return;
 
 }
@@ -694,46 +1213,52 @@ headers:{
 if(!res.ok){
 
 localStorage.removeItem("session");
+
 updateGuest();
+
 return;
 
 }
 
 const user=await res.json();
 
-document.getElementById("userName").textContent=
-user.username || "Khách";
+document.getElementById("userName")
+.textContent=user.username || "Khách";
 
-document.getElementById("userStatus").textContent=
+document.getElementById("userStatus")
+.textContent=
 user.role==="admin"
 ?"👑 Admin"
 :"Đã đăng nhập";
 
-document.getElementById("balance").textContent=
-money(user.balance || 0);
+document.getElementById("balance")
+.textContent=money(user.balance);
 
-document.getElementById("profileBalance").textContent=
-money(user.balance || 0);
+document.getElementById("profileBalance")
+.textContent=money(user.balance);
 
-document.getElementById("profileDeposit").textContent=
-money(user.totalDeposit || 0);
+document.getElementById("profileDeposit")
+.textContent=money(user.totalDeposit);
 
-document.getElementById("profileSpent").textContent=
-money(user.totalSpent || 0);
+document.getElementById("profileSpent")
+.textContent=money(user.totalSpent);
 
-document.getElementById("loggedOut").style.display="none";
-document.getElementById("loggedIn").style.display="block";
+document.getElementById("loggedOut")
+.style.display="none";
 
+document.getElementById("loggedIn")
+.style.display="block";
 
-/* CHỈ ADMIN MỚI THẤY NÚT */
 
 if(user.role==="admin"){
 
-document.getElementById("adminNav").style.display="block";
+document.getElementById("adminNav")
+.style.display="block";
 
 }else{
 
-document.getElementById("adminNav").style.display="none";
+document.getElementById("adminNav")
+.style.display="none";
 
 }
 
@@ -748,11 +1273,14 @@ updateGuest();
 }
 
 
-/* HISTORY */
+/* =========================================
+   HISTORY
+========================================= */
 
 async function loadHistory(){
 
-const token=localStorage.getItem("session");
+const token=
+localStorage.getItem("session");
 
 if(!token)return;
 
@@ -770,9 +1298,10 @@ if(!res.ok)return;
 
 const list=await res.json();
 
-const box=document.getElementById("historyList");
+const box=
+document.getElementById("historyList");
 
-if(!Array.isArray(list) || !list.length){
+if(!Array.isArray(list)||!list.length){
 
 box.innerHTML=
 "<div class='notice'>Chưa có giao dịch.</div>";
@@ -785,15 +1314,17 @@ box.innerHTML=list.map(x=>`
 
 <div class="history">
 
-<b>${escapeHTML(x.type || "")}</b><br>
+<b>${escapeHTML(x.type)}</b><br>
 
-${escapeHTML(x.description || "")}<br>
+${escapeHTML(x.description)}<br>
 
 <span style="color:#18e0d5">
-${money(x.amount || 0)}
+${money(x.amount)}
 </span>
 
-<small>${escapeHTML(x.created_at || "")}</small>
+<small>
+${escapeHTML(x.created_at)}
+</small>
 
 </div>
 
@@ -804,32 +1335,70 @@ ${money(x.amount || 0)}
 }
 
 
-/* DEPOSIT */
+/* =========================================
+   TẠO YÊU CẦU NẠP
+========================================= */
 
 async function requestDeposit(){
 
-const token=localStorage.getItem("session");
+const token=
+localStorage.getItem("session");
 
 if(!token){
 
 alert("Vui lòng đăng nhập.");
+
 showPage("login");
+
 return;
 
 }
 
-const amount=Number(
+const amount=
+Number(
 document.getElementById("depositAmount").value
 );
 
-if(!amount || amount<1000){
+if(!Number.isFinite(amount)||amount<1000){
 
 alert("Số tiền tối thiểu 1.000đ.");
+
 return;
 
 }
 
+
+/*
+   TẠO MÃ NAPTIEN
+
+   Ví dụ:
+   NAPTIEN_USERNAME_482731
+*/
+
+const username=
+document.getElementById("userName")
+.textContent
+.trim()
+.toUpperCase()
+.replace(/[^A-Z0-9]/g,"")
+.slice(0,12);
+
+const random=
+Math.floor(
+100000+
+Math.random()*900000
+);
+
+const transferCode=
+"NAPTIEN_"+username+"_"+random;
+
+
 try{
+
+/*
+   Gửi cả amount + transferCode
+   lên server
+*/
 
 const res=await fetch("/api/deposits",{
 
@@ -840,7 +1409,13 @@ headers:{
 "Authorization":"Bearer "+token
 },
 
-body:JSON.stringify({amount})
+body:JSON.stringify({
+
+amount:Math.floor(amount),
+
+transferCode:transferCode
+
+})
 
 });
 
@@ -848,120 +1423,87 @@ const data=await res.json();
 
 if(!res.ok){
 
-alert(data.message || "Không thể gửi yêu cầu.");
+alert(
+data.message ||
+"Không thể tạo yêu cầu nạp."
+);
+
 return;
 
 }
 
-document.getElementById("depositAmount").value="";
-
-alert("Đã gửi yêu cầu nạp tiền.");
-
-}catch(e){
-
-alert("Không kết nối được server.");
-
-}
-
-}
+document.getElementById("depositAmount")
+.value="";
 
 
-/* VOUCHER */
+/*
+   TẠO QR VIETQR
+*/
 
-function applyVoucher(){
+const qrText=
+encodeURIComponent(
+"Chuyen tien "+transferCode
+);
 
-const code=document
-.getElementById("voucherCode")
-.value.trim();
-
-if(!code){
-
-alert("Nhập mã voucher.");
-return;
-
-}
-
-alert("Voucher sẽ được kiểm tra bởi server.");
-
-}
-
-
-/* LOGOUT */
-
-function logout(){
-
-localStorage.removeItem("session");
-
-updateGuest();
-
-showPage("home");
-
-}
+const qrUrl=
+"https://img.vietqr.io/image/"+
+encodeURIComponent(BANK_ID)+
+"-"+
+encodeURIComponent(ACCOUNT_NO)+
+"-compact2.png?amount="+
+Math.floor(amount)+
+"&addInfo="+
+qrText+
+"&accountName="+
+encodeURIComponent(ACCOUNT_NAME);
 
 
-/* GUEST */
+/*
+   HIỆN KẾT QUẢ
+*/
 
-function updateGuest(){
+document.getElementById("depositResult")
+.innerHTML=`
 
-document.getElementById("userName").textContent="Khách";
-document.getElementById("userStatus").textContent="Chưa đăng nhập";
-document.getElementById("balance").textContent="0đ";
+<div class="transfer-code">
 
-document.getElementById("loggedOut").style.display="block";
-document.getElementById("loggedIn").style.display="none";
+<div style="color:#aab5c0">
+MÃ CHUYỂN KHOẢN
+</div>
 
-document.getElementById("adminNav").style.display="none";
+<b id="currentTransferCode">
+${escapeHTML(transferCode)}
+</b>
 
-}
+<button
+class="copybtn"
+onclick="copyTransferCode()">
 
+📋 SAO CHÉP MÃ
 
-/* ADMIN */
+</button>
 
-async function loadAdmin(){
+</div>
 
-const token=localStorage.getItem("session");
-
-if(!token){
-
-alert("Vui lòng đăng nhập.");
-showPage("login");
-return;
-
-}
-
-try{
-
-const res=await fetch("/api/admin/stats",{
-
-headers:{
-"Authorization":"Bearer "+token
-}
-
-});
-
-const data=await res.json();
-
-if(!res.ok){
-
-alert(data.message || "Bạn không có quyền Admin.");
-showPage("home");
-return;
-
-}
-
-document.getElementById("adminUsers").textContent=
-data.users ?? 0;
-
-document.getElementById("adminDeposits").textContent=
-data.deposits ?? 0;
-
-document.getElementById("adminOrders").textContent=
-data.orders ?? 0;
-
-document.getElementById("adminData").innerHTML=`
+<img
+class="qr"
+src="${qrUrl}"
+alt="QR chuyển khoản">
 
 <div class="notice">
-👑 Bạn đang đăng nhập bằng quyền Admin.
+
+<strong>💰 Số tiền:</strong>
+${money(amount)}
+<br><br>
+
+<strong>📝 Nội dung CK:</strong>
+${escapeHTML(transferCode)}
+<br><br>
+
+<strong>⚠️ Quan trọng:</strong>
+Ghi đúng mã chuyển khoản trên vào nội dung chuyển khoản.
+Admin sẽ dựa vào mã này để kiểm tra yêu cầu.
+
 </div>
 
 `;
@@ -975,7 +1517,549 @@ alert("Không kết nối được server.");
 }
 
 
-/* PAGE */
+/* =========================================
+   COPY CODE
+========================================= */
+
+function copyTransferCode(){
+
+const el=
+document.getElementById(
+"currentTransferCode"
+);
+
+if(!el)return;
+
+const text=el.textContent.trim();
+
+navigator.clipboard
+.writeText(text)
+.then(()=>{
+
+alert("Đã sao chép mã: "+text);
+
+})
+.catch(()=>{
+
+alert("Không thể sao chép tự động.");
+
+});
+
+}
+
+
+/* =========================================
+   VOUCHER
+========================================= */
+
+function applyVoucher(){
+
+const code=
+document.getElementById("voucherCode")
+.value.trim();
+
+if(!code){
+
+alert("Nhập mã voucher.");
+
+return;
+
+}
+
+alert(
+"Voucher sẽ được kiểm tra bởi server."
+);
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+async function logout(){
+
+const token=
+localStorage.getItem("session");
+
+try{
+
+if(token){
+
+await fetch("/api/logout",{
+
+method:"POST",
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+}
+
+}catch(e){}
+
+localStorage.removeItem("session");
+
+updateGuest();
+
+showPage("home");
+
+}
+
+
+/* =========================================
+   GUEST
+========================================= */
+
+function updateGuest(){
+
+document.getElementById("userName")
+.textContent="Khách";
+
+document.getElementById("userStatus")
+.textContent="Chưa đăng nhập";
+
+document.getElementById("balance")
+.textContent="0đ";
+
+document.getElementById("loggedOut")
+.style.display="block";
+
+document.getElementById("loggedIn")
+.style.display="none";
+
+document.getElementById("adminNav")
+.style.display="none";
+
+}
+
+
+/* =========================================
+   ADMIN
+========================================= */
+
+async function loadAdmin(){
+
+const token=
+localStorage.getItem("session");
+
+if(!token){
+
+alert("Vui lòng đăng nhập.");
+
+showPage("login");
+
+return;
+
+}
+
+try{
+
+const statsRes=
+await fetch("/api/admin/stats",{
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const stats=
+await statsRes.json();
+
+if(!statsRes.ok){
+
+alert(
+stats.message ||
+"Bạn không có quyền Admin."
+);
+
+return;
+
+}
+
+document.getElementById("adminUsers")
+.textContent=stats.users ?? 0;
+
+document.getElementById("adminDeposits")
+.textContent=stats.deposits ?? 0;
+
+document.getElementById("adminOrders")
+.textContent=stats.orders ?? 0;
+
+
+/* LOAD DEPOSITS */
+
+const depRes=
+await fetch("/api/admin/deposits",{
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const deposits=
+await depRes.json();
+
+const depBox=
+document.getElementById(
+"adminDepositsList"
+);
+
+if(!Array.isArray(deposits)||!deposits.length){
+
+depBox.innerHTML=
+"<div class='notice'>Không có yêu cầu nạp.</div>";
+
+}else{
+
+depBox.innerHTML=
+deposits.map(x=>`
+
+<div class="deposit-item">
+
+<b>👤 ${escapeHTML(x.username)}</b>
+
+<br><br>
+
+💰 Số tiền:
+<strong>
+${money(x.amount)}
+</strong>
+
+<br>
+
+🆔 ID:
+${x.id}
+
+<br>
+
+📌 Trạng thái:
+${escapeHTML(x.status)}
+
+<br>
+
+📅 ${escapeHTML(x.created_at)}
+
+${
+x.status==="pending"
+?
+
+`
+
+<br><br>
+
+<button
+class="greenbtn"
+onclick="approveDeposit(${x.id})">
+
+✅ DUYỆT
+
+</button>
+
+<button
+class="redbtn"
+onclick="rejectDeposit(${x.id})">
+
+❌ TỪ CHỐI
+
+</button>
+
+`
+
+:
+
+""
+
+}
+
+</div>
+
+`).join("");
+
+}
+
+
+/* LOAD USERS */
+
+const usersRes=
+await fetch("/api/admin/users",{
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const users=
+await usersRes.json();
+
+const userBox=
+document.getElementById(
+"adminUsersList"
+);
+
+if(!Array.isArray(users)||!users.length){
+
+userBox.innerHTML=
+"<div class='notice'>Chưa có tài khoản.</div>";
+
+}else{
+
+userBox.innerHTML=
+users.map(x=>`
+
+<div class="user-item">
+
+<b>👤 ${escapeHTML(x.username)}</b>
+
+<br><br>
+
+ID: ${x.id}
+
+<br>
+
+💰 Số dư:
+<strong>
+${money(x.balance)}
+</strong>
+
+<br>
+
+💳 Tổng nạp:
+${money(x.total_deposit)}
+
+<br>
+
+🛒 Tổng chi:
+${money(x.total_spent)}
+
+<br>
+
+👑 Quyền:
+${x.is_admin ? "Admin" : "User"}
+
+<br><br>
+
+<input
+id="balance_${x.id}"
+type="number"
+placeholder="Nhập số tiền +/-">
+
+<button
+class="mainbtn"
+onclick="changeBalance(${x.id})">
+
+💰 CỘNG / TRỪ TIỀN
+
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+}catch(e){
+
+alert("Không kết nối được server.");
+
+}
+
+}
+
+
+/* =========================================
+   DUYỆT NẠP
+========================================= */
+
+async function approveDeposit(id){
+
+if(!confirm("Duyệt yêu cầu nạp này?")){
+
+return;
+
+}
+
+const token=
+localStorage.getItem("session");
+
+try{
+
+const res=
+await fetch(
+"/api/admin/deposits/"+id+"/approve",
+{
+
+method:"POST",
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const data=
+await res.json();
+
+if(!res.ok){
+
+alert(data.message||"Không thể duyệt.");
+
+return;
+
+}
+
+alert("Đã duyệt yêu cầu nạp.");
+
+loadAdmin();
+
+}catch(e){
+
+alert("Lỗi kết nối server.");
+
+}
+
+}
+
+
+/* =========================================
+   TỪ CHỐI NẠP
+========================================= */
+
+async function rejectDeposit(id){
+
+if(!confirm("Từ chối yêu cầu nạp này?")){
+
+return;
+
+}
+
+const token=
+localStorage.getItem("session");
+
+try{
+
+const res=
+await fetch(
+"/api/admin/deposits/"+id+"/reject",
+{
+
+method:"POST",
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const data=
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.message||
+"Không thể từ chối."
+);
+
+return;
+
+}
+
+alert("Đã từ chối yêu cầu.");
+
+loadAdmin();
+
+}catch(e){
+
+alert("Lỗi kết nối server.");
+
+}
+
+}
+
+
+/* =========================================
+   ĐỔI SỐ DƯ
+========================================= */
+
+async function changeBalance(id){
+
+const input=
+document.getElementById(
+"balance_"+id
+);
+
+const amount=
+Number(input.value);
+
+if(!Number.isFinite(amount)){
+
+alert("Nhập số tiền hợp lệ.");
+
+return;
+
+}
+
+const token=
+localStorage.getItem("session");
+
+try{
+
+const res=
+await fetch(
+"/api/admin/users/"+id+"/balance",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+},
+
+body:JSON.stringify({
+amount:Math.floor(amount)
+})
+
+});
+
+const data=
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.message||
+"Không thể cập nhật."
+);
+
+return;
+
+}
+
+input.value="";
+
+alert("Đã cập nhật số dư.");
+
+loadAdmin();
+
+}catch(e){
+
+alert("Lỗi kết nối server.");
+
+}
+
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
 
 function showPage(id){
 
@@ -986,7 +2070,10 @@ document.getElementById("adminNav");
 
 if(adminButton.style.display!=="block"){
 
-alert("Bạn không có quyền truy cập Admin.");
+alert(
+"Bạn không có quyền truy cập Admin."
+);
+
 return;
 
 }
@@ -995,15 +2082,26 @@ loadAdmin();
 
 }
 
-document.querySelectorAll(".page")
-.forEach(x=>x.classList.remove("active"));
+document
+.querySelectorAll(".page")
+.forEach(x=>
+x.classList.remove("active")
+);
 
-const page=document.getElementById(id);
+const page=
+document.getElementById(id);
 
-if(page)page.classList.add("active");
+if(page){
 
-document.querySelectorAll(".bottom button")
-.forEach(x=>x.classList.remove("active"));
+page.classList.add("active");
+
+}
+
+document
+.querySelectorAll(".bottom button")
+.forEach(x=>
+x.classList.remove("active")
+);
 
 window.scrollTo({
 top:0,
@@ -1013,7 +2111,9 @@ behavior:"smooth"
 }
 
 
-/* ZALO */
+/* =========================================
+   ZALO
+========================================= */
 
 function contactZalo(){
 
@@ -1023,21 +2123,9 @@ window.location.href=
 }
 
 
-/* SECURITY DISPLAY */
-
-function escapeHTML(value){
-
-return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-/* START */
+/* =========================================
+   START
+========================================= */
 
 showCategory(
 "aim",
