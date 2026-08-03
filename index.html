@@ -6,381 +6,312 @@
 <title>ADMIN HI STORE</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#050b12;color:#fff;min-height:100vh;padding-bottom:85px}
+header{padding:18px;text-align:center;background:#0b111a;border-bottom:1px solid #18e0d5}
+header h1{color:#18e0d5;font-size:24px}
+header p{color:#7e8b98;margin-top:5px}
+
+.container{max-width:760px;margin:auto;padding:15px}
+.page{display:none}
+.page.active{display:block}
+
+.card{
+background:linear-gradient(145deg,#0d1823,#10151f);
+border:1px solid #1b2b39;
+border-radius:22px;
+padding:18px;
+margin-bottom:15px
 }
 
-body{
-    background:#050b12;
-    color:#fff;
-    min-height:100vh;
-    padding-bottom:90px
-}
-
-header{
-    padding:18px;
-    text-align:center;
-    background:#0b111a;
-    border-bottom:1px solid #18e0d5
-}
-
-header h1{
-    color:#18e0d5;
-    font-size:24px
-}
-
-header p{
-    color:#7e8b98;
-    margin-top:5px
-}
+.title{font-size:20px;font-weight:bold;margin-bottom:16px}
+.title span{color:#18e0d5}
 
 .userbar{
-    margin:15px;
-    padding:14px;
-    border-radius:20px;
-    background:linear-gradient(135deg,#073941,#101923);
-    display:flex;
-    align-items:center;
-    gap:12px
+margin:15px;
+padding:14px;
+border-radius:20px;
+background:linear-gradient(135deg,#073941,#101923);
+display:flex;
+align-items:center;
+gap:12px
 }
 
 .avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    border:2px solid #18e0d5;
-    background:#111b26;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px
+width:48px;height:48px;
+border-radius:50%;
+border:2px solid #18e0d5;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px
 }
 
-.userinfo{
-    flex:1
-}
-
+.userinfo{flex:1}
 .userinfo small{
-    display:block;
-    color:#788797;
-    margin-top:4px
+display:block;
+color:#788797;
+margin-top:4px
 }
 
 .balance{
-    color:#18e0d5;
-    font-weight:bold
-}
-
-.container{
-    max-width:760px;
-    margin:auto;
-    padding:15px
-}
-
-.page{
-    display:none
-}
-
-.page.active{
-    display:block
-}
-
-.card{
-    background:linear-gradient(145deg,#0d1823,#10151f);
-    border:1px solid #1b2b39;
-    border-radius:22px;
-    padding:18px;
-    margin-bottom:15px
-}
-
-.title{
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:16px
-}
-
-.title span{
-    color:#18e0d5
+color:#18e0d5;
+font-weight:bold
 }
 
 .categories{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
 }
 
 .category{
-    background:#121c28;
-    border:1px solid #243342;
-    border-radius:16px;
-    padding:15px 5px;
-    text-align:center;
-    color:white;
-    cursor:pointer
+background:#121c28;
+border:1px solid #243342;
+border-radius:16px;
+padding:15px 5px;
+text-align:center;
+cursor:pointer
 }
 
 .category.active{
-    border-color:#18e0d5;
-    box-shadow:0 0 12px #18e0d533
+border-color:#18e0d5;
+box-shadow:0 0 12px #18e0d533
 }
 
 .category div{
-    font-size:27px;
-    margin-bottom:7px
+font-size:27px;
+margin-bottom:7px
 }
 
 .products{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
 }
 
 .product{
-    background:#111a25;
-    border:1px solid #23313f;
-    border-radius:18px;
-    padding:15px
+background:#111a25;
+border:1px solid #23313f;
+border-radius:18px;
+padding:15px
 }
 
-.product .icon{
-    font-size:35px
-}
-
-.product h3{
-    font-size:15px;
-    margin:9px 0
-}
-
-.product p{
-    font-size:12px;
-    color:#7e8b98
-}
+.product .icon{font-size:35px}
+.product h3{font-size:15px;margin:9px 0}
+.product p{font-size:12px;color:#7e8b98}
 
 .price{
-    color:#18e0d5;
-    font-weight:bold;
-    font-size:17px;
-    margin:12px 0
+color:#18e0d5;
+font-weight:bold;
+font-size:17px;
+margin:12px 0
 }
 
 button{
-    border:0;
-    cursor:pointer;
-    border-radius:11px;
-    padding:12px;
-    font-weight:bold
+border:0;
+cursor:pointer;
+border-radius:11px;
+padding:12px;
+font-weight:bold
 }
 
-.buy,
 .mainbtn{
-    width:100%;
-    background:#18ddd1;
-    color:#00100f
+width:100%;
+background:#18ddd1;
+color:#00100f
 }
 
 .darkbtn{
-    width:100%;
-    background:#182431;
-    color:#fff;
-    margin-top:9px
-}
-
-.redbtn{
-    width:100%;
-    background:#8d2630;
-    color:#fff;
-    margin-top:8px
-}
-
-.greenbtn{
-    width:100%;
-    background:#16845d;
-    color:#fff;
-    margin-top:8px
-}
-
-.smallbtn{
-    padding:8px 10px;
-    font-size:12px;
-    margin-top:6px
+width:100%;
+background:#182431;
+color:#fff;
+margin-top:9px
 }
 
 input{
-    width:100%;
-    padding:14px;
-    margin:6px 0;
-    background:#070d14;
-    color:white;
-    border:1px solid #293846;
-    border-radius:11px;
-    outline:none
+width:100%;
+padding:14px;
+margin:6px 0;
+background:#070d14;
+color:white;
+border:1px solid #293846;
+border-radius:11px;
+outline:none
 }
 
-input:focus{
-    border-color:#18e0d5
-}
+input:focus{border-color:#18e0d5}
 
 .notice{
-    background:#102129;
-    border-left:3px solid #18e0d5;
-    padding:13px;
-    border-radius:9px;
-    color:#aab5c0;
-    margin-bottom:13px
+background:#102129;
+border-left:3px solid #18e0d5;
+padding:13px;
+border-radius:9px;
+color:#aab5c0;
+margin-bottom:13px
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:9px
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:9px
 }
 
 .stat{
-    background:#141e29;
-    border-radius:14px;
-    padding:13px 4px;
-    text-align:center
+background:#141e29;
+border-radius:14px;
+padding:13px 4px;
+text-align:center
 }
 
 .stat b{
-    display:block;
-    color:#18e0d5;
-    font-size:17px;
-    margin-bottom:5px
+display:block;
+color:#18e0d5;
+font-size:17px;
+margin-bottom:5px
 }
 
-.stat small{
-    color:#788797
-}
+.stat small{color:#788797}
 
 .history{
-    background:#111c27;
-    border-left:3px solid #18e0d5;
-    border-radius:10px;
-    padding:12px;
-    margin-top:8px
+background:#111c27;
+border-left:3px solid #18e0d5;
+border-radius:10px;
+padding:12px;
+margin-top:8px
 }
 
 .history small{
-    display:block;
-    color:#718090;
-    margin-top:4px
+display:block;
+color:#718090;
+margin-top:4px
 }
 
-.qr{
-    width:100%;
-    max-width:330px;
-    display:block;
-    margin:15px auto;
-    border-radius:15px;
-    background:white;
-    padding:8px
+.qrbox{
+background:#fff;
+border-radius:18px;
+padding:12px;
+text-align:center;
+margin:15px 0
 }
 
-.transfer-code{
-    background:#07151b;
-    border:1px dashed #18e0d5;
-    border-radius:12px;
-    padding:15px;
-    text-align:center;
-    margin:12px 0
+.qrbox img{
+width:100%;
+max-width:330px;
+display:block;
+margin:auto;
+border-radius:10px
 }
 
-.transfer-code b{
-    color:#18e0d5;
-    font-size:20px;
-    word-break:break-all
+.qrname{
+color:#102033;
+font-weight:bold;
+font-size:18px;
+margin-top:10px
+}
+
+.transfer{
+background:#07131d;
+border:1px solid #243b4a;
+border-radius:15px;
+padding:14px;
+margin:10px 0
+}
+
+.transfer b{
+color:#18e0d5;
+font-size:18px
 }
 
 .copybtn{
-    background:#263747;
-    color:white;
-    margin-top:8px;
-    width:100%
+width:100%;
+margin-top:8px;
+background:#243746;
+color:#fff
 }
 
 .deposit-item,
 .user-item{
-    background:#111c27;
-    border:1px solid #263746;
-    border-radius:14px;
-    padding:13px;
-    margin-top:10px
+background:#111c27;
+border:1px solid #263746;
+border-radius:15px;
+padding:14px;
+margin-top:10px
 }
 
 .deposit-item b,
 .user-item b{
-    color:#18e0d5
+color:#18e0d5
 }
 
-.adminbtn{
-    display:none;
-    background:#291b0c!important;
-    color:#ffd166!important
+.deposit-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px
+}
+
+.success{
+background:#16a085;
+color:white
+}
+
+.danger{
+background:#e74c3c;
+color:white
 }
 
 .zalo{
-    position:fixed;
-    right:18px;
-    bottom:92px;
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    background:#08a9e8;
-    color:white;
-    font-size:25px;
-    z-index:50;
-    box-shadow:0 4px 20px #0008
+position:fixed;
+right:18px;
+bottom:92px;
+width:58px;
+height:58px;
+border-radius:50%;
+background:#08a9e8;
+color:white;
+font-size:25px;
+z-index:50
 }
 
 .bottom{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    height:75px;
-    background:#0b1520f5;
-    border-top:1px solid #1d303d;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    z-index:40
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:75px;
+background:#0b1520f5;
+border-top:1px solid #1d303d;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+z-index:40
 }
 
 .bottom button{
-    background:transparent;
-    color:#718091;
-    font-size:11px
+background:transparent;
+color:#718091;
+font-size:11px
 }
 
 .bottom button span{
-    display:block;
-    font-size:22px;
-    margin-bottom:4px
+display:block;
+font-size:22px;
+margin-bottom:4px
 }
 
 .bottom button.active{
-    color:#18e0d5
+color:#18e0d5
 }
 
-.admin-title{
-    color:#ffd166;
-    font-size:16px;
-    margin-top:15px;
-    margin-bottom:8px
+.adminbtn{
+display:none;
+background:#291b0c!important;
+color:#ffd166!important
 }
 
 @media(max-width:500px){
-
-    .products{
-        grid-template-columns:1fr 1fr
-    }
-
-    .categories{
-        grid-template-columns:repeat(3,1fr)
-    }
+.products{grid-template-columns:1fr 1fr}
+.categories{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
@@ -388,26 +319,26 @@ input:focus{
 <body>
 
 <header>
-    <h1>🎮 ADMIN HI STORE</h1>
-    <p>Shop sản phẩm kỹ thuật số</p>
+<h1>🎮 ADMIN HI STORE</h1>
+<p>Shop sản phẩm kỹ thuật số</p>
 </header>
 
 <div class="userbar">
 
-    <div class="avatar">🎮</div>
+<div class="avatar">🎮</div>
 
-    <div class="userinfo">
-        <b id="userName">Khách</b>
-        <small id="userStatus">Chưa đăng nhập</small>
-    </div>
+<div class="userinfo">
+<b id="userName">Khách</b>
+<small id="userStatus">Chưa đăng nhập</small>
+</div>
 
-    <div class="balance" id="balance">0đ</div>
+<div class="balance" id="balance">0đ</div>
 
 </div>
 
 <div class="container">
 
-<!-- ================= SHOP ================= -->
+<!-- SHOP -->
 
 <section id="home" class="page active">
 
@@ -419,37 +350,44 @@ input:focus{
 
 <div class="categories">
 
-<div class="category active" onclick="showCategory('aim',this)">
+<div class="category active"
+onclick="showCategory('aim',this)">
 <div>🎯</div>
 Aim Lock
 </div>
 
-<div class="category" onclick="showCategory('adr',this)">
+<div class="category"
+onclick="showCategory('adr',this)">
 <div>🔑</div>
 Proxy ADR
 </div>
 
-<div class="category" onclick="showCategory('ios',this)">
+<div class="category"
+onclick="showCategory('ios',this)">
 <div>📱</div>
 Proxy IOS
 </div>
 
-<div class="category" onclick="showCategory('menuadr',this)">
+<div class="category"
+onclick="showCategory('menuadr',this)">
 <div>🎯</div>
 Menu ADR
 </div>
 
-<div class="category" onclick="showCategory('menuios',this)">
+<div class="category"
+onclick="showCategory('menuios',this)">
 <div>📱</div>
 Menu IOS
 </div>
 
-<div class="category" onclick="showCategory('dv',this)">
+<div class="category"
+onclick="showCategory('dv',this)">
 <div>👁️</div>
 ĐV + Xuyên keo
 </div>
 
-<div class="category" onclick="showCategory('acc',this)">
+<div class="category"
+onclick="showCategory('acc',this)">
 <div>🎮</div>
 AC CLON
 </div>
@@ -470,7 +408,7 @@ AC CLON
 </section>
 
 
-<!-- ================= PROFILE ================= -->
+<!-- PROFILE -->
 
 <section id="profile" class="page">
 
@@ -486,16 +424,17 @@ AC CLON
 Bạn chưa đăng nhập.
 </div>
 
-<button class="mainbtn" onclick="showPage('login')">
+<button class="mainbtn"
+onclick="showPage('login')">
 🔐 ĐĂNG NHẬP
 </button>
 
-<button class="darkbtn" onclick="showPage('register')">
+<button class="darkbtn"
+onclick="showPage('register')">
 📝 ĐĂNG KÝ
 </button>
 
 </div>
-
 
 <div id="loggedIn" style="display:none">
 
@@ -520,7 +459,8 @@ Bạn chưa đăng nhập.
 
 <br>
 
-<button class="darkbtn" onclick="logout()">
+<button class="darkbtn"
+onclick="logout()">
 🚪 ĐĂNG XUẤT
 </button>
 
@@ -528,24 +468,10 @@ Bạn chưa đăng nhập.
 
 </div>
 
-<div class="card">
-
-<div class="title">
-🎟️ <span>VOUCHER</span>
-</div>
-
-<input id="voucherCode" placeholder="Nhập mã voucher">
-
-<button class="mainbtn" onclick="applyVoucher()">
-ÁP DỤNG VOUCHER
-</button>
-
-</div>
-
 </section>
 
 
-<!-- ================= DEPOSIT ================= -->
+<!-- NẠP TIỀN -->
 
 <section id="deposit" class="page">
 
@@ -556,32 +482,100 @@ Bạn chưa đăng nhập.
 </div>
 
 <div class="notice">
-
-Nhập số tiền → hệ thống tạo
-<strong>mã NAPTIEN</strong> riêng cho bạn.
-<br><br>
-Khi chuyển khoản hãy ghi đúng mã này vào nội dung chuyển khoản.
-
+Nhập số tiền muốn nạp. Sau đó hệ thống tạo mã
+<strong>NAPTIEN-XXXXXX</strong>.
 </div>
 
 <input
 id="depositAmount"
 type="number"
+placeholder="Số tiền muốn nạp"
 min="1000"
-placeholder="Số tiền muốn nạp">
+>
 
-<button class="mainbtn" onclick="requestDeposit()">
+<button class="mainbtn"
+onclick="createDeposit()">
 💰 TẠO YÊU CẦU NẠP
 </button>
 
-<div id="depositResult"></div>
+</div>
+
+
+<div id="paymentBox"
+class="card"
+style="display:none">
+
+<div class="title">
+🏦 <span>THÔNG TIN CHUYỂN KHOẢN</span>
+</div>
+
+<div class="qrbox">
+
+<!-- Nếu bạn có file qr.jpg thì đổi src thành qr.jpg -->
+
+<img
+src="qr.jpg"
+alt="QR chuyển khoản"
+>
+
+<div class="qrname">
+TSAN QUANG PHUC
+</div>
+
+</div>
+
+<div class="transfer">
+
+Số tiền
+
+<br>
+
+<b id="payAmount">
+0đ
+</b>
+
+</div>
+
+<div class="transfer">
+
+Nội dung chuyển khoản
+
+<br>
+
+<b id="payCode">
+NAPTIEN-XXXXXX
+</b>
+
+<button
+class="copybtn"
+onclick="copyTransferCode()">
+
+📋 SAO CHÉP MÃ
+
+</button>
+
+</div>
+
+<div class="notice">
+
+⚠️ Chuyển đúng số tiền và ghi đúng nội dung chuyển khoản.
+
+</div>
+
+<button
+class="mainbtn"
+onclick="submitDeposit()">
+
+✅ ĐÃ CHUYỂN KHOẢN - GỬI YÊU CẦU
+
+</button>
 
 </div>
 
 </section>
 
 
-<!-- ================= HISTORY ================= -->
+<!-- HISTORY -->
 
 <section id="history" class="page">
 
@@ -604,7 +598,7 @@ Vui lòng đăng nhập để xem lịch sử.
 </section>
 
 
-<!-- ================= LOGIN ================= -->
+<!-- LOGIN -->
 
 <section id="login" class="page">
 
@@ -616,19 +610,29 @@ Vui lòng đăng nhập để xem lịch sử.
 
 <input
 id="loginUsername"
-placeholder="Tên đăng nhập">
+placeholder="Tên đăng nhập"
+>
 
 <input
 id="loginPassword"
 type="password"
-placeholder="Mật khẩu">
+placeholder="Mật khẩu"
+>
 
-<button class="mainbtn" onclick="login()">
+<button
+class="mainbtn"
+onclick="login()">
+
 ĐĂNG NHẬP
+
 </button>
 
-<button class="darkbtn" onclick="showPage('register')">
+<button
+class="darkbtn"
+onclick="showPage('register')">
+
 CHƯA CÓ TÀI KHOẢN
+
 </button>
 
 </div>
@@ -636,7 +640,7 @@ CHƯA CÓ TÀI KHOẢN
 </section>
 
 
-<!-- ================= REGISTER ================= -->
+<!-- REGISTER -->
 
 <section id="register" class="page">
 
@@ -648,24 +652,35 @@ CHƯA CÓ TÀI KHOẢN
 
 <input
 id="registerUsername"
-placeholder="Tên đăng nhập">
+placeholder="Tên đăng nhập"
+>
 
 <input
 id="registerPassword"
 type="password"
-placeholder="Mật khẩu">
+placeholder="Mật khẩu"
+>
 
 <input
 id="registerPassword2"
 type="password"
-placeholder="Nhập lại mật khẩu">
+placeholder="Nhập lại mật khẩu"
+>
 
-<button class="mainbtn" onclick="register()">
+<button
+class="mainbtn"
+onclick="register()">
+
 ĐĂNG KÝ
+
 </button>
 
-<button class="darkbtn" onclick="showPage('login')">
+<button
+class="darkbtn"
+onclick="showPage('login')">
+
 ĐÃ CÓ TÀI KHOẢN
+
 </button>
 
 </div>
@@ -673,7 +688,7 @@ placeholder="Nhập lại mật khẩu">
 </section>
 
 
-<!-- ================= ADMIN ================= -->
+<!-- ADMIN -->
 
 <section id="admin" class="page">
 
@@ -681,10 +696,6 @@ placeholder="Nhập lại mật khẩu">
 
 <div class="title">
 👑 <span>ADMIN PANEL</span>
-</div>
-
-<div class="notice">
-Chỉ tài khoản có quyền Admin mới truy cập được.
 </div>
 
 <div class="stats">
@@ -706,11 +717,14 @@ Chỉ tài khoản có quyền Admin mới truy cập được.
 
 </div>
 
+<br>
+
 <button
 class="mainbtn"
-style="margin-top:15px"
 onclick="loadAdmin()">
-🔄 TẢI DỮ LIỆU ADMIN
+
+🔄 TẢI DỮ LIỆU
+
 </button>
 
 </div>
@@ -718,14 +732,16 @@ onclick="loadAdmin()">
 
 <div class="card">
 
-<div class="admin-title">
-💰 YÊU CẦU NẠP TIỀN
+<div class="title">
+💰 <span>YÊU CẦU NẠP</span>
 </div>
 
 <div id="adminDepositsList">
+
 <div class="notice">
-Bấm "TẢI DỮ LIỆU ADMIN".
+Chưa tải dữ liệu.
 </div>
+
 </div>
 
 </div>
@@ -733,14 +749,16 @@ Bấm "TẢI DỮ LIỆU ADMIN".
 
 <div class="card">
 
-<div class="admin-title">
-👥 DANH SÁCH TÀI KHOẢN
+<div class="title">
+👥 <span>DANH SÁCH USER</span>
 </div>
 
 <div id="adminUsersList">
+
 <div class="notice">
-Bấm "TẢI DỮ LIỆU ADMIN".
+Chưa tải dữ liệu.
 </div>
+
 </div>
 
 </div>
@@ -750,14 +768,12 @@ Bấm "TẢI DỮ LIỆU ADMIN".
 </div>
 
 
-<!-- ZALO -->
-
-<button class="zalo" onclick="contactZalo()">
+<button
+class="zalo"
+onclick="contactZalo()">
 💬
 </button>
 
-
-<!-- MENU -->
 
 <nav class="bottom">
 
@@ -807,29 +823,6 @@ Admin
 
 <script>
 
-/* =========================================
-   CẤU HÌNH QR
-========================================= */
-
-/*
-   THAY 2 GIÁ TRỊ NÀY BẰNG NGÂN HÀNG CỦA BẠN.
-
-   Ví dụ:
-   BANK_ID = "MB"
-   ACCOUNT_NO = "0123456789"
-*/
-
-const BANK_ID = "MB";
-
-const ACCOUNT_NO = "0123456789";
-
-const ACCOUNT_NAME = "ADMIN HI STORE";
-
-
-/* =========================================
-   SẢN PHẨM
-========================================= */
-
 const products={
 
 aim:[
@@ -874,9 +867,8 @@ acc:[
 };
 
 
-/* =========================================
-   TIỀN
-========================================= */
+let currentDeposit=null;
+
 
 function money(n){
 
@@ -885,10 +877,6 @@ return Number(n || 0)
 
 }
 
-
-/* =========================================
-   ESCAPE
-========================================= */
 
 function escapeHTML(value){
 
@@ -902,19 +890,15 @@ return String(value ?? "")
 }
 
 
-/* =========================================
-   CATEGORY
-========================================= */
+/* PRODUCTS */
 
 function showCategory(type,button){
 
-document
-.querySelectorAll(".category")
+document.querySelectorAll(".category")
 .forEach(x=>x.classList.remove("active"));
 
-if(button){
+if(button)
 button.classList.add("active");
-}
 
 let html="";
 
@@ -924,18 +908,24 @@ html+=`
 
 <div class="product">
 
-<div class="icon">🎮</div>
+<div class="icon">
+🎮
+</div>
 
-<h3>${escapeHTML(p[0])}</h3>
+<h3>
+${escapeHTML(p[0])}
+</h3>
 
-<p>Sản phẩm kỹ thuật số</p>
+<p>
+Sản phẩm kỹ thuật số
+</p>
 
 <div class="price">
 ${money(p[1])}
 </div>
 
 <button
-class="buy"
+class="mainbtn"
 onclick="buyProduct('${type}',${index})">
 
 MUA NGAY
@@ -953,9 +943,7 @@ document.getElementById("products").innerHTML=html;
 }
 
 
-/* =========================================
-   MUA
-========================================= */
+/* BUY */
 
 async function buyProduct(type,index){
 
@@ -997,7 +985,7 @@ const data=await res.json();
 
 if(!res.ok){
 
-alert(data.message || "Không thể tạo đơn.");
+alert(data.message || "Không thể mua.");
 
 return;
 
@@ -1020,22 +1008,20 @@ alert("Không kết nối được server.");
 }
 
 
-/* =========================================
-   REGISTER
-========================================= */
+/* REGISTER */
 
 async function register(){
 
-const username=
-document.getElementById("registerUsername")
+const username=document
+.getElementById("registerUsername")
 .value.trim();
 
-const password=
-document.getElementById("registerPassword")
+const password=document
+.getElementById("registerPassword")
 .value;
 
-const password2=
-document.getElementById("registerPassword2")
+const password2=document
+.getElementById("registerPassword2")
 .value;
 
 if(username.length<3){
@@ -1056,7 +1042,7 @@ return;
 
 if(password!==password2){
 
-alert("Mật khẩu nhập lại không khớp.");
+alert("Mật khẩu không khớp.");
 
 return;
 
@@ -1091,10 +1077,6 @@ return;
 
 alert("Đăng ký thành công!");
 
-document.getElementById("registerUsername").value="";
-document.getElementById("registerPassword").value="";
-document.getElementById("registerPassword2").value="";
-
 showPage("login");
 
 }catch(e){
@@ -1106,23 +1088,21 @@ alert("Không kết nối được server.");
 }
 
 
-/* =========================================
-   LOGIN
-========================================= */
+/* LOGIN */
 
 async function login(){
 
-const username=
-document.getElementById("loginUsername")
+const username=document
+.getElementById("loginUsername")
 .value.trim();
 
-const password=
-document.getElementById("loginPassword")
+const password=document
+.getElementById("loginPassword")
 .value;
 
 if(!username || !password){
 
-alert("Vui lòng nhập đầy đủ thông tin.");
+alert("Vui lòng nhập tài khoản và mật khẩu.");
 
 return;
 
@@ -1149,30 +1129,27 @@ const data=await res.json();
 
 if(!res.ok){
 
-alert(data.message || "Sai tài khoản/mật khẩu.");
+alert(data.message || "Sai tài khoản hoặc mật khẩu.");
 
 return;
 
 }
 
-if(!data.token){
-
-alert("Server chưa trả token.");
-
-return;
-
-}
-
-localStorage.setItem(
-"session",
-data.token
-);
+localStorage.setItem("session",data.token);
 
 alert("Đăng nhập thành công!");
 
+loadAccount();
+
+if(data.role==="admin"){
+
+showPage("admin");
+
+}else{
+
 showPage("profile");
 
-loadAccount();
+}
 
 }catch(e){
 
@@ -1183,14 +1160,11 @@ alert("Không kết nối được server.");
 }
 
 
-/* =========================================
-   ACCOUNT
-========================================= */
+/* ACCOUNT */
 
 async function loadAccount(){
 
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 if(!token){
 
@@ -1223,7 +1197,7 @@ return;
 const user=await res.json();
 
 document.getElementById("userName")
-.textContent=user.username || "Khách";
+.textContent=user.username;
 
 document.getElementById("userStatus")
 .textContent=
@@ -1249,7 +1223,6 @@ document.getElementById("loggedOut")
 document.getElementById("loggedIn")
 .style.display="block";
 
-
 if(user.role==="admin"){
 
 document.getElementById("adminNav")
@@ -1273,14 +1246,11 @@ updateGuest();
 }
 
 
-/* =========================================
-   HISTORY
-========================================= */
+/* HISTORY */
 
 async function loadHistory(){
 
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 if(!token)return;
 
@@ -1301,7 +1271,7 @@ const list=await res.json();
 const box=
 document.getElementById("historyList");
 
-if(!Array.isArray(list)||!list.length){
+if(!list.length){
 
 box.innerHTML=
 "<div class='notice'>Chưa có giao dịch.</div>";
@@ -1314,15 +1284,23 @@ box.innerHTML=list.map(x=>`
 
 <div class="history">
 
-<b>${escapeHTML(x.type)}</b><br>
+<b>
+${escapeHTML(x.type)}
+</b>
 
-${escapeHTML(x.description)}<br>
+<br>
+
+${escapeHTML(x.description)}
+
+<br>
 
 <span style="color:#18e0d5">
 ${money(x.amount)}
 </span>
 
 <small>
+Trạng thái: ${escapeHTML(x.status)}
+<br>
 ${escapeHTML(x.created_at)}
 </small>
 
@@ -1335,14 +1313,11 @@ ${escapeHTML(x.created_at)}
 }
 
 
-/* =========================================
-   TẠO YÊU CẦU NẠP
-========================================= */
+/* CREATE DEPOSIT */
 
-async function requestDeposit(){
+function createDeposit(){
 
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 if(!token){
 
@@ -1354,8 +1329,7 @@ return;
 
 }
 
-const amount=
-Number(
+const amount=Number(
 document.getElementById("depositAmount").value
 );
 
@@ -1367,38 +1341,79 @@ return;
 
 }
 
+const code=
+"NAPTIEN-"+
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
 
-/*
-   TẠO MÃ NAPTIEN
+currentDeposit={
+amount:Math.floor(amount),
+code:code
+};
 
-   Ví dụ:
-   NAPTIEN_USERNAME_482731
-*/
+document.getElementById("payAmount")
+.textContent=money(amount);
 
-const username=
-document.getElementById("userName")
-.textContent
-.trim()
-.toUpperCase()
-.replace(/[^A-Z0-9]/g,"")
-.slice(0,12);
+document.getElementById("payCode")
+.textContent=code;
 
-const random=
-Math.floor(
-100000+
-Math.random()*900000
-);
+document.getElementById("paymentBox")
+.style.display="block";
 
-const transferCode=
-"NAPTIEN_"+username+"_"+random;
+}
 
+
+/* COPY */
+
+async function copyTransferCode(){
+
+if(!currentDeposit)return;
 
 try{
 
-/*
-   Gửi cả amount + transferCode
-   lên server
-*/
+await navigator.clipboard.writeText(
+currentDeposit.code
+);
+
+alert("Đã sao chép mã.");
+
+}catch(e){
+
+prompt(
+"Sao chép mã:",
+currentDeposit.code
+);
+
+}
+
+}
+
+
+/* SEND DEPOSIT */
+
+async function submitDeposit(){
+
+const token=localStorage.getItem("session");
+
+if(!token){
+
+alert("Vui lòng đăng nhập.");
+
+return;
+
+}
+
+if(!currentDeposit){
+
+alert("Hãy tạo yêu cầu nạp trước.");
+
+return;
+
+}
+
+try{
 
 const res=await fetch("/api/deposits",{
 
@@ -1411,9 +1426,8 @@ headers:{
 
 body:JSON.stringify({
 
-amount:Math.floor(amount),
-
-transferCode:transferCode
+amount:currentDeposit.amount,
+code:currentDeposit.code
 
 })
 
@@ -1423,90 +1437,28 @@ const data=await res.json();
 
 if(!res.ok){
 
-alert(
-data.message ||
-"Không thể tạo yêu cầu nạp."
-);
+alert(data.message || "Không thể gửi yêu cầu.");
 
 return;
 
 }
 
+alert(
+"Đã gửi yêu cầu!\n\n"+
+"Mã: "+currentDeposit.code+
+"\nSố tiền: "+
+money(currentDeposit.amount)
+);
+
+currentDeposit=null;
+
+document.getElementById("paymentBox")
+.style.display="none";
+
 document.getElementById("depositAmount")
 .value="";
 
-
-/*
-   TẠO QR VIETQR
-*/
-
-const qrText=
-encodeURIComponent(
-"Chuyen tien "+transferCode
-);
-
-const qrUrl=
-"https://img.vietqr.io/image/"+
-encodeURIComponent(BANK_ID)+
-"-"+
-encodeURIComponent(ACCOUNT_NO)+
-"-compact2.png?amount="+
-Math.floor(amount)+
-"&addInfo="+
-qrText+
-"&accountName="+
-encodeURIComponent(ACCOUNT_NAME);
-
-
-/*
-   HIỆN KẾT QUẢ
-*/
-
-document.getElementById("depositResult")
-.innerHTML=`
-
-<div class="transfer-code">
-
-<div style="color:#aab5c0">
-MÃ CHUYỂN KHOẢN
-</div>
-
-<b id="currentTransferCode">
-${escapeHTML(transferCode)}
-</b>
-
-<button
-class="copybtn"
-onclick="copyTransferCode()">
-
-📋 SAO CHÉP MÃ
-
-</button>
-
-</div>
-
-<img
-class="qr"
-src="${qrUrl}"
-alt="QR chuyển khoản">
-
-<div class="notice">
-
-<strong>💰 Số tiền:</strong>
-${money(amount)}
-<br><br>
-
-<strong>📝 Nội dung CK:</strong>
-${escapeHTML(transferCode)}
-<br><br>
-
-<strong>⚠️ Quan trọng:</strong>
-Ghi đúng mã chuyển khoản trên vào nội dung chuyển khoản.
-Admin sẽ dựa vào mã này để kiểm tra yêu cầu.
-
-</div>
-
-`;
+loadHistory();
 
 }catch(e){
 
@@ -1517,88 +1469,9 @@ alert("Không kết nối được server.");
 }
 
 
-/* =========================================
-   COPY CODE
-========================================= */
+/* LOGOUT */
 
-function copyTransferCode(){
-
-const el=
-document.getElementById(
-"currentTransferCode"
-);
-
-if(!el)return;
-
-const text=el.textContent.trim();
-
-navigator.clipboard
-.writeText(text)
-.then(()=>{
-
-alert("Đã sao chép mã: "+text);
-
-})
-.catch(()=>{
-
-alert("Không thể sao chép tự động.");
-
-});
-
-}
-
-
-/* =========================================
-   VOUCHER
-========================================= */
-
-function applyVoucher(){
-
-const code=
-document.getElementById("voucherCode")
-.value.trim();
-
-if(!code){
-
-alert("Nhập mã voucher.");
-
-return;
-
-}
-
-alert(
-"Voucher sẽ được kiểm tra bởi server."
-);
-
-}
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-async function logout(){
-
-const token=
-localStorage.getItem("session");
-
-try{
-
-if(token){
-
-await fetch("/api/logout",{
-
-method:"POST",
-
-headers:{
-"Authorization":"Bearer "+token
-}
-
-});
-
-}
-
-}catch(e){}
+function logout(){
 
 localStorage.removeItem("session");
 
@@ -1609,9 +1482,7 @@ showPage("home");
 }
 
 
-/* =========================================
-   GUEST
-========================================= */
+/* GUEST */
 
 function updateGuest(){
 
@@ -1636,20 +1507,15 @@ document.getElementById("adminNav")
 }
 
 
-/* =========================================
-   ADMIN
-========================================= */
+/* ADMIN */
 
 async function loadAdmin(){
 
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 if(!token){
 
 alert("Vui lòng đăng nhập.");
-
-showPage("login");
 
 return;
 
@@ -1657,17 +1523,16 @@ return;
 
 try{
 
-const statsRes=
-await fetch("/api/admin/stats",{
-
+const statsRes=await fetch(
+"/api/admin/stats",
+{
 headers:{
 "Authorization":"Bearer "+token
 }
+}
+);
 
-});
-
-const stats=
-await statsRes.json();
+const stats=await statsRes.json();
 
 if(!statsRes.ok){
 
@@ -1681,98 +1546,85 @@ return;
 }
 
 document.getElementById("adminUsers")
-.textContent=stats.users ?? 0;
+.textContent=stats.users;
 
 document.getElementById("adminDeposits")
-.textContent=stats.deposits ?? 0;
+.textContent=stats.deposits;
 
 document.getElementById("adminOrders")
-.textContent=stats.orders ?? 0;
+.textContent=stats.orders;
 
 
-/* LOAD DEPOSITS */
+/* DEPOSITS */
 
-const depRes=
-await fetch("/api/admin/deposits",{
-
+const depRes=await fetch(
+"/api/admin/deposits",
+{
 headers:{
 "Authorization":"Bearer "+token
 }
-
-});
-
-const deposits=
-await depRes.json();
-
-const depBox=
-document.getElementById(
-"adminDepositsList"
+}
 );
 
-if(!Array.isArray(deposits)||!deposits.length){
+const deposits=await depRes.json();
+
+const depBox=
+document.getElementById("adminDepositsList");
+
+if(!deposits.length){
 
 depBox.innerHTML=
 "<div class='notice'>Không có yêu cầu nạp.</div>";
 
 }else{
 
-depBox.innerHTML=
-deposits.map(x=>`
+depBox.innerHTML=deposits.map(d=>`
 
 <div class="deposit-item">
 
-<b>👤 ${escapeHTML(x.username)}</b>
-
-<br><br>
-
-💰 Số tiền:
-<strong>
-${money(x.amount)}
-</strong>
+<b>👤 ${escapeHTML(d.username)}</b>
 
 <br>
 
-🆔 ID:
-${x.id}
+💰 ${money(d.amount)}
 
 <br>
 
-📌 Trạng thái:
-${escapeHTML(x.status)}
+📌 ${escapeHTML(d.status)}
 
 <br>
 
-📅 ${escapeHTML(x.created_at)}
+🕒 ${escapeHTML(d.created_at)}
 
 ${
-x.status==="pending"
+d.status==="pending"
 ?
 
 `
 
-<br><br>
+<div class="deposit-actions">
 
 <button
-class="greenbtn"
-onclick="approveDeposit(${x.id})">
+class="success"
+onclick="approveDeposit(${d.id})">
 
 ✅ DUYỆT
 
 </button>
 
 <button
-class="redbtn"
-onclick="rejectDeposit(${x.id})">
+class="danger"
+onclick="rejectDeposit(${d.id})">
 
 ❌ TỪ CHỐI
 
 </button>
 
+</div>
+
 `
 
-:
-
-""
+:""
 
 }
 
@@ -1783,85 +1635,66 @@ onclick="rejectDeposit(${x.id})">
 }
 
 
-/* LOAD USERS */
+/* USERS */
 
-const usersRes=
-await fetch("/api/admin/users",{
-
+const userRes=await fetch(
+"/api/admin/users",
+{
 headers:{
 "Authorization":"Bearer "+token
 }
-
-});
-
-const users=
-await usersRes.json();
-
-const userBox=
-document.getElementById(
-"adminUsersList"
+}
 );
 
-if(!Array.isArray(users)||!users.length){
+const users=await userRes.json();
 
-userBox.innerHTML=
-"<div class='notice'>Chưa có tài khoản.</div>";
+const userBox=
+document.getElementById("adminUsersList");
 
-}else{
-
-userBox.innerHTML=
-users.map(x=>`
+userBox.innerHTML=users.map(u=>`
 
 <div class="user-item">
 
-<b>👤 ${escapeHTML(x.username)}</b>
-
-<br><br>
-
-ID: ${x.id}
+<b>👤 ${escapeHTML(u.username)}</b>
 
 <br>
 
 💰 Số dư:
-<strong>
-${money(x.balance)}
-</strong>
+${money(u.balance)}
 
 <br>
 
-💳 Tổng nạp:
-${money(x.total_deposit)}
+📥 Tổng nạp:
+${money(u.total_deposit)}
 
 <br>
 
-🛒 Tổng chi:
-${money(x.total_spent)}
+📤 Tổng chi:
+${money(u.total_spent)}
 
 <br>
 
-👑 Quyền:
-${x.is_admin ? "Admin" : "User"}
+${u.is_admin?"👑 ADMIN":"👤 USER"}
 
 <br><br>
 
 <input
-id="balance_${x.id}"
+id="balance_${u.id}"
 type="number"
-placeholder="Nhập số tiền +/-">
+placeholder="Nhập + hoặc - số tiền"
+>
 
 <button
 class="mainbtn"
-onclick="changeBalance(${x.id})">
+onclick="changeBalance(${u.id})">
 
-💰 CỘNG / TRỪ TIỀN
+💰 CẬP NHẬT SỐ DƯ
 
 </button>
 
 </div>
 
 `).join("");
-
-}
 
 }catch(e){
 
@@ -1872,130 +1705,101 @@ alert("Không kết nối được server.");
 }
 
 
-/* =========================================
-   DUYỆT NẠP
-========================================= */
+/* APPROVE */
 
 async function approveDeposit(id){
 
-if(!confirm("Duyệt yêu cầu nạp này?")){
-
+if(!confirm("Bạn chắc chắn muốn duyệt?"))
 return;
 
-}
-
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 try{
 
-const res=
-await fetch(
+const res=await fetch(
 "/api/admin/deposits/"+id+"/approve",
 {
-
 method:"POST",
-
 headers:{
 "Authorization":"Bearer "+token
 }
+}
+);
 
-});
-
-const data=
-await res.json();
+const data=await res.json();
 
 if(!res.ok){
 
-alert(data.message||"Không thể duyệt.");
+alert(data.message);
 
 return;
 
 }
 
-alert("Đã duyệt yêu cầu nạp.");
+alert("Đã duyệt.");
 
 loadAdmin();
 
 }catch(e){
 
-alert("Lỗi kết nối server.");
+alert("Lỗi server.");
 
 }
 
 }
 
 
-/* =========================================
-   TỪ CHỐI NẠP
-========================================= */
+/* REJECT */
 
 async function rejectDeposit(id){
 
-if(!confirm("Từ chối yêu cầu nạp này?")){
-
+if(!confirm("Bạn chắc chắn muốn từ chối?"))
 return;
 
-}
-
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 try{
 
-const res=
-await fetch(
+const res=await fetch(
 "/api/admin/deposits/"+id+"/reject",
 {
-
 method:"POST",
-
 headers:{
 "Authorization":"Bearer "+token
 }
+}
+);
 
-});
-
-const data=
-await res.json();
+const data=await res.json();
 
 if(!res.ok){
 
-alert(
-data.message||
-"Không thể từ chối."
-);
+alert(data.message);
 
 return;
 
 }
 
-alert("Đã từ chối yêu cầu.");
+alert("Đã từ chối.");
 
 loadAdmin();
 
 }catch(e){
 
-alert("Lỗi kết nối server.");
+alert("Lỗi server.");
 
 }
 
 }
 
 
-/* =========================================
-   ĐỔI SỐ DƯ
-========================================= */
+/* CHANGE BALANCE */
 
 async function changeBalance(id){
 
-const input=
-document.getElementById(
-"balance_"+id
+const amount=Number(
+document.getElementById("balance_"+id).value
 );
-
-const amount=
-Number(input.value);
 
 if(!Number.isFinite(amount)){
 
@@ -2005,13 +1809,11 @@ return;
 
 }
 
-const token=
-localStorage.getItem("session");
+const token=localStorage.getItem("session");
 
 try{
 
-const res=
-await fetch(
+const res=await fetch(
 "/api/admin/users/"+id+"/balance",
 {
 
@@ -2023,26 +1825,21 @@ headers:{
 },
 
 body:JSON.stringify({
-amount:Math.floor(amount)
+amount:amount
 })
 
-});
+}
+);
 
-const data=
-await res.json();
+const data=await res.json();
 
 if(!res.ok){
 
-alert(
-data.message||
-"Không thể cập nhật."
-);
+alert(data.message);
 
 return;
 
 }
-
-input.value="";
 
 alert("Đã cập nhật số dư.");
 
@@ -2050,16 +1847,14 @@ loadAdmin();
 
 }catch(e){
 
-alert("Lỗi kết nối server.");
+alert("Lỗi server.");
 
 }
 
 }
 
 
-/* =========================================
-   PAGE
-========================================= */
+/* PAGE */
 
 function showPage(id){
 
@@ -2070,9 +1865,7 @@ document.getElementById("adminNav");
 
 if(adminButton.style.display!=="block"){
 
-alert(
-"Bạn không có quyền truy cập Admin."
-);
+alert("Bạn không có quyền Admin.");
 
 return;
 
@@ -2082,26 +1875,14 @@ loadAdmin();
 
 }
 
-document
-.querySelectorAll(".page")
-.forEach(x=>
-x.classList.remove("active")
-);
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
 
 const page=
 document.getElementById(id);
 
-if(page){
-
+if(page)
 page.classList.add("active");
-
-}
-
-document
-.querySelectorAll(".bottom button")
-.forEach(x=>
-x.classList.remove("active")
-);
 
 window.scrollTo({
 top:0,
@@ -2111,9 +1892,7 @@ behavior:"smooth"
 }
 
 
-/* =========================================
-   ZALO
-========================================= */
+/* ZALO */
 
 function contactZalo(){
 
@@ -2123,9 +1902,7 @@ window.location.href=
 }
 
 
-/* =========================================
-   START
-========================================= */
+/* START */
 
 showCategory(
 "aim",
@@ -2137,4 +1914,4 @@ loadAccount();
 </script>
 
 </body>
-   </html>
+    </html>
