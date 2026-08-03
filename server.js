@@ -7,17 +7,32 @@ const db = require("./database");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// =====================================
+// CẤU HÌNH ADMIN
+// =====================================
+
+const ADMIN_USERNAME = "ADMIN";
+const ADMIN_PASSWORD = "phc51580";
+
+// =====================================
+// MIDDLEWARE
+// =====================================
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ===============================
-// WEBSITE
-// ===============================
-
 app.use(express.static(__dirname));
+
+// =====================================
+// WEBSITE
+// =====================================
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/admin", (req, res) => {
+    res.sendFile(path.join(__dirname, "admin.html"));
 });
 
 app.get("/healthz", (req, res) => {
@@ -27,9 +42,9 @@ app.get("/healthz", (req, res) => {
     });
 });
 
-// ===============================
+// =====================================
 // SESSION
-// ===============================
+// =====================================
 
 const sessions = new Map();
 
@@ -74,8 +89,11 @@ function getUserFromRequest(req) {
     `).get(userId);
 }
 
-function requireLogin(req, res, next) {
+// =====================================
+// KIỂM TRA ĐĂNG NHẬP
+// =====================================
 
+function requireLogin(req, res, next) {
     const user = getUserFromRequest(req);
 
     if (!user) {
@@ -88,8 +106,11 @@ function requireLogin(req, res, next) {
     next();
 }
 
-function requireAdmin(req, res, next) {
+// =====================================
+// KIỂM TRA ADMIN
+// =====================================
 
+function requireAdmin(req, res, next) {
     const user = getUserFromRequest(req);
 
     if (!user) {
@@ -98,7 +119,7 @@ function requireAdmin(req, res, next) {
         });
     }
 
-    if (!user.is_admin) {
+    if (Number(user.is_admin) !== 1) {
         return res.status(403).json({
             message: "Bạn không có quyền Admin."
         });
@@ -108,31 +129,96 @@ function requireAdmin(req, res, next) {
     next();
 }
 
-// ===============================
-// REGISTER
-// ===============================
+// =====================================
+// TẠO ADMIN TỰ ĐỘNG
+// =====================================
+
+async function setupAdmin() {
+    try {
+        const passwordHash = await bcrypt.hash(
+            ADMIN_PASSWORD,
+            12
+        );
+
+        const existing = db.prepare(`
+            SELECT id
+            FROM users
+            WHERE username = ?
+        `).get(ADMIN_USERNAME);
+
+        if (existing) {
+
+            db.prepare(`
+                UPDATE users
+                SET
+                    password_hash = ?,
+                    is_admin = 1
+                WHERE id = ?
+            `).run(
+                passwordHash,
+                existing.id
+            );
+
+            console.log(
+                "✅ ADMIN đã được cấp quyền Admin."
+            );
+
+        } else {
+
+            db.prepare(`
+                INSERT INTO users
+                (
+                    username,
+                    password_hash,
+                    balance,
+                    total_deposit,
+                    total_spent,
+                    is_admin
+                )
+                VALUES (?, ?, 0, 0, 0, 1)
+            `).run(
+                ADMIN_USERNAME,
+                passwordHash
+            );
+
+            console.log(
+                "✅ Đã tạo tài khoản ADMIN."
+            );
+        }
+
+    } catch (error) {
+        console.error(
+            "❌ Lỗi tạo Admin:",
+            error
+        );
+    }
+}
+
+// =====================================
+// ĐĂNG KÝ
+// =====================================
 
 app.post("/api/register", async (req, res) => {
 
     try {
 
-        const username = String(
-            req.body.username || ""
-        ).trim();
+        const username =
+            String(req.body.username || "").trim();
 
-        const password = String(
-            req.body.password || ""
-        );
+        const password =
+            String(req.body.password || "");
 
         if (username.length < 3) {
             return res.status(400).json({
-                message: "Tên đăng nhập phải có ít nhất 3 ký tự."
+                message:
+                    "Tên đăng nhập phải có ít nhất 3 ký tự."
             });
         }
 
         if (password.length < 4) {
             return res.status(400).json({
-                message: "Mật khẩu phải có ít nhất 4 ký tự."
+                message:
+                    "Mật khẩu phải có ít nhất 4 ký tự."
             });
         }
 
@@ -144,7 +230,8 @@ app.post("/api/register", async (req, res) => {
 
         if (exists) {
             return res.status(409).json({
-                message: "Tên đăng nhập đã tồn tại."
+                message:
+                    "Tên đăng nhập đã tồn tại."
             });
         }
 
@@ -167,36 +254,37 @@ app.post("/api/register", async (req, res) => {
             passwordHash
         );
 
-        return res.json({
+        res.json({
             success: true,
             message: "Đăng ký thành công."
         });
 
     } catch (error) {
 
-        console.error("REGISTER ERROR:", error);
+        console.error(
+            "REGISTER ERROR:",
+            error
+        );
 
-        return res.status(500).json({
+        res.status(500).json({
             message: "Lỗi máy chủ."
         });
     }
 });
 
-// ===============================
-// LOGIN
-// ===============================
+// =====================================
+// ĐĂNG NHẬP
+// =====================================
 
 app.post("/api/login", async (req, res) => {
 
     try {
 
-        const username = String(
-            req.body.username || ""
-        ).trim();
+        const username =
+            String(req.body.username || "").trim();
 
-        const password = String(
-            req.body.password || ""
-        );
+        const password =
+            String(req.body.password || "");
 
         const user = db.prepare(`
             SELECT *
@@ -206,179 +294,154 @@ app.post("/api/login", async (req, res) => {
 
         if (!user) {
             return res.status(401).json({
-                message: "Sai tài khoản hoặc mật khẩu."
+                message:
+                    "Sai tài khoản hoặc mật khẩu."
             });
         }
 
-        const valid = await bcrypt.compare(
-            password,
-            user.password_hash
-        );
+        const valid =
+            await bcrypt.compare(
+                password,
+                user.password_hash
+            );
 
         if (!valid) {
             return res.status(401).json({
-                message: "Sai tài khoản hoặc mật khẩu."
+                message:
+                    "Sai tài khoản hoặc mật khẩu."
             });
         }
 
         const token = createToken();
 
-        sessions.set(token, user.id);
+        sessions.set(
+            token,
+            user.id
+        );
 
-        return res.json({
+        res.json({
             success: true,
             token,
             userId: user.id,
             username: user.username,
-            role: user.is_admin ? "admin" : "user"
+            role:
+                Number(user.is_admin) === 1
+                    ? "admin"
+                    : "user"
         });
 
     } catch (error) {
 
-        console.error("LOGIN ERROR:", error);
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
 
-        return res.status(500).json({
+        res.status(500).json({
             message: "Lỗi máy chủ."
         });
     }
 });
 
-// ===============================
-// LOGOUT
-// ===============================
+// =====================================
+// ĐĂNG XUẤT
+// =====================================
 
-app.post("/api/logout", requireLogin, (req, res) => {
+app.post(
+    "/api/logout",
+    requireLogin,
+    (req, res) => {
 
-    const token = getToken(req);
+        const token = getToken(req);
 
-    if (token) {
-        sessions.delete(token);
-    }
+        if (token) {
+            sessions.delete(token);
+        }
 
-    res.json({
-        success: true
-    });
-});
-
-// ===============================
-// CURRENT USER
-// ===============================
-
-app.get("/api/me", requireLogin, (req, res) => {
-
-    res.json({
-        id: req.user.id,
-        username: req.user.username,
-        balance: req.user.balance,
-        totalDeposit: req.user.total_deposit,
-        totalSpent: req.user.total_spent,
-        role: req.user.is_admin ? "admin" : "user",
-        createdAt: req.user.created_at
-    });
-});
-
-// ===============================
-// HISTORY
-// ===============================
-
-app.get("/api/history", requireLogin, (req, res) => {
-
-    const rows = db.prepare(`
-        SELECT
-            id,
-            type,
-            description,
-            amount,
-            status,
-            created_at
-        FROM transactions
-        WHERE user_id = ?
-        ORDER BY id DESC
-        LIMIT 100
-    `).all(req.user.id);
-
-    res.json(rows);
-});
-
-// ===============================
-// CREATE DEPOSIT REQUEST
-// ===============================
-
-app.post("/api/deposits", requireLogin, (req, res) => {
-
-    const amount = Number(req.body.amount);
-
-    if (!Number.isFinite(amount) || amount < 1000) {
-        return res.status(400).json({
-            message: "Số tiền tối thiểu 1.000đ."
+        res.json({
+            success: true
         });
     }
+);
 
-    db.prepare(`
-        INSERT INTO transactions
-        (
-            user_id,
-            type,
-            description,
-            amount,
-            status
-        )
-        VALUES (?, 'deposit', ?, ?, 'pending')
-    `).run(
-        req.user.id,
-        "Yêu cầu nạp " + amount.toLocaleString("vi-VN") + "đ",
-        Math.floor(amount)
-    );
+// =====================================
+// THÔNG TIN USER
+// =====================================
 
-    res.json({
-        success: true,
-        message: "Đã gửi yêu cầu nạp tiền."
-    });
-});
+app.get(
+    "/api/me",
+    requireLogin,
+    (req, res) => {
 
-// ===============================
-// CREATE ORDER
-// ===============================
-
-app.post("/api/orders", requireLogin, (req, res) => {
-
-    const product = String(
-        req.body.product || ""
-    ).trim();
-
-    const price = Number(req.body.price);
-
-    if (!product) {
-        return res.status(400).json({
-            message: "Sản phẩm không hợp lệ."
+        res.json({
+            id: req.user.id,
+            username: req.user.username,
+            balance: req.user.balance,
+            totalDeposit:
+                req.user.total_deposit,
+            totalSpent:
+                req.user.total_spent,
+            role:
+                Number(req.user.is_admin) === 1
+                    ? "admin"
+                    : "user",
+            createdAt:
+                req.user.created_at
         });
     }
+);
 
-    if (!Number.isFinite(price) || price <= 0) {
-        return res.status(400).json({
-            message: "Giá sản phẩm không hợp lệ."
-        });
+// =====================================
+// LỊCH SỬ USER
+// =====================================
+
+app.get(
+    "/api/history",
+    requireLogin,
+    (req, res) => {
+
+        const rows = db.prepare(`
+            SELECT
+                id,
+                type,
+                description,
+                amount,
+                status,
+                created_at
+            FROM transactions
+            WHERE user_id = ?
+            ORDER BY id DESC
+            LIMIT 100
+        `).all(req.user.id);
+
+        res.json(rows);
     }
+);
 
-    if (req.user.balance < price) {
-        return res.status(400).json({
-            message: "Số dư không đủ."
-        });
-    }
+// =====================================
+// USER GỬI YÊU CẦU NẠP TIỀN
+// =====================================
 
-    const transaction = db.transaction(() => {
+app.post(
+    "/api/deposits",
+    requireLogin,
+    (req, res) => {
 
-        db.prepare(`
-            UPDATE users
-            SET
-                balance = balance - ?,
-                total_spent = total_spent + ?
-            WHERE id = ?
-        `).run(
-            price,
-            price,
-            req.user.id
-        );
+        const amount =
+            Number(req.body.amount);
+
+        if (
+            !Number.isFinite(amount) ||
+            amount < 1000
+        ) {
+            return res.status(400).json({
+                message:
+                    "Số tiền tối thiểu 1.000đ."
+            });
+        }
+
+        const money =
+            Math.floor(amount);
 
         db.prepare(`
             INSERT INTO transactions
@@ -389,25 +452,125 @@ app.post("/api/orders", requireLogin, (req, res) => {
                 amount,
                 status
             )
-            VALUES (?, 'order', ?, ?, 'completed')
+            VALUES (?, 'deposit', ?, ?, 'pending')
         `).run(
             req.user.id,
-            "Mua " + product,
-            -price
+            "Yêu cầu nạp tiền",
+            money
         );
-    });
 
-    transaction();
+        res.json({
+            success: true,
+            message:
+                "Đã gửi yêu cầu nạp tiền."
+        });
+    }
+);
 
-    res.json({
-        success: true,
-        message: "Đặt hàng thành công."
-    });
-});
+// =====================================
+// USER MUA SẢN PHẨM
+// =====================================
 
-// ===============================
-// ADMIN STATS
-// ===============================
+app.post(
+    "/api/orders",
+    requireLogin,
+    (req, res) => {
+
+        const product =
+            String(
+                req.body.product || ""
+            ).trim();
+
+        const price =
+            Number(req.body.price);
+
+        if (!product) {
+            return res.status(400).json({
+                message:
+                    "Sản phẩm không hợp lệ."
+            });
+        }
+
+        if (
+            !Number.isFinite(price) ||
+            price <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Giá sản phẩm không hợp lệ."
+            });
+        }
+
+        const money =
+            Math.floor(price);
+
+        const currentUser =
+            db.prepare(`
+                SELECT balance
+                FROM users
+                WHERE id = ?
+            `).get(req.user.id);
+
+        if (!currentUser) {
+            return res.status(404).json({
+                message:
+                    "Không tìm thấy tài khoản."
+            });
+        }
+
+        if (currentUser.balance < money) {
+            return res.status(400).json({
+                message:
+                    "Số dư không đủ."
+            });
+        }
+
+        const transaction =
+            db.transaction(() => {
+
+                db.prepare(`
+                    UPDATE users
+                    SET
+                        balance = balance - ?,
+                        total_spent = total_spent + ?
+                    WHERE id = ?
+                `).run(
+                    money,
+                    money,
+                    req.user.id
+                );
+
+                db.prepare(`
+                    INSERT INTO transactions
+                    (
+                        user_id,
+                        type,
+                        description,
+                        amount,
+                        status
+                    )
+                    VALUES
+                    (?, 'order', ?, ?, 'completed')
+                `).run(
+                    req.user.id,
+                    "Mua " + product,
+                    -money
+                );
+            });
+
+        transaction();
+
+        res.json({
+            success: true,
+            message:
+                "Đặt hàng thành công."
+        });
+    }
+);
+
+// =====================================
+// ADMIN - THỐNG KÊ
+// =====================================
 
 app.get(
     "/api/admin/stats",
@@ -419,12 +582,13 @@ app.get(
             FROM users
         `).get().count;
 
-        const deposits = db.prepare(`
-            SELECT COUNT(*) AS count
-            FROM transactions
-            WHERE type = 'deposit'
-            AND status = 'pending'
-        `).get().count;
+        const pendingDeposits =
+            db.prepare(`
+                SELECT COUNT(*) AS count
+                FROM transactions
+                WHERE type = 'deposit'
+                AND status = 'pending'
+            `).get().count;
 
         const orders = db.prepare(`
             SELECT COUNT(*) AS count
@@ -432,17 +596,29 @@ app.get(
             WHERE type = 'order'
         `).get().count;
 
+        const money = db.prepare(`
+            SELECT
+                COALESCE(
+                    SUM(amount),
+                    0
+                ) AS total
+            FROM transactions
+            WHERE type = 'deposit'
+            AND status = 'approved'
+        `).get().total;
+
         res.json({
             users,
-            deposits,
-            orders
+            pendingDeposits,
+            orders,
+            money
         });
     }
 );
 
-// ===============================
-// ADMIN - USERS
-// ===============================
+// =====================================
+// ADMIN - DANH SÁCH USER
+// =====================================
 
 app.get(
     "/api/admin/users",
@@ -466,9 +642,9 @@ app.get(
     }
 );
 
-// ===============================
-// ADMIN - DEPOSITS
-// ===============================
+// =====================================
+// ADMIN - DANH SÁCH NẠP TIỀN
+// =====================================
 
 app.get(
     "/api/admin/deposits",
@@ -477,33 +653,34 @@ app.get(
 
         const deposits = db.prepare(`
             SELECT
-                transactions.id,
-                transactions.user_id,
-                users.username,
-                transactions.amount,
-                transactions.status,
-                transactions.created_at
-            FROM transactions
-            JOIN users
-            ON users.id = transactions.user_id
-            WHERE transactions.type = 'deposit'
-            ORDER BY transactions.id DESC
+                t.id,
+                t.user_id,
+                u.username,
+                t.amount,
+                t.status,
+                t.created_at
+            FROM transactions t
+            JOIN users u
+                ON u.id = t.user_id
+            WHERE t.type = 'deposit'
+            ORDER BY t.id DESC
         `).all();
 
         res.json(deposits);
     }
 );
 
-// ===============================
-// ADMIN - APPROVE DEPOSIT
-// ===============================
+// =====================================
+// ADMIN - DUYỆT NẠP
+// =====================================
 
 app.post(
     "/api/admin/deposits/:id/approve",
     requireAdmin,
     (req, res) => {
 
-        const depositId = Number(req.params.id);
+        const depositId =
+            Number(req.params.id);
 
         const deposit = db.prepare(`
             SELECT *
@@ -515,50 +692,58 @@ app.post(
 
         if (!deposit) {
             return res.status(404).json({
-                message: "Không tìm thấy yêu cầu nạp."
+                message:
+                    "Không tìm thấy yêu cầu nạp."
             });
         }
 
-        const approve = db.transaction(() => {
+        const approve =
+            db.transaction(() => {
 
-            db.prepare(`
-                UPDATE users
-                SET
-                    balance = balance + ?,
-                    total_deposit = total_deposit + ?
-                WHERE id = ?
-            `).run(
-                deposit.amount,
-                deposit.amount,
-                deposit.user_id
-            );
+                db.prepare(`
+                    UPDATE users
+                    SET
+                        balance =
+                            balance + ?,
+                        total_deposit =
+                            total_deposit + ?
+                    WHERE id = ?
+                `).run(
+                    deposit.amount,
+                    deposit.amount,
+                    deposit.user_id
+                );
 
-            db.prepare(`
-                UPDATE transactions
-                SET status = 'approved'
-                WHERE id = ?
-            `).run(depositId);
-        });
+                db.prepare(`
+                    UPDATE transactions
+                    SET status = 'approved'
+                    WHERE id = ?
+                `).run(
+                    depositId
+                );
+            });
 
         approve();
 
         res.json({
             success: true,
-            message: "Đã duyệt nạp tiền."
+            message:
+                "Đã duyệt nạp tiền."
         });
     }
 );
 
-// ===============================
-// ADMIN - REJECT DEPOSIT
-// ===============================
+// =====================================
+// ADMIN - TỪ CHỐI NẠP
+// =====================================
 
 app.post(
     "/api/admin/deposits/:id/reject",
     requireAdmin,
     (req, res) => {
 
-        const depositId = Number(req.params.id);
+        const depositId =
+            Number(req.params.id);
 
         const result = db.prepare(`
             UPDATE transactions
@@ -570,32 +755,38 @@ app.post(
 
         if (!result.changes) {
             return res.status(404).json({
-                message: "Không tìm thấy yêu cầu nạp."
+                message:
+                    "Không tìm thấy yêu cầu nạp."
             });
         }
 
         res.json({
             success: true,
-            message: "Đã từ chối yêu cầu."
+            message:
+                "Đã từ chối yêu cầu."
         });
     }
 );
 
-// ===============================
-// ADMIN - CHANGE BALANCE
-// ===============================
+// =====================================
+// ADMIN - CỘNG / TRỪ SỐ DƯ
+// =====================================
 
 app.post(
     "/api/admin/users/:id/balance",
     requireAdmin,
     (req, res) => {
 
-        const userId = Number(req.params.id);
-        const amount = Number(req.body.amount);
+        const userId =
+            Number(req.params.id);
+
+        const amount =
+            Number(req.body.amount);
 
         if (!Number.isFinite(amount)) {
             return res.status(400).json({
-                message: "Số tiền không hợp lệ."
+                message:
+                    "Số tiền không hợp lệ."
             });
         }
 
@@ -607,11 +798,12 @@ app.post(
 
         if (!user) {
             return res.status(404).json({
-                message: "Không tìm thấy tài khoản."
+                message:
+                    "Không tìm thấy tài khoản."
             });
         }
 
-        const result = db.prepare(`
+        db.prepare(`
             UPDATE users
             SET balance = balance + ?
             WHERE id = ?
@@ -620,27 +812,76 @@ app.post(
             userId
         );
 
-        if (!result.changes) {
-            return res.status(400).json({
-                message: "Không thể cập nhật số dư."
-            });
-        }
-
         res.json({
             success: true,
-            message: "Đã cập nhật số dư."
+            message:
+                "Đã cập nhật số dư."
         });
     }
 );
 
-// ===============================
+// =====================================
+// ADMIN - TẤT CẢ GIAO DỊCH
+// =====================================
+
+app.get(
+    "/api/admin/transactions",
+    requireAdmin,
+    (req, res) => {
+
+        const rows = db.prepare(`
+            SELECT
+                t.id,
+                u.username,
+                t.type,
+                t.description,
+                t.amount,
+                t.status,
+                t.created_at
+            FROM transactions t
+            JOIN users u
+                ON u.id = t.user_id
+            ORDER BY t.id DESC
+            LIMIT 300
+        `).all();
+
+        res.json(rows);
+    }
+);
+
+// =====================================
 // START SERVER
-// ===============================
+// =====================================
 
-app.listen(PORT, "0.0.0.0", () => {
+(async () => {
 
-    console.log(
-        `ADMIN HI STORE đang chạy tại port ${PORT}`
+    await setupAdmin();
+
+    app.listen(
+        PORT,
+        "0.0.0.0",
+        () => {
+
+            console.log(
+                "================================="
+            );
+
+            console.log(
+                "ADMIN HI STORE SERVER ONLINE"
+            );
+
+            console.log(
+                `PORT: ${PORT}`
+            );
+
+            console.log(
+                "ADMIN USERNAME: ADMIN"
+            );
+
+            console.log(
+                "================================="
+            );
+        }
     );
 
-});
+})();
