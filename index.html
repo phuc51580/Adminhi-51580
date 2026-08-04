@@ -93,14 +93,14 @@
         }
 
         .product {
-            background: #222;
+            background: #1a3a4a;
             border-radius: 8px;
             padding: 14px 16px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 3px solid #ff6a00;
+            border-left: 3px solid #00bcd4;
         }
 
         .product .info {
@@ -116,7 +116,7 @@
 
         .product .info .tag {
             font-size: 12px;
-            color: #888;
+            color: #88c8d8;
         }
 
         .product .price {
@@ -251,18 +251,18 @@
         .history-item,
         .order-item,
         .nap-item {
-            background: #1a1a1a;
+            background: #1a3a4a;
             padding: 10px 14px;
             border-radius: 8px;
             margin-bottom: 8px;
-            border-left: 3px solid #ff6a00;
+            border-left: 3px solid #00bcd4;
             font-size: 14px;
         }
 
         .history-item .date,
         .order-item .date,
         .nap-item .date {
-            color: #888;
+            color: #88c8d8;
             font-size: 12px;
         }
 
@@ -327,10 +327,10 @@
         }
 
         .key-display {
-            background: #0a0a0a;
+            background: #0a2a3a;
             padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid #ff6a00;
+            border: 1px solid #00bcd4;
             color: #ffd700;
             font-family: monospace;
             font-size: 14px;
@@ -522,7 +522,6 @@
         ];
 
         // ======= TÀI KHOẢN =======
-        // Admin cố định
         const ADMIN_ACCOUNT = {
             username: 'Admin',
             password: 'Phc51580',
@@ -530,10 +529,7 @@
             balance: 0
         };
 
-        // Lưu danh sách user (lưu trong localStorage)
         let users = JSON.parse(localStorage.getItem('users')) || [];
-
-        // Thêm admin vào danh sách nếu chưa có
         if (!users.find(u => u.username === ADMIN_ACCOUNT.username)) {
             users.push(ADMIN_ACCOUNT);
             localStorage.setItem('users', JSON.stringify(users));
@@ -635,7 +631,7 @@
         function renderAdmin() {
             const pending = pendingOrders.filter(o => o.status === 'pending');
             if (pending.length === 0) {
-                adminOrders.innerHTML = '<p style="color:#888;">Chưa có đơn hàng chờ duyệt</p>';
+                adminOrders.innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
             } else {
                 let html = '';
                 pending.forEach(o => {
@@ -689,7 +685,7 @@
 
             const pendingNapList = pendingNap.filter(n => n.status === 'pending');
             if (pendingNapList.length === 0) {
-                adminNap.innerHTML = '<p style="color:#888;">Chưa có yêu cầu nạp tiền</p>';
+                adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
             } else {
                 let html = '';
                 pendingNapList.forEach(n => {
@@ -760,7 +756,7 @@
         // ======= RENDER LỊCH SỬ =======
         function renderHistory() {
             if (!currentUser || history.length === 0) {
-                historyList.innerHTML = '<p style="color:#888;">Vui lòng đăng nhập để xem lịch sử.</p>';
+                historyList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập để xem lịch sử.</p>';
                 return;
             }
             let html = '';
@@ -818,7 +814,6 @@
                 return;
             }
 
-            // Tìm user
             const user = users.find(u => u.username === username && u.password === password);
             if (!user) {
                 loginError.textContent = '❌ Sai tên đăng nhập hoặc mật khẩu!';
@@ -826,7 +821,6 @@
                 return;
             }
 
-            // Đăng nhập thành công
             currentUser = {
                 username: user.username,
                 password: user.password,
@@ -871,14 +865,12 @@
                 return;
             }
 
-            // Kiểm tra tên đã tồn tại
             if (users.find(u => u.username === username)) {
                 loginError.textContent = '❌ Tên đăng nhập đã tồn tại!';
                 loginError.style.display = 'block';
                 return;
             }
 
-            // Tạo tài khoản mới
             const newUser = {
                 username: username,
                 password: password,
@@ -930,7 +922,6 @@
         document.getElementById('btnRegister').addEventListener('click', handleRegister);
         document.getElementById('btnLogout').addEventListener('click', handleLogout);
 
-        // Enter để đăng nhập
         loginPass.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') handleLogin();
         });
@@ -938,7 +929,6 @@
             if (e.key === 'Enter') handleLogin();
         });
 
-        // Nạp tiền
         document.getElementById('btnNap').addEventListener('click', function() {
             if (!currentUser) {
                 alert('⚠️ Vui lòng đăng nhập để nạp tiền!');
@@ -974,7 +964,6 @@
             switchPage('page-home');
         });
 
-        // Voucher
         document.getElementById('btnVoucher').addEventListener('click', function() {
             if (!currentUser) {
                 alert('⚠️ Vui lòng đăng nhập!');
