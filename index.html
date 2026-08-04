@@ -1,434 +1,145 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>ADMIN HI STORE</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    body {
-      background: #050b12;
-      color: #fff;
-      min-height: 100vh;
-      padding-bottom: 85px;
-    }
+<title>ADMIN HI STORE</title>
 
-    header {
-      padding: 18px;
-      text-align: center;
-      background: #0b111a;
-      border-bottom: 1px solid #18e0d5;
-    }
+<link rel="stylesheet" href="css/style.css">
 
-    header h1 {
-      color: #18e0d5;
-      font-size: 24px;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    header p {
-      color: #7e8b98;
-      margin-top: 5px;
-    }
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/app.js"></script>
 
-    .userbar {
-      margin: 15px;
-      padding: 14px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #073941, #101923);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid #18e0d5;
-      background: #111b26;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-    }
-
-    .userinfo {
-      flex: 1;
-    }
-
-    .userinfo small {
-      display: block;
-      color: #788797;
-      margin-top: 4px;
-    }
-
-    .balance {
-      color: #18e0d5;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 760px;
-      margin: auto;
-      padding: 15px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #0d1823, #10151f);
-      border: 1px solid #1b2b39;
-      border-radius: 22px;
-      padding: 18px;
-      margin-bottom: 15px;
-    }
-
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 16px;
-    }
-
-    .title span {
-      color: #18e0d5;
-    }
-
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .category {
-      background: #121c28;
-      border: 1px solid #243342;
-      border-radius: 16px;
-      padding: 15px 5px;
-      text-align: center;
-      color: white;
-      cursor: pointer;
-    }
-
-    .category.active {
-      border-color: #18e0d5;
-      box-shadow: 0 0 12px #18e0d533;
-    }
-
-    .category div {
-      font-size: 27px;
-      margin-bottom: 7px;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .product {
-      background: #111a25;
-      border: 1px solid #23313f;
-      border-radius: 18px;
-      padding: 15px;
-    }
-
-    .product .icon {
-      font-size: 35px;
-    }
-
-    .product h3 {
-      font-size: 15px;
-      margin: 9px 0;
-    }
-
-    .product p {
-      font-size: 12px;
-      color: #7e8b98;
-    }
-
-    .price {
-      color: #18e0d5;
-      font-weight: bold;
-      font-size: 17px;
-      margin: 12px 0;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-      border-radius: 11px;
-      padding: 12px;
-      font-weight: bold;
-    }
-
-    .buy,
-    .mainbtn {
-      width: 100%;
-      background: #18ddd1;
-      color: #00100f;
-    }
-
-    .darkbtn {
-      width: 100%;
-      background: #182431;
-      color: #fff;
-      margin-top: 9px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      margin: 6px 0;
-      background: #070d14;
-      color: white;
-      border: 1px solid #293846;
-      border-radius: 11px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #18e0d5;
-    }
-
-    .notice {
-      background: #102129;
-      border-left: 3px solid #18e0d5;
-      padding: 13px;
-      border-radius: 9px;
-      color: #aab5c0;
-      margin-bottom: 13px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-    }
-
-    .stat {
-      background: #141e29;
-      border-radius: 14px;
-      padding: 13px 4px;
-      text-align: center;
-    }
-
-    .stat b {
-      display: block;
-      color: #18e0d5;
-      font-size: 17px;
-      margin-bottom: 5px;
-    }
-
-    .stat small {
-      color: #788797;
-    }
-
-    .history {
-      background: #111c27;
-      border-left: 3px solid #18e0d5;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 8px;
-    }
-
-    .history small {
-      display: block;
-      color: #718090;
-      margin-top: 4px;
-    }
-
-    .qrbox {
-      background: #fff;
-      border-radius: 16px;
-      padding: 10px;
-      text-align: center;
-      margin-top: 12px;
-    }
-
-    .qrbox img {
-      width: 100%;
-      max-width: 330px;
-      display: block;
-      margin: auto;
-      border-radius: 10px;
-    }
-
-    .codebox {
-      background: #111c27;
-      border: 1px solid #263b4a;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-    }
-
-    .transfer-code {
-      color: #ffd166;
-      font-size: 18px;
-      font-weight: bold;
-      word-break: break-all;
-      margin-top: 7px;
-    }
-
-    .zalo {
-      position: fixed;
-      right: 18px;
-      bottom: 92px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: #08a9e8;
-      color: white;
-      font-size: 25px;
-      z-index: 50;
-      box-shadow: 0 4px 20px #0008;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-    }
-
-    .bottom {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 75px;
-      background: #0b1520f5;
-      border-top: 1px solid #1d303d;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      z-index: 40;
-    }
-
-    .bottom button {
-      background: transparent;
-      color: #718091;
-      font-size: 11px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-    }
-
-    .bottom button span {
-      font-size: 22px;
-      display: block;
-    }
-
-    .bottom button.active {
-      color: #18e0d5;
-    }
-
-    .adminbtn {
-      display: none !important;
-      background: #291b0c !important;
-      color: #ffd166 !important;
-    }
-
-    .admin-item {
-      background: #111c27;
-      border: 1px solid #263b4a;
-      border-radius: 13px;
-      padding: 13px;
-      margin-top: 10px;
-    }
-
-    .admin-item button {
-      width: 49%;
-      margin-top: 10px;
-    }
-
-    .approve {
-      background: #18ddd1;
-    }
-
-    .reject {
-      background: #45202a;
-      color: #fff;
-    }
-
-    @media(max-width:500px) {
-      .products {
-        grid-template-columns: 1fr 1fr;
-      }
-      .categories {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
 </head>
+
 <body>
-  <header>
-    <h1>🎮 ADMIN HI STORE</h1>
-    <p>Shop sản phẩm kỹ thuật số</p>
-  </header>
 
-  <div class="userbar">
-    <div class="avatar">🎮</div>
-    <div class="userinfo"><b id="userName">Khách</b><small id="userStatus">Chưa đăng nhập</small></div>
-    <div class="balance" id="balance">0đ</div>
-  </div>
+<header class="header">
 
-  <div class="container">
+<div class="logo">
 
-    <!-- HOME -->
-    <section id="home" class="page active">
-      <div class="card">
-        <div class="title">☷ <span>DANH MỤC</span></div>
-        <div class="categories" id="categoryContainer"></div>
-      </div>
-      <div class="card">
-        <div class="title">🛍️ <span>SẢN PHẨM</span></div>
-        <div id="products" class="products"></div>
-      </div>
-    </section>
+<img src="assets/logo.png">
 
-    <!-- PROFILE -->
-    <section id="profile" class="page">
-      <div class="card">
-        <div class="title">👤 <span>TÀI KHOẢN</span></div>
-        <div id="loggedOut">
-          <div class="notice">Bạn chưa đăng nhập.</div>
-          <button class="mainbtn" onclick="showPage('login')">🔐 ĐĂNG NHẬP</button>
-          <button class="darkbtn" onclick="showPage('register')">📝 ĐĂNG KÝ</button>
-        </div>
-        <div id="loggedIn" style="display:none">
-          <div class="stats">
-            <div class="stat"><b id="profileBalance">0đ</b><small>SỐ DƯ</small></div>
-            <div class="stat"><b id="profileDeposit">0đ</b><small>TỔNG NẠP</small></div>
-            <div class="stat"><b id="profileSpent">0đ</b><small>TỔNG CHI</small></div>
-          </div>
-          <br>
-          <button class="darkbtn" onclick="logout()">🚪 ĐĂNG XUẤT</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="title">🎟️ <span>VOUCHER</span></div>
-        <input id="voucherCode" placeholder="Nhập mã voucher">
-        <button class="mainbtn" onclick="applyVoucher()">ÁP DỤNG VOUCHER</button>
-      </div>
-    </section>
+<h1>🎮 ADMIN HI STORE</h1>
 
-    <!-- DEPOSIT -->
-    <section id="deposit" class="page">
-      <div class="card">
-        <div class="title">💳 <span>NẠP TIỀN</span></div>
-        <div class="notice">Nhập số tiền → hệ thống hiện QR và mã chuyển khoản riêng → chuyển khoản → bấm xác nhận.</div>
-        <input id="depositAmount" type="number" min="1000" placeholder="Số tiền muốn nạp">
-        <button class="mainbtn" onclick="showDepositQR()">💰 TẠO YÊU CẦU NẠP</button>
-        <div id="depositPayment" style="display:none">
-          <div class="qrbox">
-            <img src="data:image/jpeg;base64,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
+<p>Shop sản phẩm kỹ thuật số</p>
+
+</div>
+
+</header>
+
+<section class="account-box">
+
+<div class="avatar">
+
+<img src="assets/avatar.png">
+
+</div>
+
+<div class="info">
+
+<h2 id="username">Khách</h2>
+
+<span>Chưa đăng nhập</span>
+
+</div>
+
+<div class="balance">
+
+<span id="money">0đ</span>
+
+</div>
+
+</section>
+
+<section class="category">
+
+<h2>☰ DANH MỤC</h2>
+
+<div class="grid">
+
+<div class="item active" data-id="aim">
+🎯
+<p>Aim Lock</p>
+</div>
+
+<div class="item" data-id="proxyadr">
+🔑
+<p>Proxy ADR</p>
+</div>
+
+<div class="item" data-id="proxyios">
+📱
+<p>Proxy IOS</p>
+</div>
+
+<div class="item" data-id="menuadr">
+🎯
+<p>Menu ADR</p>
+</div>
+
+<div class="item" data-id="menuios">
+📱
+<p>Menu IOS</p>
+</div>
+
+<div class="item" data-id="dv">
+👁️
+<p>ĐV + Xuyên Keo</p>
+</div>
+
+<div class="item" data-id="ac">
+🎮
+<p>AC CLON</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="products">
+
+<h2>🛍️ SẢN PHẨM</h2>
+
+<div id="product-list">
+
+</div>
+
+</section>
+
+<nav class="bottom">
+
+<button id="home">
+🔑
+<span>Mua Key</span>
+</button>
+
+<button id="history">
+📜
+<span>Lịch sử</span>
+</button>
+
+<button id="deposit">
+💳
+<span>Nạp tiền</span>
+</button>
+
+<button id="profile">
+👤
+<span>Cá nhân</span>
+</button>
+
+</nav>
+
+<div class="chat-button">
+
+💬
+
+</div>
+
+</body>
+</html>
