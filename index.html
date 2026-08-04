@@ -60,40 +60,47 @@
             color: #ffd700;
         }
 
+        .section-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 16px 0 10px 0;
+            letter-spacing: 0.5px;
+        }
+
         .category {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .category button {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
+            background: transparent;
+            border: none;
             color: #ccc;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
+            padding: 4px 0;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.2s;
+            font-weight: normal;
         }
 
         .category button:hover,
         .category button.active {
-            background: #ff6a00;
-            color: #fff;
-            border-color: #ff6a00;
+            color: #ff6a00;
+            font-weight: bold;
         }
 
         .product {
             background: #222;
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 14px 16px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #ff6a00;
+            border-left: 3px solid #ff6a00;
         }
 
         .product .info {
@@ -101,9 +108,10 @@
         }
 
         .product .info h3 {
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 4px;
             color: #fff;
+            font-weight: normal;
         }
 
         .product .info .tag {
@@ -112,7 +120,7 @@
         }
 
         .product .price {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #ffd700;
             margin-right: 12px;
@@ -122,17 +130,16 @@
             background: #ff6a00;
             color: #fff;
             border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 6px 14px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: 0.2s;
         }
 
         .product .btn-buy:hover {
             background: #e05e00;
-            transform: scale(1.03);
         }
 
         .card {
@@ -372,14 +379,19 @@
 
         <!-- ===== TRANG CHỦ ===== -->
         <div id="page-home" class="page active">
+            <div class="section-title">DANH MỤC</div>
             <div class="category" id="categoryFilter">
-                <button class="active" data-cat="all">📦 Tất cả</button>
+                <button class="active" data-cat="all">Tất cả</button>
                 <button data-cat="aim">Aim Lock</button>
-                <button data-cat="menu">Menu</button>
-                <button data-cat="proxy">Proxy</button>
-                <button data-cat="ac">AC CLON</button>
+                <button data-cat="proxy-adr">Proxy ADR</button>
+                <button data-cat="proxy-ios">Proxy IOS</button>
+                <button data-cat="menu-adr">Menu ADR</button>
+                <button data-cat="menu-ios">Menu IOS</button>
                 <button data-cat="dv">ĐV + Xuyên keo</button>
+                <button data-cat="ac">AC CLON</button>
             </div>
+
+            <div class="section-title">SẢN PHẨM</div>
             <div id="productList"></div>
         </div>
 
@@ -455,22 +467,35 @@
     </div>
 
     <script>
-        // ======= DỮ LIỆU =======
+        // ======= DỮ LIỆU SẢN PHẨM =======
         const products = [
+            // AC CLON
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
+
+            // ĐV + Xuyên keo
             { id: 2, name: 'ĐV + Nhìn xuyên keo IOS', cat: 'dv', price: 30000 },
-            { id: 3, name: 'Menu IOS 1 giờ', cat: 'menu', price: 10000 },
-            { id: 4, name: 'Menu IOS 7 ngày', cat: 'menu', price: 150000 },
-            { id: 5, name: 'Menu IOS 30 ngày', cat: 'menu', price: 300000 },
-            { id: 6, name: 'Menu ADR 7 ngày', cat: 'menu', price: 150000 },
-            { id: 7, name: 'Menu ADR 30 ngày', cat: 'menu', price: 300000 },
-            { id: 8, name: 'Key Proxy ADR 1 ngày', cat: 'proxy', price: 25000 },
-            { id: 9, name: 'Key Proxy ADR 7 ngày', cat: 'proxy', price: 80000 },
-            { id: 10, name: 'Key Proxy ADR 30 ngày', cat: 'proxy', price: 250000 },
-            { id: 11, name: 'Key Proxy IOS 1 ngày', cat: 'proxy', price: 25000 },
-            { id: 12, name: 'Key Proxy IOS 7 ngày', cat: 'proxy', price: 80000 },
-            { id: 13, name: 'Key Proxy IOS 30 ngày', cat: 'proxy', price: 250000 },
-            { id: 14, name: 'Key Proxy IOS 60 ngày', cat: 'proxy', price: 450000 },
+
+            // Menu IOS
+            { id: 3, name: 'Menu IOS 1 giờ', cat: 'menu-ios', price: 10000 },
+            { id: 4, name: 'Menu IOS 7 ngày', cat: 'menu-ios', price: 150000 },
+            { id: 5, name: 'Menu IOS 30 ngày', cat: 'menu-ios', price: 300000 },
+
+            // Menu ADR
+            { id: 6, name: 'Menu ADR 7 ngày', cat: 'menu-adr', price: 150000 },
+            { id: 7, name: 'Menu ADR 30 ngày', cat: 'menu-adr', price: 300000 },
+
+            // Proxy ADR
+            { id: 8, name: 'Key Proxy ADR 1 ngày', cat: 'proxy-adr', price: 25000 },
+            { id: 9, name: 'Key Proxy ADR 7 ngày', cat: 'proxy-adr', price: 80000 },
+            { id: 10, name: 'Key Proxy ADR 30 ngày', cat: 'proxy-adr', price: 250000 },
+
+            // Proxy IOS
+            { id: 11, name: 'Key Proxy IOS 1 ngày', cat: 'proxy-ios', price: 25000 },
+            { id: 12, name: 'Key Proxy IOS 7 ngày', cat: 'proxy-ios', price: 80000 },
+            { id: 13, name: 'Key Proxy IOS 30 ngày', cat: 'proxy-ios', price: 250000 },
+            { id: 14, name: 'Key Proxy IOS 60 ngày', cat: 'proxy-ios', price: 450000 },
+
+            // Aim Lock
             { id: 15, name: 'Aim Lock V1', cat: 'aim', price: 50000 },
             { id: 16, name: 'Aim Lock V2', cat: 'aim', price: 100000 },
             { id: 17, name: 'Aim Lock V3', cat: 'aim', price: 200000 },
@@ -502,7 +527,7 @@
         function renderProducts(cat) {
             let filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
             if (filtered.length === 0) {
-                productList.innerHTML = '<p style="color:#888;text-align:center;">Không có sản phẩm nào.</p>';
+                productList.innerHTML = '<p style="color:#888;text-align:center;padding:20px 0;">Không có sản phẩm nào.</p>';
                 return;
             }
             let html = '';
@@ -566,7 +591,6 @@
 
         // ======= RENDER ADMIN =======
         function renderAdmin() {
-            // Orders
             const pending = pendingOrders.filter(o => o.status === 'pending');
             if (pending.length === 0) {
                 adminOrders.innerHTML = '<p style="color:#888;">Chưa có đơn hàng chờ duyệt</p>';
@@ -587,7 +611,6 @@
                 });
                 adminOrders.innerHTML = html;
 
-                // Gán sự kiện duyệt đơn + key
                 document.querySelectorAll('.btn-approve-order').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = parseInt(this.dataset.id);
@@ -605,7 +628,6 @@
                         order.status = 'delivered';
                         order.key = key;
 
-                        // Cập nhật lịch sử
                         const hist = history.find(h =>
                             h.type === 'Mua key (chờ duyệt)' &&
                             h.product === order.product &&
@@ -623,7 +645,6 @@
                 });
             }
 
-            // Nap
             const pendingNapList = pendingNap.filter(n => n.status === 'pending');
             if (pendingNapList.length === 0) {
                 adminNap.innerHTML = '<p style="color:#888;">Chưa có yêu cầu nạp tiền</p>';
