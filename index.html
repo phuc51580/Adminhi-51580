@@ -30,7 +30,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
-        /* ===== ZALO FLOAT ===== */
         .zalo-float {
             position: fixed;
             bottom: 80px;
@@ -528,6 +527,35 @@
             background: #00bcd4;
             color: #fff;
         }
+
+        /* Nút tải lại */
+        .btn-reload {
+            background: #00bcd4;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .btn-reload:hover {
+            background: #0097a7;
+        }
+
+        .btn-reload:active {
+            transform: scale(0.95);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -565,11 +593,14 @@
             <div id="productList" class="product-list"></div>
         </div>
 
-        <!-- ===== TRANG ADMIN ===== -->
+        <!-- ===== TRANG ADMIN (CHỈ 1 TRANG) ===== -->
         <div id="page-admin" class="page admin-only">
             <div class="card">
-                <h2>🛠️ QUẢN LÝ ADMIN</h2>
-                <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng và quản lý người dùng</p>
+                <div class="admin-header">
+                    <h2>🛠️ QUẢN LÝ ADMIN</h2>
+                    <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
+                </div>
+                <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
                 <h3 style="color:#00bcd4;font-size:15px;margin:12px 0 8px;">👥 DANH SÁCH NGƯỜI DÙNG</h3>
                 <div id="userList">
@@ -714,6 +745,28 @@
         const loginError = document.getElementById('loginError');
         const loginSuccess = document.getElementById('loginSuccess');
 
+        // ======= HÀM TẢI LẠI ADMIN =======
+        window.reloadAdmin = function() {
+            // Reload users từ localStorage
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            if (!users.find(u => u.username === ADMIN_ACCOUNT.username)) {
+                users.push(ADMIN_ACCOUNT);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Cập nhật currentUser nếu đang đăng nhập
+            if (currentUser) {
+                const updatedUser = users.find(u => u.username === currentUser.username);
+                if (updatedUser) {
+                    currentUser.balance = updatedUser.balance || 0;
+                }
+            }
+            
+            renderAdmin();
+            updateUI();
+            alert('✅ Đã tải lại dữ liệu mới nhất!');
+        };
+
         // ======= RENDER DANH SÁCH NGƯỜI DÙNG =======
         function renderUserList() {
             let html = '';
@@ -751,6 +804,8 @@
                 return;
             }
 
+            // Reload users trước khi thao tác
+            users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username);
             if (user) {
                 user.balance = (user.balance || 0) + amount;
@@ -772,7 +827,7 @@
 
                 alert(`✅ Đã cộng ${amount.toLocaleString()}đ vào tài khoản ${username}`);
                 input.value = '';
-                renderUserList();
+                renderAdmin();
                 updateUI();
             }
         };
@@ -786,6 +841,7 @@
                 return;
             }
 
+            users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username);
             if (user) {
                 if ((user.balance || 0) < amount) {
@@ -811,7 +867,7 @@
 
                 alert(`✅ Đã trừ ${amount.toLocaleString()}đ của tài khoản ${username}`);
                 input.value = '';
-                renderUserList();
+                renderAdmin();
                 updateUI();
             }
         };
@@ -944,7 +1000,6 @@
                 });
             }
 
-            // ===== NẠP TIỀN =====
             const pendingNapList = pendingNap.filter(n => n.status === 'pending');
             if (pendingNapList.length === 0) {
                 adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
@@ -969,6 +1024,7 @@
                         if (nap) {
                             nap.status = 'approved';
                             
+                            users = JSON.parse(localStorage.getItem('users')) || [];
                             const user = users.find(u => u.username === nap.user);
                             if (user) {
                                 user.balance = (user.balance || 0) + nap.amount;
@@ -1072,7 +1128,7 @@
             if (navBtn) navBtn.classList.add('active');
         }
 
-        // ======= ĐĂNG NHẬP / ĐĂNG KÝ =======
+        // ======= ĐĂNG NHẬP =======
         function handleLogin() {
             const username = loginUser.value.trim();
             const password = loginPass.value.trim();
@@ -1086,6 +1142,7 @@
                 return;
             }
 
+            users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username && u.password === password);
             if (!user) {
                 loginError.textContent = '❌ Sai tên đăng nhập hoặc mật khẩu!';
@@ -1099,7 +1156,7 @@
                 role: user.role || 'user',
                 balance: user.balance || 0
             };
-            history = [];
+
             loginUser.value = '';
             loginPass.value = '';
             loginSuccess.textContent = `✅ Chào mừng ${currentUser.username}!`;
@@ -1137,6 +1194,7 @@
                 return;
             }
 
+            users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.find(u => u.username === username)) {
                 loginError.textContent = '❌ Tên đăng nhập đã tồn tại!';
                 loginError.style.display = 'block';
@@ -1156,6 +1214,11 @@
             loginSuccess.style.display = 'block';
             loginUser.value = '';
             loginPass.value = '';
+
+            // Cập nhật admin nếu đang đăng nhập admin
+            if (currentUser && currentUser.role === 'admin') {
+                renderAdmin();
+            }
         }
 
         function handleLogout() {
