@@ -422,6 +422,7 @@
             display: none;
         }
 
+        /* User list - CHỈ HIỂN THỊ TRONG ADMIN */
         .user-item {
             background: #1a3a4a;
             padding: 10px 14px;
@@ -528,7 +529,6 @@
             color: #fff;
         }
 
-        /* Nút tải lại */
         .btn-reload {
             background: #00bcd4;
             color: #fff;
@@ -593,7 +593,7 @@
             <div id="productList" class="product-list"></div>
         </div>
 
-        <!-- ===== TRANG ADMIN (CHỈ 1 TRANG) ===== -->
+        <!-- ===== TRANG ADMIN ===== -->
         <div id="page-admin" class="page admin-only">
             <div class="card">
                 <div class="admin-header">
@@ -747,14 +747,12 @@
 
         // ======= HÀM TẢI LẠI ADMIN =======
         window.reloadAdmin = function() {
-            // Reload users từ localStorage
             users = JSON.parse(localStorage.getItem('users')) || [];
             if (!users.find(u => u.username === ADMIN_ACCOUNT.username)) {
                 users.push(ADMIN_ACCOUNT);
                 localStorage.setItem('users', JSON.stringify(users));
             }
             
-            // Cập nhật currentUser nếu đang đăng nhập
             if (currentUser) {
                 const updatedUser = users.find(u => u.username === currentUser.username);
                 if (updatedUser) {
@@ -767,7 +765,7 @@
             alert('✅ Đã tải lại dữ liệu mới nhất!');
         };
 
-        // ======= RENDER DANH SÁCH NGƯỜI DÙNG =======
+        // ======= RENDER DANH SÁCH NGƯỜI DÙNG (CHỈ TRONG ADMIN) =======
         function renderUserList() {
             let html = '';
             users.forEach(u => {
@@ -804,7 +802,6 @@
                 return;
             }
 
-            // Reload users trước khi thao tác
             users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username);
             if (user) {
@@ -1215,7 +1212,6 @@
             loginUser.value = '';
             loginPass.value = '';
 
-            // Cập nhật admin nếu đang đăng nhập admin
             if (currentUser && currentUser.role === 'admin') {
                 renderAdmin();
             }
