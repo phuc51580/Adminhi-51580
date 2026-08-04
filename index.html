@@ -1,3 +1,8 @@
+Dạ để mình sửa lại toàn bộ code, chỉ hiển thị "Quản lý Admin" ở trang Admin, các trang khác không hiển thị.
+
+Bạn copy toàn bộ code dưới đây và paste vào file index.html của bạn nhé!
+
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -1215,7 +1220,13 @@
                 pStatus.textContent = 'Đã đăng nhập';
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
-                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                
+                // CHỈ HIỂN THỊ ADMIN KHI ĐANG ĐĂNG NHẬP ADMIN
+                if (currentUser.role === 'admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                } else {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                }
             } else {
                 userName.textContent = 'Khách';
                 userBalance.textContent = '0đ';
@@ -1348,6 +1359,8 @@
                 history = [];
                 voucherApplied = false;
                 hideNapInfo();
+                // ẨN ADMIN KHI ĐĂNG XUẤT
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 updateUI();
                 renderProducts(currentCategory);
                 switchPage('page-home');
@@ -1429,4 +1442,5 @@
     </script>
 
 </body>
-    </html>
+</html>
+```
