@@ -1352,6 +1352,33 @@
             switchPage('page-home');
         });
 
+        // ======= GÁN SỰ KIỆN CHO NÚT =======
+        document.getElementById('btnLogin').addEventListener('click', handleLogin);
+        document.getElementById('btnRegister').addEventListener('click', handleRegister);
+        document.getElementById('btnLogout').addEventListener('click', handleLogout);
+
+        // ======= XỬ LÝ CLICK DANH MỤC =======
+        document.querySelectorAll('#categoryFilter button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#categoryFilter button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.cat;
+                renderProducts(currentCategory);
+            });
+        });
+
+        // ======= XỬ LÝ CHUYỂN TRANG BẰNG BOTTOM NAV =======
+        document.querySelectorAll('.bottom-nav button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const pageId = this.dataset.page;
+                if (pageId === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
+                    alert('⚠️ Bạn cần đăng nhập với tài khoản Admin!');
+                    return;
+                }
+                switchPage(pageId);
+            });
+        });
+
         // ======= KHỞI CHẠY =======
         renderProducts('aim');
         updateUI();
