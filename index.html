@@ -429,10 +429,10 @@
         ];
 
         // ======= STATE =======
-        let currentUser = null; // { name, balance, role }
+        let currentUser = null;
         let history = [];
-        let pendingOrders = []; // { id, product, price, user, date }
-        let pendingNap = []; // { id, amount, user, date }
+        let pendingOrders = [];
+        let pendingNap = [];
         let orderCounter = 1;
         let napCounter = 1;
         let currentCategory = 'all';
@@ -473,8 +473,10 @@
             });
             productList.innerHTML = html;
 
+            // Gán sự kiện cho nút mua
             document.querySelectorAll('.btn-buy').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     const id = parseInt(this.dataset.id);
                     const product = products.find(p => p.id === id);
                     if (!product) return;
@@ -488,7 +490,6 @@
                         return;
                     }
 
-                    // Trừ tiền và tạo đơn chờ duyệt
                     currentUser.balance -= product.price;
                     const order = {
                         id: orderCounter++,
@@ -500,7 +501,6 @@
                     };
                     pendingOrders.push(order);
 
-                    // Ghi lịch sử
                     history.push({
                         type: 'Mua key (chờ duyệt)',
                         product: product.name,
@@ -566,7 +566,6 @@
                         const order = pendingOrders.find(o => o.id === id);
                         if (order) {
                             order.status = 'approved';
-                            // Cập nhật lịch sử
                             const hist = history.find(h =>
                                 h.type === 'Mua key (chờ duyệt)' &&
                                 h.product === order.product &&
@@ -581,7 +580,6 @@
                         const nap = pendingNap.find(n => n.id === id);
                         if (nap) {
                             nap.status = 'approved';
-                            // Cộng tiền cho user
                             if (currentUser && currentUser.name === nap.user) {
                                 currentUser.balance += nap.amount;
                                 history.push({
@@ -612,7 +610,6 @@
                 pStatus.textContent = 'Đã đăng nhập';
                 pRole.textContent = currentUser.role || 'Khách';
 
-                // Hiện admin nếu role = admin
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
                 } else {
@@ -660,12 +657,15 @@
         // ======= CHUYỂN TRANG =======
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            const target = document.getElementById(pageId);
+            if (target) target.classList.add('active');
             document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.bottom-nav button[data-page="${pageId}"]`)?.classList.add('active');
+            const navBtn = document.querySelector(`.bottom-nav button[data-page="${pageId}"]`);
+            if (navBtn) navBtn.classList.add('active');
         }
 
         // ======= SỰ KIỆN =======
+        // Chuyển trang bottom nav
         document.querySelectorAll('.bottom-nav button').forEach(btn => {
             btn.addEventListener('click', function() {
                 const page = this.dataset.page;
@@ -691,7 +691,6 @@
         document.getElementById('btnLogin').addEventListener('click', function() {
             const name = prompt('👤 Nhập tên đăng nhập:');
             if (name && name.trim()) {
-                // Kiểm tra nếu là admin
                 const isAdmin = name.trim().toLowerCase() === 'admin';
                 currentUser = {
                     name: name.trim(),
@@ -719,7 +718,7 @@
             }
         });
 
-        // Nạp tiền (tạo yêu cầu)
+        // Nạp tiền
         document.getElementById('btnNap').addEventListener('click', function() {
             if (!currentUser) {
                 alert('⚠️ Vui lòng đăng nhập để nạp tiền!');
@@ -731,7 +730,6 @@
                 return;
             }
 
-            // Tạo yêu cầu nạp
             const napReq = {
                 id: napCounter++,
                 amount: amount,
@@ -768,7 +766,6 @@
                 return;
             }
             if (code === 'ADMIN100') {
-                // Voucher cần admin duyệt
                 const napReq = {
                     id: napCounter++,
                     amount: 50000,
@@ -801,4 +798,4 @@
     </script>
 
 </body>
-  </html>
+</html>
