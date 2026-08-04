@@ -555,6 +555,65 @@
             align-items: center;
             margin-bottom: 12px;
         }
+
+        /* QR Code */
+        .qr-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+        }
+
+        .qr-container img {
+            max-width: 200px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .qr-container .qr-code {
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .nap-code {
+            background: #0a2a3a;
+            border: 1px solid #00bcd4;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .nap-code .label {
+            color: #88c8d8;
+            font-size: 12px;
+        }
+
+        .nap-code .code {
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: #00bcd4;
+            color: #fff;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .copy-btn:hover {
+            background: #0097a7;
+        }
     </style>
 </head>
 <body>
@@ -632,8 +691,23 @@
             <div class="card">
                 <h2>💳 NẠP TIỀN</h2>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">
-                    Nhập số tiền → hệ thống hiện QR và mã chuyển khoản riêng → chuyển khoản → bấm xác nhận.
+                    Chuyển khoản đến số tài khoản bên dưới và nhập mã nạp tiền để xác nhận
                 </p>
+
+                <!-- QR CODE -->
+                <div class="qr-container">
+                    <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=0865561731&choe=UTF-8" alt="QR Code" />
+                    <div class="qr-code">TSAN QUANG PHUC</div>
+                    <div style="color:#000;font-size:13px;">BIDV - 0865561731</div>
+                </div>
+
+                <!-- MÃ NẠP TIỀN NGẪU NHIÊN -->
+                <div class="nap-code">
+                    <div class="label">📌 MÃ NẠP TIỀN</div>
+                    <div class="code" id="napCodeDisplay">Đang tạo...</div>
+                    <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
+                </div>
+
                 <input type="number" id="napAmount" placeholder="Số tiền muốn nạp" />
                 <button id="btnNap">TẠO YÊU CẦU NẠP</button>
             </div>
@@ -734,6 +808,7 @@
         let discountPercent = 20;
         let voucherCode = 'Admin_hi_51580';
         let voucherApplied = false;
+        let currentNapCode = '';
 
         // ======= DOM =======
         const productList = document.getElementById('productList');
@@ -754,6 +829,41 @@
         const loginError = document.getElementById('loginError');
         const loginSuccess = document.getElementById('loginSuccess');
         const voucherStatus = document.getElementById('voucherStatus');
+        const napCodeDisplay = document.getElementById('napCodeDisplay');
+
+        // ======= TẠO MÃ NẠP TIỀN NGẪU NHIÊN =======
+        function generateNapCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = 'NAP-';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function refreshNapCode() {
+            currentNapCode = generateNapCode();
+            napCodeDisplay.textContent = currentNapCode;
+        }
+
+        function copyNapCode() {
+            if (!currentNapCode) {
+                alert('⚠️ Chưa có mã nạp tiền!');
+                return;
+            }
+            navigator.clipboard.writeText(currentNapCode).then(() => {
+                alert('✅ Đã sao chép mã: ' + currentNapCode);
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = currentNapCode;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Đã sao chép mã: ' + currentNapCode);
+            });
+        }
 
         // ======= HÀM TẢI LẠI ADMIN =======
         window.reloadAdmin = function() {
@@ -1062,6 +1172,7 @@
                             <div><strong>${n.amount.toLocaleString()}đ</strong></div>
                             <div>👤 ${n.user}</div>
                             <div class="date">${n.date}</div>
+                            <div style="color:#88c8d8;font-size:12px;">Mã: ${n.code || 'Không có'}</div>
                             <button class="btn-approve-nap" data-id="${n.id}">✅ Duyệt nạp</button>
                         </div>
                     `;
@@ -1221,6 +1332,7 @@
             updateUI();
             renderProducts(currentCategory);
             renderAdmin();
+            refreshNapCode();
             alert(`✅ Chào mừng ${currentUser.username}!${currentUser.role === 'admin' ? ' (Admin)' : ''}`);
             switchPage('page-home');
         }
@@ -1328,12 +1440,17 @@
                 return;
             }
 
+            if (!currentNapCode) {
+                refreshNapCode();
+            }
+
             const napReq = {
                 id: napCounter++,
                 amount: amount,
                 user: currentUser.username,
                 date: new Date().toLocaleString(),
-                status: 'pending'
+                status: 'pending',
+                code: currentNapCode
             };
             pendingNap.push(napReq);
 
@@ -1345,44 +1462,21 @@
                 status: 'pending'
             });
 
+            // Tạo mã mới cho lần sau
+            refreshNapCode();
+
             updateUI();
             renderAdmin();
             document.getElementById('napAmount').value = '';
-            alert(`⏳ Đã tạo yêu cầu nạp ${amount.toLocaleString()}đ\nVui lòng chờ admin duyệt!`);
+            alert(`⏳ Đã tạo yêu cầu nạp ${amount.toLocaleString()}đ\n📌 Mã nạp: ${napReq.code}\nVui lòng chờ admin duyệt!`);
             switchPage('page-home');
-        });
-
-        // ======= GÁN SỰ KIỆN CHO NÚT =======
-        document.getElementById('btnLogin').addEventListener('click', handleLogin);
-        document.getElementById('btnRegister').addEventListener('click', handleRegister);
-        document.getElementById('btnLogout').addEventListener('click', handleLogout);
-
-        // ======= XỬ LÝ CLICK DANH MỤC =======
-        document.querySelectorAll('#categoryFilter button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('#categoryFilter button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentCategory = this.dataset.cat;
-                renderProducts(currentCategory);
-            });
-        });
-
-        // ======= XỬ LÝ CHUYỂN TRANG BẰNG BOTTOM NAV =======
-        document.querySelectorAll('.bottom-nav button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const pageId = this.dataset.page;
-                if (pageId === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
-                    alert('⚠️ Bạn cần đăng nhập với tài khoản Admin!');
-                    return;
-                }
-                switchPage(pageId);
-            });
         });
 
         // ======= KHỞI CHẠY =======
         renderProducts('aim');
         updateUI();
         renderAdmin();
+        refreshNapCode();
     </script>
 
 </body>
