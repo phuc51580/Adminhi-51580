@@ -899,17 +899,25 @@
                 alert('⚠️ Chưa có mã nạp tiền!');
                 return;
             }
-            navigator.clipboard.writeText(currentNapCode).then(() => {
-                alert('✅ Đã sao chép mã: ' + currentNapCode);
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = currentNapCode;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('✅ Đã sao chép mã: ' + currentNapCode);
-            });
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(currentNapCode).then(() => {
+                    alert('✅ Đã sao chép mã: ' + currentNapCode);
+                }).catch(() => {
+                    fallbackCopy();
+                });
+            } else {
+                fallbackCopy();
+            }
+        }
+
+        function fallbackCopy() {
+            const textarea = document.createElement('textarea');
+            textarea.value = currentNapCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('✅ Đã sao chép mã: ' + currentNapCode);
         }
 
         // ======= HÀM TẢI LẠI ADMIN =======
@@ -1516,4 +1524,4 @@
     </script>
 
 </body>
-                        </html>
+            </html>
