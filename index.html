@@ -176,6 +176,17 @@
             white-space: nowrap;
         }
 
+        .product .price .original-price {
+            font-size: 12px;
+            color: #888;
+            text-decoration: line-through;
+            margin-right: 4px;
+        }
+
+        .product .price .discount-price {
+            color: #ff6a00;
+        }
+
         .product .btn-buy {
             background: #00bcd4;
             color: #fff;
@@ -191,6 +202,16 @@
 
         .product .btn-buy:hover {
             background: #0097a7;
+        }
+
+        .product .discount-badge {
+            background: #ff6a00;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-left: 6px;
         }
 
         .card {
@@ -422,7 +443,6 @@
             display: none;
         }
 
-        /* User list - CHỈ HIỂN THỊ TRONG ADMIN */
         .user-item {
             background: #1a3a4a;
             padding: 10px 14px;
@@ -650,6 +670,7 @@
                     <p><strong>Số dư:</strong> <span id="pBalance">0đ</span></p>
                     <p><strong>Trạng thái:</strong> <span id="pStatus">Chưa đăng nhập</span></p>
                     <p><strong>Vai trò:</strong> <span id="pRole">Khách</span></p>
+                    <p><strong>Đã dùng voucher:</strong> <span id="pVoucherUsed">Chưa</span></p>
                 </div>
 
                 <div style="margin-top:16px;border-top:1px solid #333;padding-top:16px;">
@@ -664,11 +685,6 @@
                 </div>
 
                 <button id="btnLogout" class="btn-outline" style="margin-top:12px;">ĐĂNG XUẤT</button>
-
-                <div style="margin-top:10px;">
-                    <input type="text" id="voucherInput" placeholder="Nhập mã voucher" style="width:70%;display:inline;" />
-                    <button id="btnVoucher" style="width:28%;display:inline;">ÁP DỤNG</button>
-                </div>
             </div>
         </div>
 
@@ -709,7 +725,8 @@
             username: 'Admin',
             password: 'Phc51580',
             role: 'admin',
-            balance: 0
+            balance: 0,
+            voucherUsed: false
         };
 
         let users = JSON.parse(localStorage.getItem('users')) || [];
@@ -726,6 +743,7 @@
         let orderCounter = 1;
         let napCounter = 1;
         let currentCategory = 'aim';
+        let discountPercent = 20; // 20%
 
         // ======= DOM =======
         const productList = document.getElementById('productList');
@@ -736,6 +754,7 @@
         const pBalance = document.getElementById('pBalance');
         const pStatus = document.getElementById('pStatus');
         const pRole = document.getElementById('pRole');
+        const pVoucherUsed = document.getElementById('pVoucherUsed');
         const historyList = document.getElementById('historyList');
         const adminOrders = document.getElementById('adminOrders');
         const adminNap = document.getElementById('adminNap');
@@ -757,6 +776,7 @@
                 const updatedUser = users.find(u => u.username === currentUser.username);
                 if (updatedUser) {
                     currentUser.balance = updatedUser.balance || 0;
+                    currentUser.voucherUsed = updatedUser.voucherUsed || false;
                 }
             }
             
@@ -765,12 +785,13 @@
             alert('✅ Đã tải lại dữ liệu mới nhất!');
         };
 
-        // ======= RENDER DANH SÁCH NGƯỜI DÙNG (CHỈ TRONG ADMIN) =======
+        // ======= RENDER DANH SÁCH NGƯỜI DÙNG =======
         function renderUserList() {
             let html = '';
             users.forEach(u => {
                 const roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
                 const roleText = u.role === 'admin' ? 'Admin' : 'User';
+                const voucherText = u.voucherUsed ? 'Đã dùng' : 'Chưa dùng';
                 html += `
                     <div class="user-item">
                         <div class="user-row">
@@ -779,6 +800,9 @@
                                 <span class="user-balance">${(u.balance || 0).toLocaleString()}đ</span>
                                 <span class="user-role ${roleClass}">${roleText}</span>
                             </div>
+                        </div>
+                        <div style="color:#88c8d8;font-size:12px;margin-top:4px;">
+                            Voucher: ${voucherText}
                         </div>
                         ${u.role !== 'admin' ? `
                         <div class="user-actions">
@@ -878,13 +902,17 @@
             }
             let html = '';
             filtered.forEach(p => {
+                const discountedPrice = Math.round(p.price * (1 - discountPercent / 100));
                 html += `
                     <div class="product">
                         <div class="info">
-                            <h3>${p.name}</h3>
+                            <h3>${p.name} <span class="discount-badge">-20%</span></h3>
                             <span class="tag">Sản phẩm kỹ thuật số</span>
                         </div>
-                        <div class="price">${p.price.toLocaleString()}đ</div>
+                        <div class="price">
+                            <span class="original-price">${p.price.toLocaleString()}đ</span>
+                            <span class="discount-price">${discountedPrice.toLocaleString()}đ</span>
+                        </div>
                         <button class="btn-buy" data-id="${p.id}">MUA NGAY</button>
                     </div>
                 `;
@@ -902,39 +930,61 @@
                         switchPage('page-profile');
                         return;
                     }
-                    if (currentUser.balance < product.price) {
-                        alert('❌ Số dư không đủ! Vui lòng nạp thêm tiền.');
+
+                    // Kiểm tra voucher - tự động áp dụng nếu chưa dùng
+                    const user = users.find(u => u.username === currentUser.username);
+                    let finalPrice = product.price;
+                    let useVoucher = false;
+
+                    if (user && !user.voucherUsed) {
+                        finalPrice = Math.round(product.price * (1 - discountPercent / 100));
+                        useVoucher = true;
+                    }
+
+                    if (currentUser.balance < finalPrice) {
+                        alert(`❌ Số dư không đủ! Cần ${finalPrice.toLocaleString()}đ`);
                         return;
                     }
 
-                    currentUser.balance -= product.price;
+                    // Trừ tiền
+                    currentUser.balance -= finalPrice;
                     const userInList = users.find(u => u.username === currentUser.username);
-                    if (userInList) userInList.balance = currentUser.balance;
-                    localStorage.setItem('users', JSON.stringify(users));
+                    if (userInList) {
+                        userInList.balance = currentUser.balance;
+                        if (useVoucher) {
+                            userInList.voucherUsed = true;
+                            currentUser.voucherUsed = true;
+                        }
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
 
                     const order = {
                         id: orderCounter++,
                         product: product.name,
-                        price: product.price,
+                        price: finalPrice,
+                        originalPrice: product.price,
                         user: currentUser.username,
                         date: new Date().toLocaleString(),
                         status: 'pending',
-                        key: null
+                        key: null,
+                        voucherUsed: useVoucher
                     };
                     pendingOrders.push(order);
 
                     history.push({
                         type: 'Mua key (chờ duyệt)',
                         product: product.name,
-                        amount: -product.price,
+                        amount: -finalPrice,
                         date: new Date().toLocaleString(),
                         status: 'pending',
-                        key: null
+                        key: null,
+                        voucherUsed: useVoucher,
+                        discount: useVoucher ? '20%' : '0%'
                     });
 
                     updateUI();
                     renderAdmin();
-                    alert(`⏳ Đã tạo đơn mua: ${product.name}\nSố tiền: ${product.price.toLocaleString()}đ\nVui lòng chờ admin duyệt!`);
+                    alert(`⏳ Đã tạo đơn mua: ${product.name}\nSố tiền: ${finalPrice.toLocaleString()}đ${useVoucher ? ' (đã giảm 20%)' : ''}\nVui lòng chờ admin duyệt!`);
                 });
             });
         }
@@ -951,7 +1001,7 @@
                 pending.forEach(o => {
                     html += `
                         <div class="order-item">
-                            <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ</div>
+                            <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ ${o.voucherUsed ? '🎫 -20%' : ''}</div>
                             <div>👤 ${o.user}</div>
                             <div class="date">${o.date}</div>
                             <div class="key-input">
@@ -1060,6 +1110,7 @@
                 pBalance.textContent = currentUser.balance.toLocaleString() + 'đ';
                 pStatus.textContent = 'Đã đăng nhập';
                 pRole.textContent = currentUser.role || 'User';
+                pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
 
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
@@ -1073,6 +1124,7 @@
                 pBalance.textContent = '0đ';
                 pStatus.textContent = 'Chưa đăng nhập';
                 pRole.textContent = 'Khách';
+                pVoucherUsed.textContent = 'Chưa';
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
             }
             renderHistory();
@@ -1089,6 +1141,7 @@
                 const sign = item.amount >= 0 ? '+' : '';
                 let statusBadge = '';
                 let keyDisplay = '';
+                let discountDisplay = item.discount && item.discount !== '0%' ? `🎫 ${item.discount}` : '';
 
                 if (item.status === 'pending') {
                     statusBadge = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
@@ -1103,7 +1156,7 @@
 
                 html += `
                     <div class="history-item">
-                        <div><strong>${item.type}</strong> - ${item.product || ''} ${statusBadge}</div>
+                        <div><strong>${item.type}</strong> - ${item.product || ''} ${discountDisplay} ${statusBadge}</div>
                         <div style="color:${item.amount >= 0 ? '#4caf50' : '#ff6a00'};">
                             ${sign}${item.amount.toLocaleString()}đ
                         </div>
@@ -1151,7 +1204,8 @@
                 username: user.username,
                 password: user.password,
                 role: user.role || 'user',
-                balance: user.balance || 0
+                balance: user.balance || 0,
+                voucherUsed: user.voucherUsed || false
             };
 
             loginUser.value = '';
@@ -1202,7 +1256,8 @@
                 username: username,
                 password: password,
                 role: 'user',
-                balance: 0
+                balance: 0,
+                voucherUsed: false
             };
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
@@ -1296,43 +1351,6 @@
             switchPage('page-home');
         });
 
-        // ===== VOUCHER =====
-        document.getElementById('btnVoucher').addEventListener('click', function() {
-            if (!currentUser) {
-                alert('⚠️ Vui lòng đăng nhập!');
-                return;
-            }
-            const code = document.getElementById('voucherInput').value.trim();
-            if (!code) {
-                alert('❌ Nhập mã voucher!');
-                return;
-            }
-            if (code === 'ADMIN100') {
-                const napReq = {
-                    id: napCounter++,
-                    amount: 50000,
-                    user: currentUser.username,
-                    date: new Date().toLocaleString(),
-                    status: 'pending',
-                    isVoucher: true
-                };
-                pendingNap.push(napReq);
-                history.push({
-                    type: 'Voucher (chờ duyệt)',
-                    product: 'ADMIN100',
-                    amount: 50000,
-                    date: new Date().toLocaleString(),
-                    status: 'pending'
-                });
-                updateUI();
-                renderAdmin();
-                alert('🎉 Đã áp dụng voucher! Vui lòng chờ admin duyệt.');
-                document.getElementById('voucherInput').value = '';
-            } else {
-                alert('❌ Mã voucher không hợp lệ!');
-            }
-        });
-
         // ======= KHỞI CHẠY =======
         renderProducts('aim');
         updateUI();
@@ -1340,4 +1358,4 @@
     </script>
 
 </body>
-    </html>
+</html>
