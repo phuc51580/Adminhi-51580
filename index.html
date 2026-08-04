@@ -542,7 +542,6 @@
             margin-bottom: 12px;
         }
 
-        /* QR Code - ẨN MẶC ĐỊNH */
         .qr-container {
             background: #fff;
             border-radius: 12px;
@@ -569,7 +568,6 @@
             margin-top: 8px;
         }
 
-        /* Mã nạp - ẨN MẶC ĐỊNH */
         .nap-code {
             background: #0a2a3a;
             border: 1px solid #00bcd4;
@@ -745,14 +743,12 @@
                 <input type="number" id="napAmount" placeholder="Số tiền muốn nạp" />
                 <button id="btnNap">TẠO YÊU CẦU NẠP</button>
 
-                <!-- QR CODE - ẨN MẶC ĐỊNH -->
                 <div id="qrContainer" class="qr-container">
                     <img src="https://img.vietqr.io/image/BIDV-0865561731-compact.png" alt="QR ZaloPay" />
                     <div class="qr-code">TSAN QUANG PHUC</div>
                     <div style="color:#000;font-size:13px;">💚 ZaloPay - 0865561731</div>
                 </div>
 
-                <!-- MÃ NẠP - ẨN MẶC ĐỊNH -->
                 <div id="napCodeContainer" class="nap-code">
                     <div class="label">📌 MÃ NẠP TIỀN</div>
                     <div class="code" id="napCodeDisplay">Đang tạo...</div>
@@ -1387,7 +1383,6 @@
                 return;
             }
 
-            // HIỆN QR + MÃ NẠP
             showNapInfo();
 
             var napReq = {
