@@ -1,6 +1,6 @@
-Dạ để mình sửa lại toàn bộ code, chỉ hiển thị "Quản lý Admin" ở trang Admin, các trang khác không hiển thị.
+Dạ mình thấy lỗi rồi! Chữ "Khách đã" bị lỗi hiển thị ở góc trên. Đây là do đoạn HTML bị dư.
 
-Bạn copy toàn bộ code dưới đây và paste vào file index.html của bạn nhé!
+Mình gửi bạn file code đã sửa hoàn toàn, copy và paste vào file index.html nhé:
 
 ```html
 <!DOCTYPE html>
@@ -1221,7 +1221,7 @@ Bạn copy toàn bộ code dưới đây và paste vào file index.html của b�
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
                 
-                // CHỈ HIỂN THỊ ADMIN KHI ĐANG ĐĂNG NHẬP ADMIN
+                // CHỈ HIỂN THỊ ADMIN KHI ĐĂNG NHẬP ADMIN
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
                 } else {
@@ -1443,4 +1443,3 @@ Bạn copy toàn bộ code dưới đây và paste vào file index.html của b�
 
 </body>
 </html>
-```
