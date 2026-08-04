@@ -67,9 +67,15 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .header {
@@ -329,20 +335,6 @@
             word-break: break-all;
         }
 
-        .voucher-input {
-            display: flex;
-            gap: 8px;
-        }
-
-        .voucher-input input {
-            flex: 1;
-        }
-
-        .voucher-input button {
-            width: auto;
-            padding: 10px 16px;
-        }
-
         .badge {
             display: inline-block;
             padding: 2px 10px;
@@ -556,7 +548,6 @@
             margin-bottom: 12px;
         }
 
-        /* QR Code */
         .qr-container {
             background: #fff;
             border-radius: 12px;
@@ -576,6 +567,11 @@
             font-weight: bold;
             font-size: 14px;
             margin-top: 8px;
+        }
+
+        .qr-container .qr-label {
+            color: #000;
+            font-size: 13px;
         }
 
         .nap-code {
@@ -614,6 +610,61 @@
         .copy-btn:hover {
             background: #0097a7;
         }
+
+        .voucher-section {
+            margin-top: 12px;
+            background: #1a3a4a;
+            border: 1px solid #00bcd4;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .voucher-section .voucher-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .voucher-section .voucher-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #111;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .voucher-section .voucher-row input::placeholder {
+            color: #666;
+        }
+
+        .voucher-section .voucher-row button {
+            background: #00bcd4;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .voucher-section .voucher-row button:hover {
+            background: #0097a7;
+        }
+
+        .voucher-section .voucher-status {
+            color: #88c8d8;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .voucher-status.used {
+            color: #ff4444;
+        }
+
+        .voucher-status.active {
+            color: #4caf50;
+        }
     </style>
 </head>
 <body>
@@ -650,13 +701,12 @@
             <div class="section-title">SẢN PHẨM</div>
             <div id="productList" class="product-list"></div>
 
-            <!-- ===== NHẬP MÃ GIẢM GIÁ ===== -->
-            <div style="margin-top:12px;background:#1a3a4a;border:1px solid #00bcd4;border-radius:8px;padding:12px;">
-                <div style="display:flex;gap:8px;">
-                    <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" style="flex:1;padding:8px 12px;border-radius:6px;border:1px solid #444;background:#111;color:#fff;font-size:14px;" />
-                    <button id="btnApplyVoucher" style="background:#00bcd4;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:bold;cursor:pointer;">ÁP DỤNG</button>
+            <div class="voucher-section">
+                <div class="voucher-row">
+                    <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" />
+                    <button id="btnApplyVoucher">ÁP DỤNG</button>
                 </div>
-                <div id="voucherStatus" style="color:#88c8d8;font-size:13px;margin-top:6px;">💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)</div>
+                <div id="voucherStatus" class="voucher-status">💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)</div>
             </div>
         </div>
 
@@ -691,17 +741,15 @@
             <div class="card">
                 <h2>💳 NẠP TIỀN</h2>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">
-                    Chuyển khoản đến số tài khoản bên dưới và nhập mã nạp tiền để xác nhận
+                    Quét mã QR bên dưới để chuyển khoản, nhập mã nạp tiền để xác nhận
                 </p>
 
-                <!-- QR CODE -->
                 <div class="qr-container">
-                    <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=0865561731&choe=UTF-8" alt="QR Code" />
+                    <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=0865561731&choe=UTF-8" alt="QR ZaloPay" />
                     <div class="qr-code">TSAN QUANG PHUC</div>
-                    <div style="color:#000;font-size:13px;">BIDV - 0865561731</div>
+                    <div class="qr-label">💚 ZaloPay - 0865561731</div>
                 </div>
 
-                <!-- MÃ NẠP TIỀN NGẪU NHIÊN -->
                 <div class="nap-code">
                     <div class="label">📌 MÃ NẠP TIỀN</div>
                     <div class="code" id="napCodeDisplay">Đang tạo...</div>
@@ -831,7 +879,7 @@
         const voucherStatus = document.getElementById('voucherStatus');
         const napCodeDisplay = document.getElementById('napCodeDisplay');
 
-        // ======= TẠO MÃ NẠP TIỀN NGẪU NHIÊN =======
+        // ======= TẠO MÃ NẠP TIỀN =======
         function generateNapCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = 'NAP-';
@@ -843,7 +891,7 @@
 
         function refreshNapCode() {
             currentNapCode = generateNapCode();
-            napCodeDisplay.textContent = currentNapCode;
+            if (napCodeDisplay) napCodeDisplay.textContent = currentNapCode;
         }
 
         function copyNapCode() {
@@ -854,7 +902,6 @@
             navigator.clipboard.writeText(currentNapCode).then(() => {
                 alert('✅ Đã sao chép mã: ' + currentNapCode);
             }).catch(() => {
-                // Fallback
                 const textarea = document.createElement('textarea');
                 textarea.value = currentNapCode;
                 document.body.appendChild(textarea);
@@ -872,7 +919,6 @@
                 users.push(ADMIN_ACCOUNT);
                 localStorage.setItem('users', JSON.stringify(users));
             }
-            
             if (currentUser) {
                 const updatedUser = users.find(u => u.username === currentUser.username);
                 if (updatedUser) {
@@ -880,7 +926,6 @@
                     currentUser.voucherUsed = updatedUser.voucherUsed || false;
                 }
             }
-            
             renderAdmin();
             updateUI();
             alert('✅ Đã tải lại dữ liệu mới nhất!');
@@ -894,26 +939,26 @@
                 const roleText = u.role === 'admin' ? 'Admin' : 'User';
                 const voucherText = u.voucherUsed ? 'Đã dùng' : 'Chưa dùng';
                 html += `
-                    <div class="user-item">
-                        <div class="user-row">
-                            <div><strong>${u.username}</strong></div>
-                            <div>
-                                <span class="user-balance">${(u.balance || 0).toLocaleString()}đ</span>
-                                <span class="user-role ${roleClass}">${roleText}</span>
+                        <div class="user-item">
+                            <div class="user-row">
+                                <div><strong>${u.username}</strong></div>
+                                <div>
+                                    <span class="user-balance">${(u.balance || 0).toLocaleString()}đ</span>
+                                    <span class="user-role ${roleClass}">${roleText}</span>
+                                </div>
                             </div>
+                            <div style="color:#88c8d8;font-size:12px;margin-top:4px;">
+                                Voucher: ${voucherText}
+                            </div>
+                            ${u.role !== 'admin' ? `
+                            <div class="user-actions">
+                                <input type="number" id="amount_${u.username}" placeholder="Số tiền" style="width:80px;" />
+                                <button class="btn-add-money" onclick="adminAddMoney('${u.username}')">+ Thêm</button>
+                                <button class="btn-sub-money" onclick="adminSubMoney('${u.username}')">- Trừ</button>
+                            </div>
+                            ` : ''}
                         </div>
-                        <div style="color:#88c8d8;font-size:12px;margin-top:4px;">
-                            Voucher: ${voucherText}
-                        </div>
-                        ${u.role !== 'admin' ? `
-                        <div class="user-actions">
-                            <input type="number" id="amount_${u.username}" placeholder="Số tiền" style="width:80px;" />
-                            <button class="btn-add-money" onclick="adminAddMoney('${u.username}')">+ Thêm</button>
-                            <button class="btn-sub-money" onclick="adminSubMoney('${u.username}')">- Trừ</button>
-                        </div>
-                        ` : ''}
-                    </div>
-                `;
+                    `;
             });
             userList.innerHTML = html;
         }
@@ -926,17 +971,14 @@
                 alert('⚠️ Vui lòng nhập số tiền hợp lệ!');
                 return;
             }
-
             users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username);
             if (user) {
                 user.balance = (user.balance || 0) + amount;
                 localStorage.setItem('users', JSON.stringify(users));
-
                 if (currentUser && currentUser.username === username) {
                     currentUser.balance = user.balance;
                 }
-
                 if (currentUser) {
                     history.push({
                         type: `Admin cộng tiền cho ${username}`,
@@ -946,7 +988,6 @@
                         status: 'approved'
                     });
                 }
-
                 alert(`✅ Đã cộng ${amount.toLocaleString()}đ vào tài khoản ${username}`);
                 input.value = '';
                 renderAdmin();
@@ -962,7 +1003,6 @@
                 alert('⚠️ Vui lòng nhập số tiền hợp lệ!');
                 return;
             }
-
             users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username);
             if (user) {
@@ -972,11 +1012,9 @@
                 }
                 user.balance = (user.balance || 0) - amount;
                 localStorage.setItem('users', JSON.stringify(users));
-
                 if (currentUser && currentUser.username === username) {
                     currentUser.balance = user.balance;
                 }
-
                 if (currentUser) {
                     history.push({
                         type: `Admin trừ tiền của ${username}`,
@@ -986,7 +1024,6 @@
                         status: 'approved'
                     });
                 }
-
                 alert(`✅ Đã trừ ${amount.toLocaleString()}đ của tài khoản ${username}`);
                 input.value = '';
                 renderAdmin();
@@ -1004,15 +1041,15 @@
             let html = '';
             filtered.forEach(p => {
                 html += `
-                    <div class="product">
-                        <div class="info">
-                            <h3>${p.name}</h3>
-                            <span class="tag">Sản phẩm kỹ thuật số</span>
+                        <div class="product">
+                            <div class="info">
+                                <h3>${p.name}</h3>
+                                <span class="tag">Sản phẩm kỹ thuật số</span>
+                            </div>
+                            <div class="price">${p.price.toLocaleString()}đ</div>
+                            <button class="btn-buy" data-id="${p.id}">MUA NGAY</button>
                         </div>
-                        <div class="price">${p.price.toLocaleString()}đ</div>
-                        <button class="btn-buy" data-id="${p.id}">MUA NGAY</button>
-                    </div>
-                `;
+                    `;
             });
             productList.innerHTML = html;
 
@@ -1088,18 +1125,18 @@
         function updateVoucherStatus() {
             if (!currentUser) {
                 voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
-                voucherStatus.style.color = '#88c8d8';
+                voucherStatus.className = 'voucher-status';
                 return;
             }
             if (currentUser.voucherUsed) {
                 voucherStatus.textContent = '❌ Bạn đã sử dụng voucher rồi! Chỉ áp dụng 1 lần.';
-                voucherStatus.style.color = '#ff4444';
+                voucherStatus.className = 'voucher-status used';
             } else if (voucherApplied) {
                 voucherStatus.textContent = '✅ Đã áp dụng voucher! Giảm 20% cho đơn hàng này.';
-                voucherStatus.style.color = '#4caf50';
+                voucherStatus.className = 'voucher-status active';
             } else {
                 voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
-                voucherStatus.style.color = '#88c8d8';
+                voucherStatus.className = 'voucher-status';
             }
         }
 
@@ -1114,16 +1151,16 @@
                 let html = '';
                 pending.forEach(o => {
                     html += `
-                        <div class="order-item">
-                            <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ ${o.voucherUsed ? '🎫 -20%' : ''}</div>
-                            <div>👤 ${o.user}</div>
-                            <div class="date">${o.date}</div>
-                            <div class="key-input">
-                                <input type="text" class="keyInput" placeholder="Nhập key (VD: admin139383)" />
-                                <button class="btn-approve-order" data-id="${o.id}">✅ Duyệt + Gửi Key</button>
+                            <div class="order-item">
+                                <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ ${o.voucherUsed ? '🎫 -20%' : ''}</div>
+                                <div>👤 ${o.user}</div>
+                                <div class="date">${o.date}</div>
+                                <div class="key-input">
+                                    <input type="text" class="keyInput" placeholder="Nhập key (VD: admin139383)" />
+                                    <button class="btn-approve-order" data-id="${o.id}">✅ Duyệt + Gửi Key</button>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                 });
                 adminOrders.innerHTML = html;
 
@@ -1168,14 +1205,14 @@
                 let html = '';
                 pendingNapList.forEach(n => {
                     html += `
-                        <div class="nap-item">
-                            <div><strong>${n.amount.toLocaleString()}đ</strong></div>
-                            <div>👤 ${n.user}</div>
-                            <div class="date">${n.date}</div>
-                            <div style="color:#88c8d8;font-size:12px;">Mã: ${n.code || 'Không có'}</div>
-                            <button class="btn-approve-nap" data-id="${n.id}">✅ Duyệt nạp</button>
-                        </div>
-                    `;
+                            <div class="nap-item">
+                                <div><strong>${n.amount.toLocaleString()}đ</strong></div>
+                                <div>👤 ${n.user}</div>
+                                <div style="color:#88c8d8;font-size:12px;">Mã: ${n.code || 'Không có'}</div>
+                                <div class="date">${n.date}</div>
+                                <button class="btn-approve-nap" data-id="${n.id}">✅ Duyệt nạp</button>
+                            </div>
+                        `;
                 });
                 adminNap.innerHTML = html;
 
@@ -1185,17 +1222,17 @@
                         const nap = pendingNap.find(n => n.id === id);
                         if (nap) {
                             nap.status = 'approved';
-                            
+
                             users = JSON.parse(localStorage.getItem('users')) || [];
                             const user = users.find(u => u.username === nap.user);
                             if (user) {
                                 user.balance = (user.balance || 0) + nap.amount;
                                 localStorage.setItem('users', JSON.stringify(users));
-                                
+
                                 if (currentUser && currentUser.username === nap.user) {
                                     currentUser.balance = user.balance;
                                 }
-                                
+
                                 history.push({
                                     type: 'Nạp tiền (đã duyệt)',
                                     product: '',
@@ -1203,7 +1240,7 @@
                                     date: new Date().toLocaleString(),
                                     status: 'approved'
                                 });
-                                
+
                                 alert(`✅ Đã duyệt nạp ${nap.amount.toLocaleString()}đ cho ${nap.user}`);
                                 renderAdmin();
                                 updateUI();
@@ -1271,15 +1308,15 @@
                 }
 
                 html += `
-                    <div class="history-item">
-                        <div><strong>${item.type}</strong> - ${item.product || ''} ${discountDisplay} ${statusBadge}</div>
-                        <div style="color:${item.amount >= 0 ? '#4caf50' : '#ff6a00'};">
-                            ${sign}${item.amount.toLocaleString()}đ
+                        <div class="history-item">
+                            <div><strong>${item.type}</strong> - ${item.product || ''} ${discountDisplay} ${statusBadge}</div>
+                            <div style="color:${item.amount >= 0 ? '#4caf50' : '#ff6a00'};">
+                                ${sign}${item.amount.toLocaleString()}đ
+                            </div>
+                            <div class="date">${item.date}</div>
+                            ${keyDisplay}
                         </div>
-                        <div class="date">${item.date}</div>
-                        ${keyDisplay}
-                    </div>
-                `;
+                    `;
             });
             historyList.innerHTML = html;
         }
@@ -1462,7 +1499,6 @@
                 status: 'pending'
             });
 
-            // Tạo mã mới cho lần sau
             refreshNapCode();
 
             updateUI();
@@ -1480,4 +1516,4 @@
     </script>
 
 </body>
-    </html>
+                        </html>
