@@ -103,6 +103,7 @@
         .product .info h3 {
             font-size: 16px;
             margin-bottom: 4px;
+            color: #fff;
         }
 
         .product .info .tag {
@@ -301,12 +302,59 @@
             color: #fff;
         }
 
+        .badge-delivered {
+            background: #2196f3;
+            color: #fff;
+        }
+
         .admin-only {
             display: none;
         }
 
         .admin-only.show {
             display: block;
+        }
+
+        .key-display {
+            background: #0a0a0a;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ff6a00;
+            color: #ffd700;
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 6px;
+            word-break: break-all;
+        }
+
+        .order-item .key-input {
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .order-item .key-input input {
+            flex: 1;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #111;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .order-item .key-input button {
+            padding: 6px 14px;
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .order-item .key-input button:hover {
+            background: #e05e00;
         }
     </style>
 </head>
@@ -326,9 +374,9 @@
         <div id="page-home" class="page active">
             <div class="category" id="categoryFilter">
                 <button class="active" data-cat="all">📦 Tất cả</button>
+                <button data-cat="aim">Aim Lock</button>
                 <button data-cat="menu">Menu</button>
                 <button data-cat="proxy">Proxy</button>
-                <button data-cat="aim">Aim Lock</button>
                 <button data-cat="ac">AC CLON</button>
                 <button data-cat="dv">ĐV + Xuyên keo</button>
             </div>
@@ -449,7 +497,6 @@
         const historyList = document.getElementById('historyList');
         const adminOrders = document.getElementById('adminOrders');
         const adminNap = document.getElementById('adminNap');
-        const navAdmin = document.getElementById('navAdmin');
 
         // ======= RENDER SẢN PHẨM =======
         function renderProducts(cat) {
@@ -473,7 +520,6 @@
             });
             productList.innerHTML = html;
 
-            // Gán sự kiện cho nút mua
             document.querySelectorAll('.btn-buy').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -497,7 +543,8 @@
                         price: product.price,
                         user: currentUser.name,
                         date: new Date().toLocaleString(),
-                        status: 'pending'
+                        status: 'pending',
+                        key: null
                     };
                     pendingOrders.push(order);
 
@@ -506,7 +553,8 @@
                         product: product.name,
                         amount: -product.price,
                         date: new Date().toLocaleString(),
-                        status: 'pending'
+                        status: 'pending',
+                        key: null
                     });
 
                     updateUI();
@@ -530,11 +578,49 @@
                             <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ</div>
                             <div>👤 ${o.user}</div>
                             <div class="date">${o.date}</div>
-                            <button class="btn-approve" data-type="order" data-id="${o.id}">✅ Duyệt đơn</button>
+                            <div class="key-input">
+                                <input type="text" class="keyInput" placeholder="Nhập key (VD: admin139383)" />
+                                <button class="btn-approve-order" data-id="${o.id}">✅ Duyệt + Gửi Key</button>
+                            </div>
                         </div>
                     `;
                 });
                 adminOrders.innerHTML = html;
+
+                // Gán sự kiện duyệt đơn + key
+                document.querySelectorAll('.btn-approve-order').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const order = pendingOrders.find(o => o.id === id);
+                        if (!order) return;
+
+                        const keyInput = this.closest('.order-item').querySelector('.keyInput');
+                        const key = keyInput.value.trim();
+
+                        if (!key) {
+                            alert('⚠️ Vui lòng nhập key trước khi duyệt!');
+                            return;
+                        }
+
+                        order.status = 'delivered';
+                        order.key = key;
+
+                        // Cập nhật lịch sử
+                        const hist = history.find(h =>
+                            h.type === 'Mua key (chờ duyệt)' &&
+                            h.product === order.product &&
+                            h.amount === -order.price
+                        );
+                        if (hist) {
+                            hist.status = 'delivered';
+                            hist.key = key;
+                        }
+
+                        alert(`✅ Đã duyệt đơn: ${order.product}\n🔑 Key: ${key}`);
+                        renderAdmin();
+                        updateUI();
+                    });
+                });
             }
 
             // Nap
@@ -549,34 +635,15 @@
                             <div><strong>${n.amount.toLocaleString()}đ</strong></div>
                             <div>👤 ${n.user}</div>
                             <div class="date">${n.date}</div>
-                            <button class="btn-approve" data-type="nap" data-id="${n.id}">✅ Duyệt nạp</button>
+                            <button class="btn-approve-nap" data-id="${n.id}">✅ Duyệt nạp</button>
                         </div>
                     `;
                 });
                 adminNap.innerHTML = html;
-            }
 
-            // Gán sự kiện cho nút duyệt
-            document.querySelectorAll('.btn-approve').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const type = this.dataset.type;
-                    const id = parseInt(this.dataset.id);
-
-                    if (type === 'order') {
-                        const order = pendingOrders.find(o => o.id === id);
-                        if (order) {
-                            order.status = 'approved';
-                            const hist = history.find(h =>
-                                h.type === 'Mua key (chờ duyệt)' &&
-                                h.product === order.product &&
-                                h.amount === -order.price
-                            );
-                            if (hist) hist.status = 'approved';
-                            alert(`✅ Đã duyệt đơn hàng: ${order.product}`);
-                            renderAdmin();
-                            updateUI();
-                        }
-                    } else if (type === 'nap') {
+                document.querySelectorAll('.btn-approve-nap').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
                         const nap = pendingNap.find(n => n.id === id);
                         if (nap) {
                             nap.status = 'approved';
@@ -595,9 +662,9 @@
                             renderAdmin();
                             updateUI();
                         }
-                    }
+                    });
                 });
-            });
+            }
         }
 
         // ======= CẬP NHẬT UI =======
@@ -636,11 +703,20 @@
             let html = '';
             history.slice().reverse().forEach(item => {
                 const sign = item.amount >= 0 ? '+' : '';
-                const statusBadge = item.status === 'pending' ?
-                    '<span class="badge badge-pending">Chờ duyệt</span>' :
-                    item.status === 'approved' ?
-                    '<span class="badge badge-approved">Đã duyệt</span>' :
-                    '';
+                let statusBadge = '';
+                let keyDisplay = '';
+
+                if (item.status === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">⏳ Chờ duyệt</span>';
+                } else if (item.status === 'delivered') {
+                    statusBadge = '<span class="badge badge-delivered">✅ Đã giao</span>';
+                    if (item.key) {
+                        keyDisplay = `<div class="key-display">🔑 Key: ${item.key}</div>`;
+                    }
+                } else if (item.status === 'approved') {
+                    statusBadge = '<span class="badge badge-approved">✅ Đã duyệt</span>';
+                }
+
                 html += `
                     <div class="history-item">
                         <div><strong>${item.type}</strong> - ${item.product || ''} ${statusBadge}</div>
@@ -648,6 +724,7 @@
                             ${sign}${item.amount.toLocaleString()}đ
                         </div>
                         <div class="date">${item.date}</div>
+                        ${keyDisplay}
                     </div>
                 `;
             });
@@ -665,7 +742,6 @@
         }
 
         // ======= SỰ KIỆN =======
-        // Chuyển trang bottom nav
         document.querySelectorAll('.bottom-nav button').forEach(btn => {
             btn.addEventListener('click', function() {
                 const page = this.dataset.page;
