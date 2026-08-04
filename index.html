@@ -176,17 +176,6 @@
             white-space: nowrap;
         }
 
-        .product .price .original-price {
-            font-size: 12px;
-            color: #888;
-            text-decoration: line-through;
-            margin-right: 4px;
-        }
-
-        .product .price .discount-price {
-            color: #ff6a00;
-        }
-
         .product .btn-buy {
             background: #00bcd4;
             color: #fff;
@@ -202,16 +191,6 @@
 
         .product .btn-buy:hover {
             background: #0097a7;
-        }
-
-        .product .discount-badge {
-            background: #ff6a00;
-            color: #fff;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-            margin-left: 6px;
         }
 
         .card {
@@ -611,6 +590,15 @@
 
             <div class="section-title">SẢN PHẨM</div>
             <div id="productList" class="product-list"></div>
+
+            <!-- ===== NHẬP MÃ GIẢM GIÁ ===== -->
+            <div style="margin-top:12px;background:#1a3a4a;border:1px solid #00bcd4;border-radius:8px;padding:12px;">
+                <div style="display:flex;gap:8px;">
+                    <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" style="flex:1;padding:8px 12px;border-radius:6px;border:1px solid #444;background:#111;color:#fff;font-size:14px;" />
+                    <button id="btnApplyVoucher" style="background:#00bcd4;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:bold;cursor:pointer;">ÁP DỤNG</button>
+                </div>
+                <div id="voucherStatus" style="color:#88c8d8;font-size:13px;margin-top:6px;">💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)</div>
+            </div>
         </div>
 
         <!-- ===== TRANG ADMIN ===== -->
@@ -743,7 +731,9 @@
         let orderCounter = 1;
         let napCounter = 1;
         let currentCategory = 'aim';
-        let discountPercent = 20; // 20%
+        let discountPercent = 20;
+        let voucherCode = 'Admin_hi_51580';
+        let voucherApplied = false;
 
         // ======= DOM =======
         const productList = document.getElementById('productList');
@@ -763,6 +753,7 @@
         const loginPass = document.getElementById('loginPass');
         const loginError = document.getElementById('loginError');
         const loginSuccess = document.getElementById('loginSuccess');
+        const voucherStatus = document.getElementById('voucherStatus');
 
         // ======= HÀM TẢI LẠI ADMIN =======
         window.reloadAdmin = function() {
@@ -902,17 +893,13 @@
             }
             let html = '';
             filtered.forEach(p => {
-                const discountedPrice = Math.round(p.price * (1 - discountPercent / 100));
                 html += `
                     <div class="product">
                         <div class="info">
-                            <h3>${p.name} <span class="discount-badge">-20%</span></h3>
+                            <h3>${p.name}</h3>
                             <span class="tag">Sản phẩm kỹ thuật số</span>
                         </div>
-                        <div class="price">
-                            <span class="original-price">${p.price.toLocaleString()}đ</span>
-                            <span class="discount-price">${discountedPrice.toLocaleString()}đ</span>
-                        </div>
+                        <div class="price">${p.price.toLocaleString()}đ</div>
                         <button class="btn-buy" data-id="${p.id}">MUA NGAY</button>
                     </div>
                 `;
@@ -931,14 +918,11 @@
                         return;
                     }
 
-                    // Kiểm tra voucher - tự động áp dụng nếu chưa dùng
-                    const user = users.find(u => u.username === currentUser.username);
                     let finalPrice = product.price;
-                    let useVoucher = false;
+                    let useVoucher = voucherApplied && !currentUser.voucherUsed;
 
-                    if (user && !user.voucherUsed) {
+                    if (useVoucher) {
                         finalPrice = Math.round(product.price * (1 - discountPercent / 100));
-                        useVoucher = true;
                     }
 
                     if (currentUser.balance < finalPrice) {
@@ -946,7 +930,6 @@
                         return;
                     }
 
-                    // Trừ tiền
                     currentUser.balance -= finalPrice;
                     const userInList = users.find(u => u.username === currentUser.username);
                     if (userInList) {
@@ -954,6 +937,8 @@
                         if (useVoucher) {
                             userInList.voucherUsed = true;
                             currentUser.voucherUsed = true;
+                            voucherApplied = false;
+                            updateVoucherStatus();
                         }
                         localStorage.setItem('users', JSON.stringify(users));
                     }
@@ -987,6 +972,25 @@
                     alert(`⏳ Đã tạo đơn mua: ${product.name}\nSố tiền: ${finalPrice.toLocaleString()}đ${useVoucher ? ' (đã giảm 20%)' : ''}\nVui lòng chờ admin duyệt!`);
                 });
             });
+        }
+
+        // ======= CẬP NHẬT TRẠNG THÁI VOUCHER =======
+        function updateVoucherStatus() {
+            if (!currentUser) {
+                voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
+                voucherStatus.style.color = '#88c8d8';
+                return;
+            }
+            if (currentUser.voucherUsed) {
+                voucherStatus.textContent = '❌ Bạn đã sử dụng voucher rồi! Chỉ áp dụng 1 lần.';
+                voucherStatus.style.color = '#ff4444';
+            } else if (voucherApplied) {
+                voucherStatus.textContent = '✅ Đã áp dụng voucher! Giảm 20% cho đơn hàng này.';
+                voucherStatus.style.color = '#4caf50';
+            } else {
+                voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
+                voucherStatus.style.color = '#88c8d8';
+            }
         }
 
         // ======= RENDER ADMIN =======
@@ -1128,6 +1132,7 @@
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('show'));
             }
             renderHistory();
+            updateVoucherStatus();
         }
 
         // ======= RENDER LỊCH SỬ =======
@@ -1277,42 +1282,38 @@
             if (confirm('Bạn muốn đăng xuất?')) {
                 currentUser = null;
                 history = [];
+                voucherApplied = false;
                 updateUI();
                 renderProducts(currentCategory);
                 switchPage('page-home');
             }
         }
 
-        // ======= SỰ KIỆN =======
-        document.querySelectorAll('.bottom-nav button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const page = this.dataset.page;
-                if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
-                    alert('⚠️ Bạn không có quyền truy cập trang Admin!');
-                    return;
-                }
-                switchPage(page);
-            });
-        });
-
-        categoryFilter.addEventListener('click', function(e) {
-            if (e.target.tagName === 'BUTTON') {
-                document.querySelectorAll('.category-grid button').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentCategory = e.target.dataset.cat;
-                renderProducts(currentCategory);
+        // ======= ÁP DỤNG VOUCHER =======
+        document.getElementById('btnApplyVoucher').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('⚠️ Vui lòng đăng nhập trước!');
+                return;
+            }
+            if (currentUser.voucherUsed) {
+                alert('❌ Bạn đã sử dụng voucher rồi! Chỉ áp dụng 1 lần.');
+                return;
+            }
+            const code = document.getElementById('voucherInput').value.trim();
+            if (code === voucherCode) {
+                voucherApplied = true;
+                updateVoucherStatus();
+                alert('✅ Đã áp dụng mã giảm giá 20%!');
+                document.getElementById('voucherInput').value = '';
+            } else {
+                alert('❌ Mã giảm giá không hợp lệ!');
             }
         });
 
-        document.getElementById('btnLogin').addEventListener('click', handleLogin);
-        document.getElementById('btnRegister').addEventListener('click', handleRegister);
-        document.getElementById('btnLogout').addEventListener('click', handleLogout);
-
-        loginPass.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') handleLogin();
-        });
-        loginUser.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') handleLogin();
+        document.getElementById('voucherInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('btnApplyVoucher').click();
+            }
         });
 
         // ===== NẠP TIỀN =====
