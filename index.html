@@ -167,6 +167,10 @@
             font-size: 14px;
         }
 
+        .card input::placeholder {
+            color: #666;
+        }
+
         .card button {
             background: #ff6a00;
             color: #fff;
@@ -350,6 +354,10 @@
             font-size: 13px;
         }
 
+        .order-item .key-input input::placeholder {
+            color: #666;
+        }
+
         .order-item .key-input button {
             padding: 6px 14px;
             background: #ff6a00;
@@ -362,6 +370,20 @@
 
         .order-item .key-input button:hover {
             background: #e05e00;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #4caf50;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
         }
     </style>
 </head>
@@ -445,10 +467,21 @@
                     <p><strong>Trạng thái:</strong> <span id="pStatus">Chưa đăng nhập</span></p>
                     <p><strong>Vai trò:</strong> <span id="pRole">Khách</span></p>
                 </div>
-                <div class="row-btns" style="margin-top:12px;">
-                    <button id="btnLogin">ĐĂNG NHẬP</button>
-                    <button id="btnLogout" class="btn-outline">ĐĂNG XUẤT</button>
+
+                <!-- Form đăng nhập / đăng ký -->
+                <div style="margin-top:16px;border-top:1px solid #333;padding-top:16px;">
+                    <input type="text" id="loginUser" placeholder="Tên đăng nhập" />
+                    <input type="password" id="loginPass" placeholder="Mật khẩu" />
+                    <div class="row-btns">
+                        <button id="btnLogin">ĐĂNG NHẬP</button>
+                        <button id="btnRegister" class="btn-outline">ĐĂNG KÝ</button>
+                    </div>
+                    <div id="loginError" class="error-msg"></div>
+                    <div id="loginSuccess" class="success-msg"></div>
                 </div>
+
+                <button id="btnLogout" class="btn-outline" style="margin-top:12px;">ĐĂNG XUẤT</button>
+
                 <div style="margin-top:10px;">
                     <input type="text" id="voucherInput" placeholder="Nhập mã voucher" style="width:70%;display:inline;" />
                     <button id="btnVoucher" style="width:28%;display:inline;">ÁP DỤNG</button>
@@ -467,39 +500,44 @@
     </div>
 
     <script>
-        // ======= DỮ LIỆU SẢN PHẨM =======
+        // ======= DỮ LIỆU =======
         const products = [
-            // AC CLON
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
-
-            // ĐV + Xuyên keo
             { id: 2, name: 'ĐV + Nhìn xuyên keo IOS', cat: 'dv', price: 30000 },
-
-            // Menu IOS
             { id: 3, name: 'Menu IOS 1 giờ', cat: 'menu-ios', price: 10000 },
             { id: 4, name: 'Menu IOS 7 ngày', cat: 'menu-ios', price: 150000 },
             { id: 5, name: 'Menu IOS 30 ngày', cat: 'menu-ios', price: 300000 },
-
-            // Menu ADR
             { id: 6, name: 'Menu ADR 7 ngày', cat: 'menu-adr', price: 150000 },
             { id: 7, name: 'Menu ADR 30 ngày', cat: 'menu-adr', price: 300000 },
-
-            // Proxy ADR
             { id: 8, name: 'Key Proxy ADR 1 ngày', cat: 'proxy-adr', price: 25000 },
             { id: 9, name: 'Key Proxy ADR 7 ngày', cat: 'proxy-adr', price: 80000 },
             { id: 10, name: 'Key Proxy ADR 30 ngày', cat: 'proxy-adr', price: 250000 },
-
-            // Proxy IOS
             { id: 11, name: 'Key Proxy IOS 1 ngày', cat: 'proxy-ios', price: 25000 },
             { id: 12, name: 'Key Proxy IOS 7 ngày', cat: 'proxy-ios', price: 80000 },
             { id: 13, name: 'Key Proxy IOS 30 ngày', cat: 'proxy-ios', price: 250000 },
             { id: 14, name: 'Key Proxy IOS 60 ngày', cat: 'proxy-ios', price: 450000 },
-
-            // Aim Lock
             { id: 15, name: 'Aim Lock V1', cat: 'aim', price: 50000 },
             { id: 16, name: 'Aim Lock V2', cat: 'aim', price: 100000 },
             { id: 17, name: 'Aim Lock V3', cat: 'aim', price: 200000 },
         ];
+
+        // ======= TÀI KHOẢN =======
+        // Admin cố định
+        const ADMIN_ACCOUNT = {
+            username: 'Admin',
+            password: 'Phc51580',
+            role: 'admin',
+            balance: 0
+        };
+
+        // Lưu danh sách user (lưu trong localStorage)
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Thêm admin vào danh sách nếu chưa có
+        if (!users.find(u => u.username === ADMIN_ACCOUNT.username)) {
+            users.push(ADMIN_ACCOUNT);
+            localStorage.setItem('users', JSON.stringify(users));
+        }
 
         // ======= STATE =======
         let currentUser = null;
@@ -522,6 +560,10 @@
         const historyList = document.getElementById('historyList');
         const adminOrders = document.getElementById('adminOrders');
         const adminNap = document.getElementById('adminNap');
+        const loginUser = document.getElementById('loginUser');
+        const loginPass = document.getElementById('loginPass');
+        const loginError = document.getElementById('loginError');
+        const loginSuccess = document.getElementById('loginSuccess');
 
         // ======= RENDER SẢN PHẨM =======
         function renderProducts(cat) {
@@ -566,7 +608,7 @@
                         id: orderCounter++,
                         product: product.name,
                         price: product.price,
-                        user: currentUser.name,
+                        user: currentUser.username,
                         date: new Date().toLocaleString(),
                         status: 'pending',
                         key: null
@@ -668,7 +710,7 @@
                         const nap = pendingNap.find(n => n.id === id);
                         if (nap) {
                             nap.status = 'approved';
-                            if (currentUser && currentUser.name === nap.user) {
+                            if (currentUser && currentUser.username === nap.user) {
                                 currentUser.balance += nap.amount;
                                 history.push({
                                     type: 'Nạp tiền (đã duyệt)',
@@ -691,12 +733,12 @@
         // ======= CẬP NHẬT UI =======
         function updateUI() {
             if (currentUser) {
-                userName.textContent = currentUser.name;
+                userName.textContent = currentUser.username;
                 userBalance.textContent = currentUser.balance.toLocaleString() + 'đ';
-                pName.textContent = currentUser.name;
+                pName.textContent = currentUser.username;
                 pBalance.textContent = currentUser.balance.toLocaleString() + 'đ';
                 pStatus.textContent = 'Đã đăng nhập';
-                pRole.textContent = currentUser.role || 'Khách';
+                pRole.textContent = currentUser.role || 'User';
 
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.add('show'));
@@ -762,6 +804,107 @@
             if (navBtn) navBtn.classList.add('active');
         }
 
+        // ======= ĐĂNG NHẬP / ĐĂNG KÝ =======
+        function handleLogin() {
+            const username = loginUser.value.trim();
+            const password = loginPass.value.trim();
+
+            loginError.style.display = 'none';
+            loginSuccess.style.display = 'none';
+
+            if (!username || !password) {
+                loginError.textContent = '⚠️ Vui lòng nhập đầy đủ tên và mật khẩu!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            // Tìm user
+            const user = users.find(u => u.username === username && u.password === password);
+            if (!user) {
+                loginError.textContent = '❌ Sai tên đăng nhập hoặc mật khẩu!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            // Đăng nhập thành công
+            currentUser = {
+                username: user.username,
+                password: user.password,
+                role: user.role || 'user',
+                balance: user.balance || 0
+            };
+            history = [];
+            loginUser.value = '';
+            loginPass.value = '';
+            loginSuccess.textContent = `✅ Chào mừng ${currentUser.username}!`;
+            loginSuccess.style.display = 'block';
+
+            updateUI();
+            renderProducts(currentCategory);
+            renderAdmin();
+            alert(`✅ Chào mừng ${currentUser.username}!${currentUser.role === 'admin' ? ' (Admin)' : ''}`);
+            switchPage('page-home');
+        }
+
+        function handleRegister() {
+            const username = loginUser.value.trim();
+            const password = loginPass.value.trim();
+
+            loginError.style.display = 'none';
+            loginSuccess.style.display = 'none';
+
+            if (!username || !password) {
+                loginError.textContent = '⚠️ Vui lòng nhập đầy đủ tên và mật khẩu!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            if (username.length < 3) {
+                loginError.textContent = '⚠️ Tên đăng nhập phải có ít nhất 3 ký tự!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 4) {
+                loginError.textContent = '⚠️ Mật khẩu phải có ít nhất 4 ký tự!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            // Kiểm tra tên đã tồn tại
+            if (users.find(u => u.username === username)) {
+                loginError.textContent = '❌ Tên đăng nhập đã tồn tại!';
+                loginError.style.display = 'block';
+                return;
+            }
+
+            // Tạo tài khoản mới
+            const newUser = {
+                username: username,
+                password: password,
+                role: 'user',
+                balance: 0
+            };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            loginSuccess.textContent = `✅ Đăng ký thành công! Vui lòng đăng nhập.`;
+            loginSuccess.style.display = 'block';
+            loginUser.value = '';
+            loginPass.value = '';
+        }
+
+        function handleLogout() {
+            if (!currentUser) return alert('Bạn chưa đăng nhập!');
+            if (confirm('Bạn muốn đăng xuất?')) {
+                currentUser = null;
+                history = [];
+                updateUI();
+                renderProducts(currentCategory);
+                switchPage('page-home');
+            }
+        }
+
         // ======= SỰ KIỆN =======
         document.querySelectorAll('.bottom-nav button').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -774,7 +917,6 @@
             });
         });
 
-        // Lọc danh mục
         categoryFilter.addEventListener('click', function(e) {
             if (e.target.tagName === 'BUTTON') {
                 document.querySelectorAll('.category button').forEach(b => b.classList.remove('active'));
@@ -784,35 +926,16 @@
             }
         });
 
-        // Đăng nhập
-        document.getElementById('btnLogin').addEventListener('click', function() {
-            const name = prompt('👤 Nhập tên đăng nhập:');
-            if (name && name.trim()) {
-                const isAdmin = name.trim().toLowerCase() === 'admin';
-                currentUser = {
-                    name: name.trim(),
-                    balance: 0,
-                    role: isAdmin ? 'admin' : 'user'
-                };
-                history = [];
-                updateUI();
-                renderProducts(currentCategory);
-                renderAdmin();
-                alert(`✅ Chào mừng ${currentUser.name}!${isAdmin ? ' (Admin)' : ''}`);
-                switchPage('page-home');
-            }
-        });
+        document.getElementById('btnLogin').addEventListener('click', handleLogin);
+        document.getElementById('btnRegister').addEventListener('click', handleRegister);
+        document.getElementById('btnLogout').addEventListener('click', handleLogout);
 
-        // Đăng xuất
-        document.getElementById('btnLogout').addEventListener('click', function() {
-            if (!currentUser) return alert('Bạn chưa đăng nhập!');
-            if (confirm('Bạn muốn đăng xuất?')) {
-                currentUser = null;
-                history = [];
-                updateUI();
-                renderProducts(currentCategory);
-                switchPage('page-home');
-            }
+        // Enter để đăng nhập
+        loginPass.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') handleLogin();
+        });
+        loginUser.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') handleLogin();
         });
 
         // Nạp tiền
@@ -830,7 +953,7 @@
             const napReq = {
                 id: napCounter++,
                 amount: amount,
-                user: currentUser.name,
+                user: currentUser.username,
                 date: new Date().toLocaleString(),
                 status: 'pending'
             };
@@ -866,7 +989,7 @@
                 const napReq = {
                     id: napCounter++,
                     amount: 50000,
-                    user: currentUser.name,
+                    user: currentUser.username,
                     date: new Date().toLocaleString(),
                     status: 'pending',
                     isVoucher: true
@@ -895,4 +1018,4 @@
     </script>
 
 </body>
-</html>
+    </html>
