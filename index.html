@@ -2,100 +2,243 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADMIN HI STORE</title>
 
-<link rel="stylesheet" href="css/style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/app.js"></script>
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#07111d;
+color:#fff;
+}
+
+header{
+padding:18px;
+text-align:center;
+background:#0d1724;
+border-bottom:2px solid #18d6ff;
+}
+
+header h1{
+color:#18d6ff;
+font-size:28px;
+}
+
+header p{
+color:#8fa7bd;
+margin-top:5px;
+}
+
+.user-box{
+margin:15px;
+background:#101b2a;
+padding:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.user-info{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.avatar{
+width:55px;
+height:55px;
+border-radius:50%;
+background:#18d6ff;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+}
+
+.money{
+font-size:22px;
+font-weight:bold;
+color:#00ff99;
+}
+
+.category{
+margin:15px;
+}
+
+.category h2{
+margin-bottom:12px;
+color:#18d6ff;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.item{
+background:#122031;
+padding:15px;
+border-radius:12px;
+text-align:center;
+cursor:pointer;
+border:1px solid #24445f;
+transition:.2s;
+}
+
+.item:hover{
+border-color:#18d6ff;
+}
+
+.item.active{
+border:2px solid #18d6ff;
+}
+
+.products{
+margin:15px;
+}
+
+.products h2{
+margin-bottom:12px;
+color:#18d6ff;
+}
+
+#product-list{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.card{
+background:#101b2a;
+border-radius:15px;
+padding:15px;
+}
+
+.card img{
+width:100%;
+height:170px;
+object-fit:cover;
+border-radius:12px;
+}
+
+.card h3{
+margin-top:10px;
+}
+
+.price{
+font-size:24px;
+color:#00ff99;
+margin:10px 0;
+font-weight:bold;
+}
+
+.buy{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#18d6ff;
+color:#fff;
+font-size:18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:65px;
+background:#101b2a;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #1b3249;
+}
+
+.bottom button{
+background:none;
+border:none;
+color:white;
+font-size:14px;
+cursor:pointer;
+}
+
+.bottom button.active{
+color:#18d6ff;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<header class="header">
+<header>
 
-<div class="logo">
+<h1>ADMIN HI STORE</h1>
 
-<img src="assets/logo.png">
-
-<h1>🎮 ADMIN HI STORE</h1>
-
-<p>Shop sản phẩm kỹ thuật số</p>
-
-</div>
+<p>SHOP KEY - FIREBASE</p>
 
 </header>
 
-<section class="account-box">
+<div class="user-box">
+
+<div class="user-info">
 
 <div class="avatar">
+👤
+</div>
 
-<img src="assets/avatar.png">
+<div>
+
+<h3 id="username">Khách</h3>
+
+<p>Đăng nhập để mua hàng</p>
 
 </div>
 
-<div class="info">
+</div>
 
-<h2 id="username">Khách</h2>
+<div class="money">
 
-<span>Chưa đăng nhập</span>
+<span id="balance">0đ</span>
 
 </div>
 
-<div class="balance">
-
-<span id="money">0đ</span>
-
 </div>
-
-</section>
 
 <section class="category">
 
-<h2>☰ DANH MỤC</h2>
+<h2>Danh mục</h2>
 
 <div class="grid">
 
-<div class="item active" data-id="aim">
-🎯
-<p>Aim Lock</p>
-</div>
+<div class="item active" data-id="aim">🎯 Aim Lock</div>
 
-<div class="item" data-id="proxyadr">
-🔑
-<p>Proxy ADR</p>
-</div>
+<div class="item" data-id="proxyadr">📱 Proxy ADR</div>
 
-<div class="item" data-id="proxyios">
-📱
-<p>Proxy IOS</p>
-</div>
+<div class="item" data-id="proxyios">🍎 Proxy IOS</div>
 
-<div class="item" data-id="menuadr">
-🎯
-<p>Menu ADR</p>
-</div>
+<div class="item" data-id="menuadr">⚡ Menu ADR</div>
 
-<div class="item" data-id="menuios">
-📱
-<p>Menu IOS</p>
-</div>
+<div class="item" data-id="menuios">📲 Menu IOS</div>
 
-<div class="item" data-id="dv">
-👁️
-<p>ĐV + Xuyên Keo</p>
-</div>
+<div class="item" data-id="dv">💎 DV + Xuyên Keo</div>
 
-<div class="item" data-id="ac">
-🎮
-<p>AC CLON</p>
-</div>
+<div class="item" data-id="ac">🎮 ACC CLONE</div>
 
 </div>
 
@@ -103,7 +246,7 @@
 
 <section class="products">
 
-<h2>🛍️ SẢN PHẨM</h2>
+<h2>Sản phẩm</h2>
 
 <div id="product-list">
 
@@ -113,33 +256,12 @@
 
 <nav class="bottom">
 
-<button id="home">
-🔑
-<span>Mua Key</span>
-</button>
+<button class="active">🏠<br>Trang chủ</button>
 
-<button id="history">
-📜
-<span>Lịch sử</span>
-</button>
+<button>📜<br>Lịch sử</button>
 
-<button id="deposit">
-💳
-<span>Nạp tiền</span>
-</button>
+<button>💳<br>Nạp tiền</button>
 
-<button id="profile">
-👤
-<span>Cá nhân</span>
-</button>
+<button>👤<br>Cá nhân</button>
 
 </nav>
-
-<div class="chat-button">
-
-💬
-
-</div>
-
-</body>
-</html>
