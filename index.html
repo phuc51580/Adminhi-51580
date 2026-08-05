@@ -689,25 +689,38 @@
             min-width: 80px;
         }
 
-        /* Nút Đã chuyển khoản */
         .btn-transferred {
             background: #ff9800;
             color: #fff;
             border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 8px;
             font-weight: bold;
-            margin-top: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 12px;
+            display: none;
         }
 
         .btn-transferred:hover {
             background: #e68900;
         }
 
-        /* VOUCHER - XÓA DÒNG CHỮ */
-        .voucher-status {
+        .btn-transferred.show {
+            display: block;
+        }
+
+        .transferred-status {
+            color: #88c8d8;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 6px;
             display: none;
+        }
+
+        .transferred-status.show {
+            display: block;
         }
     </style>
 </head>
@@ -750,7 +763,7 @@
                     <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" />
                     <button id="btnApplyVoucher">ÁP DỤNG</button>
                 </div>
-                <div id="voucherStatus" class="voucher-status">💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)</div>
+                <div id="voucherStatus" class="voucher-status" style="display:none;"></div>
             </div>
         </div>
 
@@ -803,9 +816,9 @@
                     <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
                 </div>
 
-                <!-- Nút Đã chuyển khoản -->
-                <button id="btnTransferred" class="btn-transferred" style="margin-top:12px;padding:10px 0;width:100%;border-radius:8px;font-size:16px;background:#ff9800;color:#fff;border:none;font-weight:bold;cursor:pointer;">✅ ĐÃ CHUYỂN KHOẢN</button>
-                <div id="transferredStatus" style="color:#88c8d8;font-size:13px;text-align:center;margin-top:6px;"></div>
+                <!-- Nút Đã chuyển khoản - ẨN MẶC ĐỊNH -->
+                <button id="btnTransferred" class="btn-transferred">✅ ĐÃ CHUYỂN KHOẢN</button>
+                <div id="transferredStatus" class="transferred-status"></div>
             </div>
         </div>
 
@@ -905,6 +918,7 @@
         let voucherCode = 'Admin_hi_51580';
         let voucherApplied = false;
         let currentNapCode = '';
+        let napRequestCreated = false;
 
         // ======= DOM =======
         const productList = document.getElementById('productList');
@@ -928,6 +942,7 @@
         const napCodeDisplay = document.getElementById('napCodeDisplay');
         const qrContainer = document.getElementById('qrContainer');
         const napCodeContainer = document.getElementById('napCodeContainer');
+        const btnTransferred = document.getElementById('btnTransferred');
         const transferredStatus = document.getElementById('transferredStatus');
 
         // ======= BOTTOM NAV CLICK =======
@@ -992,12 +1007,17 @@
             refreshNapCode();
             qrContainer.classList.add('show');
             napCodeContainer.classList.add('show');
+            btnTransferred.classList.add('show');
+            napRequestCreated = true;
         }
 
         // ======= ẨN QR + MÃ NẠP =======
         function hideNapInfo() {
             qrContainer.classList.remove('show');
             napCodeContainer.classList.remove('show');
+            btnTransferred.classList.remove('show');
+            transferredStatus.classList.remove('show');
+            napRequestCreated = false;
         }
 
         // ======= RELOAD =======
@@ -1167,12 +1187,15 @@
             if (currentUser.voucherUsed) {
                 voucherStatus.textContent = '❌ Mã giảm giá chỉ dùng 1 lần!';
                 voucherStatus.className = 'voucher-status used';
+                voucherStatus.style.display = 'block';
             } else if (voucherApplied) {
                 voucherStatus.textContent = '✅ Đã áp dụng giảm giá 20% cho đơn hàng này!';
                 voucherStatus.className = 'voucher-status active';
+                voucherStatus.style.display = 'block';
             } else {
                 voucherStatus.textContent = '';
                 voucherStatus.className = 'voucher-status';
+                voucherStatus.style.display = 'none';
             }
         }
 
@@ -1520,13 +1543,12 @@
                 alert('⚠️ Vui lòng đăng nhập!');
                 return;
             }
-            if (!currentNapCode) {
+            if (!napRequestCreated) {
                 alert('⚠️ Vui lòng tạo yêu cầu nạp trước!');
                 return;
             }
             var amount = document.getElementById('napAmount').value || '0';
             
-            // Gửi thông báo cho Admin (ghi vào lịch sử)
             history.push({
                 type: '📢 Thông báo chuyển khoản',
                 product: 'Đã chuyển khoản ' + (amount > 0 ? amount.toLocaleString() : '') + 'đ - Mã: ' + currentNapCode,
@@ -1535,11 +1557,10 @@
                 status: 'approved'
             });
             
-            // Hiện thông báo
             transferredStatus.textContent = '✅ Đã gửi thông báo chuyển khoản cho Admin!';
             transferredStatus.style.color = '#4caf50';
+            transferredStatus.classList.add('show');
             
-            // Cập nhật Admin
             renderAdmin();
             updateUI();
             
@@ -1565,4 +1586,4 @@
     </script>
 
 </body>
-    </html>
+                        </html>
