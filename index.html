@@ -733,7 +733,7 @@
             </div>
         </div>
 
-        <!-- ===== TRANG ADMIN (CHỈ HIỂN THỊ Ở ĐÂY) ===== -->
+        <!-- ===== TRANG ADMIN ===== -->
         <div id="page-admin" class="page admin-only">
             <div class="card">
                 <div class="admin-header">
@@ -912,6 +912,10 @@
                     alert('⚠️ Bạn không có quyền truy cập trang Admin!');
                     return;
                 }
+                // ẨN ADMIN KHI KHÔNG Ở TRANG ADMIN
+                if (page !== 'page-admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                }
                 switchPage(page);
             });
         });
@@ -925,13 +929,11 @@
             var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
             if (navBtn) navBtn.classList.add('active');
             
-            // ẨN ADMIN KHI KHÔNG Ở TRANG ADMIN
-            if (pageId !== 'page-admin') {
-                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+            // NẾU LÀ TRANG ADMIN VÀ LÀ ADMIN -> HIỂN THỊ
+            if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
             } else {
-                if (currentUser && currentUser.role === 'admin') {
-                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
-                }
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
             }
         }
 
@@ -1139,10 +1141,10 @@
                 return;
             }
             if (currentUser.voucherUsed) {
-                voucherStatus.textContent = '❌ Bạn đã sử dụng voucher rồi! Chỉ áp dụng 1 lần.';
+                voucherStatus.textContent = '❌ Mã giảm giá chỉ dùng 1 lần!';
                 voucherStatus.className = 'voucher-status used';
             } else if (voucherApplied) {
-                voucherStatus.textContent = '✅ Đã áp dụng voucher! Giảm 20% cho đơn hàng này.';
+                voucherStatus.textContent = '✅ Đã áp dụng giảm giá 20% cho đơn hàng này!';
                 voucherStatus.className = 'voucher-status active';
             } else {
                 voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
@@ -1433,12 +1435,15 @@
         // ======= VOUCHER =======
         document.getElementById('btnApplyVoucher').addEventListener('click', function() {
             if (!currentUser) { alert('⚠️ Vui lòng đăng nhập trước!'); return; }
-            if (currentUser.voucherUsed) { alert('❌ Bạn đã sử dụng voucher rồi! Chỉ áp dụng 1 lần.'); return; }
+            if (currentUser.voucherUsed) { 
+                alert('❌ Mã giảm giá chỉ dùng 1 lần!');
+                return; 
+            }
             var code = document.getElementById('voucherInput').value.trim();
             if (code === 'Admin_hi_51580') {
                 voucherApplied = true;
                 updateVoucherStatus();
-                alert('✅ Đã áp dụng mã giảm giá 20%!');
+                alert('✅ Đã áp dụng giảm giá 20% cho đơn hàng này!');
                 document.getElementById('voucherInput').value = '';
             } else { alert('❌ Mã giảm giá không hợp lệ!'); }
         });
@@ -1505,4 +1510,4 @@
     </script>
 
 </body>
-                </html>
+    </html>
