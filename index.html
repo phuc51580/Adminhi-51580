@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
+        /* ===== GIỮ NGUYÊN PHẦN CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -661,6 +662,34 @@
             text-align: center;
             margin: 8px 0;
         }
+
+        /* Nút Hủy */
+        .btn-cancel {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .btn-cancel:hover {
+            background: #cc0000;
+        }
+
+        .nap-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nap-actions button {
+            flex: 1;
+            min-width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -743,12 +772,14 @@
                 <input type="number" id="napAmount" placeholder="Số tiền muốn nạp" />
                 <button id="btnNap">TẠO YÊU CẦU NẠP</button>
 
+                <!-- QR CODE - ĐÃ CẬP NHẬT ẢNH CỦA BẠN -->
                 <div id="qrContainer" class="qr-container">
-                    <img src="https://img.vietqr.io/image/BIDV-0865561731-compact.png" alt="QR ZaloPay" />
+                    <img src="https://i.postimg.cc/8zwYXfmb/z1p-1785820716226.jpg" alt="QR ZaloPay" />
                     <div class="qr-code">TSAN QUANG PHUC</div>
                     <div style="color:#000;font-size:13px;">💚 ZaloPay - 0865561731</div>
                 </div>
 
+                <!-- MÃ NẠP TIỀN -->
                 <div id="napCodeContainer" class="nap-code">
                     <div class="label">📌 MÃ NẠP TIỀN</div>
                     <div class="code" id="napCodeDisplay">Đang tạo...</div>
@@ -805,6 +836,7 @@
     </div>
 
     <script>
+        // ======= GIỮ NGUYÊN PHẦN JAVASCRIPT CŨ =======
         // ======= DỮ LIỆU SẢN PHẨM =======
         const products = [
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
@@ -1170,7 +1202,9 @@
                         '<div class="nap-item"><div><strong>' + n.amount.toLocaleString() +
                         'đ</strong></div><div>👤 ' + n.user + '</div><div style="color:#88c8d8;font-size:12px;">Mã: ' +
                         (n.code || 'Không có') + '</div><div class="date">' + n.date +
-                        '</div><button class="btn-approve-nap" data-id="' + n.id + '">✅ Duyệt</button></div>';
+                        '</div><div class="nap-actions"><button class="btn-approve-nap" data-id="' + n.id +
+                        '">✅ Duyệt</button><button class="btn-cancel-nap" data-id="' + n.id +
+                        '">❌ Hủy</button></div></div>';
                 });
                 adminNap.innerHTML = html;
 
@@ -1202,6 +1236,31 @@
                         }
                     });
                 });
+
+                document.querySelectorAll('.btn-cancel-nap').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var id = parseInt(this.getAttribute('data-id'));
+                        var nap = pendingNap.find(function(n) { return n.id === id });
+                        if (nap) {
+                            if (confirm('❌ Bạn chắc chắn muốn hủy yêu cầu nạp ' + nap.amount
+                                    .toLocaleString() + 'đ của ' + nap.user + '?')) {
+                                nap.status = 'cancelled';
+                                pendingNap = pendingNap.filter(function(n) { return n.id !== id });
+                                history.push({
+                                    type: 'Nạp tiền (đã hủy)',
+                                    product: '',
+                                    amount: nap.amount,
+                                    date: new Date().toLocaleString(),
+                                    status: 'cancelled'
+                                });
+                                alert('✅ Đã hủy yêu cầu nạp ' + nap.amount.toLocaleString() + 'đ của ' + nap
+                                    .user);
+                                renderAdmin();
+                                updateUI();
+                            }
+                        }
+                    });
+                });
             }
         }
 
@@ -1216,7 +1275,6 @@
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
                 
-                // CHỈ HIỂN THỊ ADMIN KHI ĐĂNG NHẬP ADMIN
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
                 } else {
@@ -1261,6 +1319,8 @@
                     }
                 } else if (item.status === 'approved') {
                     statusBadge = '<span class="status-badge status-approved">✅ Đã duyệt</span>';
+                } else if (item.status === 'cancelled') {
+                    statusBadge = '<span class="status-badge" style="background:#ff4444;color:#fff;">❌ Đã hủy</span>';
                 }
 
                 html +=
@@ -1354,7 +1414,6 @@
                 history = [];
                 voucherApplied = false;
                 hideNapInfo();
-                // ẨN ADMIN KHI ĐĂNG XUẤT
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 updateUI();
                 renderProducts(currentCategory);
@@ -1437,4 +1496,4 @@
     </script>
 
 </body>
-</html>
+    </html>
