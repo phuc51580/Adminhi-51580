@@ -647,8 +647,12 @@
             background: #0097a7;
         }
 
-        .voucher-status {
-            display: none !important;
+        .voucher-status.used {
+            color: #ff4444;
+        }
+
+        .voucher-status.active {
+            color: #4caf50;
         }
 
         .nap-info {
@@ -718,6 +722,11 @@
         .transferred-status.show {
             display: block;
         }
+
+        /* ẨN dòng chữ "Mã giảm giá chỉ dùng 1 lần!" */
+        .voucher-status {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -764,7 +773,7 @@
         </div>
 
         <!-- ===== TRANG ADMIN ===== -->
-        <div id="page-admin" class="page">
+        <div id="page-admin" class="page admin-only">
             <div class="card">
                 <div class="admin-header">
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
@@ -812,6 +821,7 @@
                     <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
                 </div>
 
+                <!-- Nút Đã chuyển khoản - ẨN MẶC ĐỊNH -->
                 <button id="btnTransferred" class="btn-transferred">✅ ĐÃ CHUYỂN KHOẢN</button>
                 <div id="transferredStatus" class="transferred-status"></div>
             </div>
@@ -857,7 +867,7 @@
         <!-- BOTTOM NAV -->
         <div class="bottom-nav">
             <button class="active" data-page="page-home">🏠 Mua Key</button>
-            <button data-page="page-admin" id="navAdmin">🛠️ Admin</button>
+            <button data-page="page-admin" class="admin-only" id="navAdmin">🛠️ Admin</button>
             <button data-page="page-history">📜 Lịch sử</button>
             <button data-page="page-nap">💳 Nạp tiền</button>
             <button data-page="page-profile">👤 Cá nhân</button>
@@ -939,7 +949,6 @@
         const napCodeContainer = document.getElementById('napCodeContainer');
         const btnTransferred = document.getElementById('btnTransferred');
         const transferredStatus = document.getElementById('transferredStatus');
-        const navAdmin = document.getElementById('navAdmin');
 
         // ======= BOTTOM NAV CLICK =======
         document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
@@ -948,6 +957,9 @@
                 if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
                     alert('⚠️ Bạn không có quyền truy cập trang Admin!');
                     return;
+                }
+                if (page !== 'page-admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 }
                 switchPage(page);
             });
@@ -961,6 +973,12 @@
             document.querySelectorAll('.bottom-nav button').forEach(function(b) { b.classList.remove('active'); });
             var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
             if (navBtn) navBtn.classList.add('active');
+            
+            if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+            } else {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+            }
         }
 
         // ======= TẠO MÃ NẠP TIỀN =======
@@ -1165,6 +1183,7 @@
 
         // ======= UPDATE VOUCHER =======
         function updateVoucherStatus() {
+            // ẨN HOÀN TOÀN - KHÔNG HIỂN THỊ GÌ
             voucherStatus.style.display = 'none';
         }
 
@@ -1301,11 +1320,10 @@
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
                 
-                // HIỂN THỊ ADMIN TRONG BOTTOM NAV KHI LÀ ADMIN
                 if (currentUser.role === 'admin') {
-                    navAdmin.style.display = 'block';
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
                 } else {
-                    navAdmin.style.display = 'none';
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 }
             } else {
                 userName.textContent = 'Khách';
@@ -1315,7 +1333,7 @@
                 pStatus.textContent = 'Chưa đăng nhập';
                 pRole.textContent = 'Khách';
                 pVoucherUsed.textContent = 'Chưa';
-                navAdmin.style.display = 'none';
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 hideNapInfo();
             }
             renderHistory();
@@ -1441,7 +1459,7 @@
                 history = [];
                 voucherApplied = false;
                 hideNapInfo();
-                navAdmin.style.display = 'none';
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 updateUI();
                 renderProducts(currentCategory);
                 switchPage('page-home');
