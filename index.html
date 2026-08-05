@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
-        /* ===== GIỮ NGUYÊN PHẦN CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -663,7 +662,6 @@
             margin: 8px 0;
         }
 
-        /* Nút Hủy */
         .btn-cancel {
             background: #ff4444;
             color: #fff;
@@ -735,7 +733,7 @@
             </div>
         </div>
 
-        <!-- ===== TRANG ADMIN ===== -->
+        <!-- ===== TRANG ADMIN (CHỈ HIỂN THỊ Ở ĐÂY) ===== -->
         <div id="page-admin" class="page admin-only">
             <div class="card">
                 <div class="admin-header">
@@ -772,14 +770,12 @@
                 <input type="number" id="napAmount" placeholder="Số tiền muốn nạp" />
                 <button id="btnNap">TẠO YÊU CẦU NẠP</button>
 
-                <!-- QR CODE - ĐÃ CẬP NHẬT ẢNH CỦA BẠN -->
                 <div id="qrContainer" class="qr-container">
                     <img src="https://i.postimg.cc/8zwYXfmb/z1p-1785820716226.jpg" alt="QR ZaloPay" />
                     <div class="qr-code">TSAN QUANG PHUC</div>
                     <div style="color:#000;font-size:13px;">💚 ZaloPay - 0865561731</div>
                 </div>
 
-                <!-- MÃ NẠP TIỀN -->
                 <div id="napCodeContainer" class="nap-code">
                     <div class="label">📌 MÃ NẠP TIỀN</div>
                     <div class="code" id="napCodeDisplay">Đang tạo...</div>
@@ -836,7 +832,6 @@
     </div>
 
     <script>
-        // ======= GIỮ NGUYÊN PHẦN JAVASCRIPT CŨ =======
         // ======= DỮ LIỆU SẢN PHẨM =======
         const products = [
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
@@ -929,6 +924,15 @@
             document.querySelectorAll('.bottom-nav button').forEach(function(b) { b.classList.remove('active'); });
             var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
             if (navBtn) navBtn.classList.add('active');
+            
+            // ẨN ADMIN KHI KHÔNG Ở TRANG ADMIN
+            if (pageId !== 'page-admin') {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+            } else {
+                if (currentUser && currentUser.role === 'admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                }
+            }
         }
 
         // ======= TẠO MÃ NẠP TIỀN =======
@@ -1148,7 +1152,12 @@
 
         // ======= RENDER ADMIN =======
         function renderAdmin() {
-            renderUserList();
+            // CHỈ RENDER KHI ĐANG Ở TRANG ADMIN VÀ LÀ ADMIN
+            if (currentUser && currentUser.role === 'admin') {
+                renderUserList();
+            } else {
+                userList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập Admin để xem.</p>';
+            }
 
             var pending = pendingOrders.filter(function(o) { return o.status === 'pending' });
             if (pending.length === 0) {
@@ -1496,4 +1505,4 @@
     </script>
 
 </body>
-    </html>
+                </html>
