@@ -688,6 +688,27 @@
             flex: 1;
             min-width: 80px;
         }
+
+        /* Nút Đã chuyển khoản */
+        .btn-transferred {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .btn-transferred:hover {
+            background: #e68900;
+        }
+
+        /* VOUCHER - XÓA DÒNG CHỮ */
+        .voucher-status {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -781,6 +802,10 @@
                     <div class="code" id="napCodeDisplay">Đang tạo...</div>
                     <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
                 </div>
+
+                <!-- Nút Đã chuyển khoản -->
+                <button id="btnTransferred" class="btn-transferred" style="margin-top:12px;padding:10px 0;width:100%;border-radius:8px;font-size:16px;background:#ff9800;color:#fff;border:none;font-weight:bold;cursor:pointer;">✅ ĐÃ CHUYỂN KHOẢN</button>
+                <div id="transferredStatus" style="color:#88c8d8;font-size:13px;text-align:center;margin-top:6px;"></div>
             </div>
         </div>
 
@@ -903,6 +928,7 @@
         const napCodeDisplay = document.getElementById('napCodeDisplay');
         const qrContainer = document.getElementById('qrContainer');
         const napCodeContainer = document.getElementById('napCodeContainer');
+        const transferredStatus = document.getElementById('transferredStatus');
 
         // ======= BOTTOM NAV CLICK =======
         document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
@@ -912,7 +938,6 @@
                     alert('⚠️ Bạn không có quyền truy cập trang Admin!');
                     return;
                 }
-                // ẨN ADMIN KHI KHÔNG Ở TRANG ADMIN
                 if (page !== 'page-admin') {
                     document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 }
@@ -929,7 +954,6 @@
             var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
             if (navBtn) navBtn.classList.add('active');
             
-            // NẾU LÀ TRANG ADMIN VÀ LÀ ADMIN -> HIỂN THỊ
             if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
             } else {
@@ -1136,7 +1160,7 @@
         // ======= UPDATE VOUCHER =======
         function updateVoucherStatus() {
             if (!currentUser) {
-                voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
+                voucherStatus.textContent = '';
                 voucherStatus.className = 'voucher-status';
                 return;
             }
@@ -1147,14 +1171,13 @@
                 voucherStatus.textContent = '✅ Đã áp dụng giảm giá 20% cho đơn hàng này!';
                 voucherStatus.className = 'voucher-status active';
             } else {
-                voucherStatus.textContent = '💡 Nhập mã Admin_hi_51580 để giảm 20% (1 lần duy nhất)';
+                voucherStatus.textContent = '';
                 voucherStatus.className = 'voucher-status';
             }
         }
 
         // ======= RENDER ADMIN =======
         function renderAdmin() {
-            // CHỈ RENDER KHI ĐANG Ở TRANG ADMIN VÀ LÀ ADMIN
             if (currentUser && currentUser.role === 'admin') {
                 renderUserList();
             } else {
@@ -1489,6 +1512,38 @@
             document.getElementById('napAmount').value = '';
             alert('⏳ Đã tạo yêu cầu nạp ' + amount.toLocaleString() + 'đ\n📌 Mã nạp: ' + napReq.code +
                 '\nVui lòng chờ admin duyệt!');
+        });
+
+        // ===== ĐÃ CHUYỂN KHOẢN =====
+        document.getElementById('btnTransferred').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('⚠️ Vui lòng đăng nhập!');
+                return;
+            }
+            if (!currentNapCode) {
+                alert('⚠️ Vui lòng tạo yêu cầu nạp trước!');
+                return;
+            }
+            var amount = document.getElementById('napAmount').value || '0';
+            
+            // Gửi thông báo cho Admin (ghi vào lịch sử)
+            history.push({
+                type: '📢 Thông báo chuyển khoản',
+                product: 'Đã chuyển khoản ' + (amount > 0 ? amount.toLocaleString() : '') + 'đ - Mã: ' + currentNapCode,
+                amount: 0,
+                date: new Date().toLocaleString(),
+                status: 'approved'
+            });
+            
+            // Hiện thông báo
+            transferredStatus.textContent = '✅ Đã gửi thông báo chuyển khoản cho Admin!';
+            transferredStatus.style.color = '#4caf50';
+            
+            // Cập nhật Admin
+            renderAdmin();
+            updateUI();
+            
+            alert('✅ Đã gửi thông báo chuyển khoản cho Admin!\n📌 Mã nạp: ' + currentNapCode);
         });
 
         // ======= LỌC DANH MỤC =======
