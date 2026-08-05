@@ -722,6 +722,11 @@
         .transferred-status.show {
             display: block;
         }
+
+        /* ẨN dòng chữ "Mã giảm giá chỉ dùng 1 lần!" */
+        .voucher-status {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -763,7 +768,7 @@
                     <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" />
                     <button id="btnApplyVoucher">ÁP DỤNG</button>
                 </div>
-                <div id="voucherStatus" class="voucher-status" style="display:none;"></div>
+                <div id="voucherStatus" class="voucher-status"></div>
             </div>
         </div>
 
@@ -1142,7 +1147,6 @@
                             userInList.voucherUsed = true;
                             currentUser.voucherUsed = true;
                             voucherApplied = false;
-                            updateVoucherStatus();
                         }
                         localStorage.setItem('users', JSON.stringify(users));
                     }
@@ -1179,24 +1183,8 @@
 
         // ======= UPDATE VOUCHER =======
         function updateVoucherStatus() {
-            if (!currentUser) {
-                voucherStatus.textContent = '';
-                voucherStatus.className = 'voucher-status';
-                return;
-            }
-            if (currentUser.voucherUsed) {
-                voucherStatus.textContent = '❌ Mã giảm giá chỉ dùng 1 lần!';
-                voucherStatus.className = 'voucher-status used';
-                voucherStatus.style.display = 'block';
-            } else if (voucherApplied) {
-                voucherStatus.textContent = '✅ Đã áp dụng giảm giá 20% cho đơn hàng này!';
-                voucherStatus.className = 'voucher-status active';
-                voucherStatus.style.display = 'block';
-            } else {
-                voucherStatus.textContent = '';
-                voucherStatus.className = 'voucher-status';
-                voucherStatus.style.display = 'none';
-            }
+            // ẨN HOÀN TOÀN - KHÔNG HIỂN THỊ GÌ
+            voucherStatus.style.display = 'none';
         }
 
         // ======= RENDER ADMIN =======
@@ -1488,7 +1476,6 @@
             var code = document.getElementById('voucherInput').value.trim();
             if (code === 'Admin_hi_51580') {
                 voucherApplied = true;
-                updateVoucherStatus();
                 alert('✅ Đã áp dụng giảm giá 20% cho đơn hàng này!');
                 document.getElementById('voucherInput').value = '';
             } else { alert('❌ Mã giảm giá không hợp lệ!'); }
@@ -1586,4 +1573,4 @@
     </script>
 
 </body>
-                        </html>
+    </html>
