@@ -647,7 +647,6 @@
             background: #0097a7;
         }
 
-        /* ẨN HOÀN TOÀN DÒNG CHỮ VOUCHER */
         .voucher-status {
             display: none !important;
         }
@@ -813,7 +812,6 @@
                     <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
                 </div>
 
-                <!-- Nút Đã chuyển khoản - ẨN MẶC ĐỊNH -->
                 <button id="btnTransferred" class="btn-transferred">✅ ĐÃ CHUYỂN KHOẢN</button>
                 <div id="transferredStatus" class="transferred-status"></div>
             </div>
@@ -946,12 +944,10 @@
         document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var page = this.getAttribute('data-page');
+                // KIỂM TRA NẾU KHÔNG PHẢI ADMIN THÌ KHÔNG CHO VÀO TRANG ADMIN
                 if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
                     alert('⚠️ Bạn không có quyền truy cập trang Admin!');
                     return;
-                }
-                if (page !== 'page-admin') {
-                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 }
                 switchPage(page);
             });
@@ -959,13 +955,19 @@
 
         // ======= CHUYỂN TRANG =======
         function switchPage(pageId) {
+            // Ẩn tất cả các trang
             document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+            
+            // Hiện trang được chọn
             var target = document.getElementById(pageId);
             if (target) target.classList.add('active');
+            
+            // Cập nhật active cho bottom nav
             document.querySelectorAll('.bottom-nav button').forEach(function(b) { b.classList.remove('active'); });
             var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
             if (navBtn) navBtn.classList.add('active');
             
+            // CHỈ HIỂN THỊ ADMIN KHI ĐANG Ở TRANG ADMIN VÀ LÀ ADMIN
             if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
             } else {
@@ -1053,8 +1055,8 @@
                     html +=
                         '<div class="user-actions"><input type="number" id="amount_' + u.username +
                         '" placeholder="Số tiền" style="width:80px;" /><button class="btn-add-money" onclick="adminAddMoney(\'' +
-                        u.username + '\')">+ Thêm</button><button class="btn-sub-money" onclick="adminSubMoney(\'' +
-                        u.username + '\')">- Trừ</button></div>';
+                        u.username + '\")">+ Thêm</button><button class="btn-sub-money" onclick="adminSubMoney(\'' +
+                        u.username + '\")">- Trừ</button></div>';
                 }
                 html += '</div>';
             });
@@ -1175,7 +1177,6 @@
 
         // ======= UPDATE VOUCHER =======
         function updateVoucherStatus() {
-            // ẨN HOÀN TOÀN - KHÔNG HIỂN THỊ GÌ
             voucherStatus.style.display = 'none';
         }
 
@@ -1311,12 +1312,6 @@
                 pStatus.textContent = 'Đã đăng nhập';
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
-                
-                if (currentUser.role === 'admin') {
-                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
-                } else {
-                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
-                }
             } else {
                 userName.textContent = 'Khách';
                 userBalance.textContent = '0đ';
@@ -1403,6 +1398,12 @@
             renderAdmin();
             refreshNapCode();
             hideNapInfo();
+            
+            // HIỂN THỊ ADMIN NẾU LÀ ADMIN
+            if (currentUser.role === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+            }
+            
             alert('✅ Chào mừng ' + currentUser.username + '!' + (currentUser.role === 'admin' ? ' (Admin)' : ''));
             switchPage('page-home');
         });
