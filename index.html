@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
+        /* ===== GIỮ NGUYÊN TOÀN BỘ CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -350,14 +351,6 @@
         .badge-delivered {
             background: #00bcd4;
             color: #fff;
-        }
-
-        .admin-only {
-            display: none;
-        }
-
-        .admin-only.show {
-            display: block;
         }
 
         .order-item .key-input {
@@ -802,7 +795,7 @@
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
                     <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
                 </div>
-                <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới! Bấm Tải lại để xem.</div>
+                <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới!</div>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
                 <h3 style="color:#00bcd4;font-size:15px;margin:12px 0 8px;">👥 DANH SÁCH NGƯỜI DÙNG</h3>
@@ -980,7 +973,6 @@
         const btnTransferred = document.getElementById('btnTransferred');
         const transferredStatus = document.getElementById('transferredStatus');
         const adminNotification = document.getElementById('adminNotification');
-        const navAdmin = document.getElementById('navAdmin');
 
         // ====================================================
         // 3. BOTTOM NAV CLICK
@@ -1689,7 +1681,7 @@
         });
 
         // ====================================================
-        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN (POLLING)
+        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN
         // ====================================================
         setInterval(function() {
             if (currentUser && currentUser.role === 'admin') {
@@ -1713,4 +1705,4 @@
     </script>
 
 </body>
-    </html>
+                </html>
