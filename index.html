@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
-        /* ===== GIỮ NGUYÊN TOÀN BỘ CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -728,7 +727,7 @@
             display: none !important;
         }
 
-        /* Thông báo Admin */
+        /* THÔNG BÁO TRÊN WEB */
         .admin-notification {
             background: #ff6a00;
             color: #fff;
@@ -804,7 +803,7 @@
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
                     <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
                 </div>
-                <!-- BANNER THÔNG BÁO -->
+                <!-- BANNER THÔNG BÁO TRÊN WEB -->
                 <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới! Bấm Tải lại để xem.</div>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
@@ -1682,18 +1681,11 @@
         });
 
         // ====================================================
-        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN
+        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN (POLLING)
         // ====================================================
         setInterval(function() {
             if (currentUser && currentUser.role === 'admin') {
-                // Lưu số lượng cũ
-                var oldOrders = oldPendingOrdersCount;
-                var oldNap = oldPendingNapCount;
-                
-                // Render lại admin
                 renderAdmin();
-                
-                // Nếu có thay đổi, thông báo đã được hiển thị trong renderAdmin
                 console.log('🔄 Đã tự động cập nhật trang Admin');
             }
         }, 10000); // 10 giây
@@ -1713,4 +1705,4 @@
     </script>
 
 </body>
-                                                                                                 </html>
+    </html>
