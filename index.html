@@ -727,7 +727,6 @@
             display: none !important;
         }
 
-        /* THÔNG BÁO TRÊN WEB */
         .admin-notification {
             background: #ff6a00;
             color: #fff;
@@ -797,13 +796,12 @@
         </div>
 
         <!-- ===== TRANG ADMIN ===== -->
-        <div id="page-admin" class="page admin-only">
+        <div id="page-admin" class="page">
             <div class="card">
                 <div class="admin-header">
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
                     <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
                 </div>
-                <!-- BANNER THÔNG BÁO TRÊN WEB -->
                 <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới! Bấm Tải lại để xem.</div>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
@@ -892,7 +890,7 @@
         <!-- BOTTOM NAV -->
         <div class="bottom-nav">
             <button class="active" data-page="page-home">🏠 Mua Key</button>
-            <button data-page="page-admin" class="admin-only" id="navAdmin">🛠️ Admin</button>
+            <button data-page="page-admin" id="navAdmin">🛠️ Admin</button>
             <button data-page="page-history">📜 Lịch sử</button>
             <button data-page="page-nap">💳 Nạp tiền</button>
             <button data-page="page-profile">👤 Cá nhân</button>
@@ -982,6 +980,7 @@
         const btnTransferred = document.getElementById('btnTransferred');
         const transferredStatus = document.getElementById('transferredStatus');
         const adminNotification = document.getElementById('adminNotification');
+        const navAdmin = document.getElementById('navAdmin');
 
         // ====================================================
         // 3. BOTTOM NAV CLICK
@@ -989,8 +988,11 @@
         document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var page = this.getAttribute('data-page');
+                // Kiểm tra nếu bấm vào Admin mà chưa đăng nhập Admin
                 if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
-                    alert('⚠️ Bạn không có quyền truy cập trang Admin!');
+                    alert('⚠️ Vui lòng đăng nhập với tài khoản Admin để truy cập!');
+                    // Chuyển sang tab Cá nhân để đăng nhập
+                    switchPage('page-profile');
                     return;
                 }
                 if (page !== 'page-admin') {
@@ -1013,7 +1015,6 @@
             
             if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
-                // Ẩn thông báo khi vào trang Admin
                 adminNotification.classList.remove('show');
             } else {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
@@ -1071,6 +1072,10 @@
         // 7. RELOAD ADMIN
         // ====================================================
         window.reloadAdmin = function() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⚠️ Vui lòng đăng nhập Admin trước!');
+                return;
+            }
             users = JSON.parse(localStorage.getItem('users')) || [];
             if (!users.find(function(u) { return u.username === ADMIN_ACCOUNT.username })) {
                 users.push(ADMIN_ACCOUNT);
@@ -1247,149 +1252,152 @@
         // 12. RENDER ADMIN
         // ====================================================
         function renderAdmin() {
+            // Chỉ hiển thị nội dung Admin khi đã đăng nhập Admin
             if (currentUser && currentUser.role === 'admin') {
                 renderUserList();
-            } else {
-                userList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập Admin để xem.</p>';
-            }
+                // Đếm số lượng pending
+                var pendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                var pendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
 
-            // Đếm số lượng pending
-            var pendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
-            var pendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                // Kiểm tra có thay đổi không
+                var hasNewOrder = pendingOrdersCount > oldPendingOrdersCount;
+                var hasNewNap = pendingNapCount > oldPendingNapCount;
 
-            // Kiểm tra có thay đổi không
-            var hasNewOrder = pendingOrdersCount > oldPendingOrdersCount;
-            var hasNewNap = pendingNapCount > oldPendingNapCount;
+                if ((hasNewOrder || hasNewNap)) {
+                    adminNotification.classList.add('show');
+                    // Cập nhật lại giá trị cũ
+                    oldPendingOrdersCount = pendingOrdersCount;
+                    oldPendingNapCount = pendingNapCount;
+                }
 
-            if ((hasNewOrder || hasNewNap) && currentUser && currentUser.role === 'admin') {
-                adminNotification.classList.add('show');
-                // Cập nhật lại giá trị cũ
-                oldPendingOrdersCount = pendingOrdersCount;
-                oldPendingNapCount = pendingNapCount;
-            }
-
-            // Render đơn hàng
-            var pending = pendingOrders.filter(function(o) { return o.status === 'pending' });
-            if (pending.length === 0) {
-                adminOrders.innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
-            } else {
-                var html = '';
-                pending.forEach(function(o) {
-                    html +=
-                        '<div class="order-item"><div><strong>' + o.product + '</strong> - ' + o.price
-                        .toLocaleString() + 'đ ' + (o.voucherUsed ? '🎫 -20%' : '') +
-                        '</div><div>👤 ' + o.user + '</div><div class="date">' + o.date +
-                        '</div><div class="key-input"><input type="text" class="keyInput" placeholder="Nhập key" /><button class="btn-approve-order" data-id="' +
-                        o.id + '">✅ Duyệt</button></div></div>';
-                });
-                adminOrders.innerHTML = html;
-
-                document.querySelectorAll('.btn-approve-order').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        var id = parseInt(this.getAttribute('data-id'));
-                        var order = pendingOrders.find(function(o) { return o.id === id });
-                        if (!order) return;
-                        var keyInput = this.closest('.order-item').querySelector('.keyInput');
-                        var key = keyInput.value.trim();
-                        if (!key) { alert('⚠️ Vui lòng nhập key trước khi duyệt!'); return; }
-                        order.status = 'delivered';
-                        order.key = key;
-                        for (var i = 0; i < history.length; i++) {
-                            var h = history[i];
-                            if (h.type === 'Mua key (chờ duyệt)' &&
-                                h.product === order.product &&
-                                h.amount === -order.price) {
-                                h.status = 'delivered';
-                                h.key = key;
-                                break;
-                            }
-                        }
-                        // Cập nhật lại số lượng cũ
-                        oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
-                        adminNotification.classList.remove('show');
-                        alert('✅ Đã duyệt đơn: ' + order.product + '\n🔑 Key: ' + key);
-                        renderAdmin();
-                        updateUI();
+                // Render đơn hàng
+                var pending = pendingOrders.filter(function(o) { return o.status === 'pending' });
+                if (pending.length === 0) {
+                    adminOrders.innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
+                } else {
+                    var html = '';
+                    pending.forEach(function(o) {
+                        html +=
+                            '<div class="order-item"><div><strong>' + o.product + '</strong> - ' + o.price
+                            .toLocaleString() + 'đ ' + (o.voucherUsed ? '🎫 -20%' : '') +
+                            '</div><div>👤 ' + o.user + '</div><div class="date">' + o.date +
+                            '</div><div class="key-input"><input type="text" class="keyInput" placeholder="Nhập key" /><button class="btn-approve-order" data-id="' +
+                            o.id + '">✅ Duyệt</button></div></div>';
                     });
-                });
-            }
+                    adminOrders.innerHTML = html;
 
-            // Render nạp tiền
-            var pendingNapList = pendingNap.filter(function(n) { return n.status === 'pending' });
-            if (pendingNapList.length === 0) {
-                adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
-            } else {
-                var html = '';
-                pendingNapList.forEach(function(n) {
-                    html +=
-                        '<div class="nap-item"><div><strong>' + n.amount.toLocaleString() +
-                        'đ</strong></div><div>👤 ' + n.user + '</div><div style="color:#88c8d8;font-size:12px;">Mã: ' +
-                        (n.code || 'Không có') + '</div><div class="date">' + n.date +
-                        '</div><div class="nap-actions"><button class="btn-approve-nap" data-id="' + n.id +
-                        '">✅ Duyệt</button><button class="btn-cancel-nap" data-id="' + n.id +
-                        '">❌ Hủy</button></div></div>';
-                });
-                adminNap.innerHTML = html;
-
-                document.querySelectorAll('.btn-approve-nap').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        var id = parseInt(this.getAttribute('data-id'));
-                        var nap = pendingNap.find(function(n) { return n.id === id });
-                        if (nap) {
-                            nap.status = 'approved';
-                            users = JSON.parse(localStorage.getItem('users')) || [];
-                            var user = users.find(function(u) { return u.username === nap.user });
-                            if (user) {
-                                user.balance = (user.balance || 0) + nap.amount;
-                                localStorage.setItem('users', JSON.stringify(users));
-                                if (currentUser && currentUser.username === nap.user) {
-                                    currentUser.balance = user.balance;
+                    document.querySelectorAll('.btn-approve-order').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var order = pendingOrders.find(function(o) { return o.id === id });
+                            if (!order) return;
+                            var keyInput = this.closest('.order-item').querySelector('.keyInput');
+                            var key = keyInput.value.trim();
+                            if (!key) { alert('⚠️ Vui lòng nhập key trước khi duyệt!'); return; }
+                            order.status = 'delivered';
+                            order.key = key;
+                            for (var i = 0; i < history.length; i++) {
+                                var h = history[i];
+                                if (h.type === 'Mua key (chờ duyệt)' &&
+                                    h.product === order.product &&
+                                    h.amount === -order.price) {
+                                    h.status = 'delivered';
+                                    h.key = key;
+                                    break;
                                 }
-                                history.push({
-                                    type: 'Nạp tiền (đã duyệt)',
-                                    product: '',
-                                    amount: nap.amount,
-                                    date: new Date().toLocaleString(),
-                                    status: 'approved'
-                                });
-                                // Cập nhật lại số lượng cũ
-                                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
-                                adminNotification.classList.remove('show');
-                                alert('✅ Đã duyệt nạp ' + nap.amount.toLocaleString() + 'đ cho ' + nap.user);
-                                renderAdmin();
-                                updateUI();
-                            } else { alert('❌ Không tìm thấy user: ' + nap.user); }
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.btn-cancel-nap').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        var id = parseInt(this.getAttribute('data-id'));
-                        var nap = pendingNap.find(function(n) { return n.id === id });
-                        if (nap) {
-                            if (confirm('❌ Bạn chắc chắn muốn hủy yêu cầu nạp ' + nap.amount
-                                    .toLocaleString() + 'đ của ' + nap.user + '?')) {
-                                nap.status = 'cancelled';
-                                pendingNap = pendingNap.filter(function(n) { return n.id !== id });
-                                history.push({
-                                    type: 'Nạp tiền (đã hủy)',
-                                    product: '',
-                                    amount: nap.amount,
-                                    date: new Date().toLocaleString(),
-                                    status: 'cancelled'
-                                });
-                                // Cập nhật lại số lượng cũ
-                                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
-                                adminNotification.classList.remove('show');
-                                alert('✅ Đã hủy yêu cầu nạp ' + nap.amount.toLocaleString() + 'đ của ' + nap
-                                    .user);
-                                renderAdmin();
-                                updateUI();
                             }
-                        }
+                            // Cập nhật lại số lượng cũ
+                            oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                            adminNotification.classList.remove('show');
+                            alert('✅ Đã duyệt đơn: ' + order.product + '\n🔑 Key: ' + key);
+                            renderAdmin();
+                            updateUI();
+                        });
                     });
-                });
+                }
+
+                // Render nạp tiền
+                var pendingNapList = pendingNap.filter(function(n) { return n.status === 'pending' });
+                if (pendingNapList.length === 0) {
+                    adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
+                } else {
+                    var html = '';
+                    pendingNapList.forEach(function(n) {
+                        html +=
+                            '<div class="nap-item"><div><strong>' + n.amount.toLocaleString() +
+                            'đ</strong></div><div>👤 ' + n.user + '</div><div style="color:#88c8d8;font-size:12px;">Mã: ' +
+                            (n.code || 'Không có') + '</div><div class="date">' + n.date +
+                            '</div><div class="nap-actions"><button class="btn-approve-nap" data-id="' + n.id +
+                            '">✅ Duyệt</button><button class="btn-cancel-nap" data-id="' + n.id +
+                            '">❌ Hủy</button></div></div>';
+                    });
+                    adminNap.innerHTML = html;
+
+                    document.querySelectorAll('.btn-approve-nap').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var nap = pendingNap.find(function(n) { return n.id === id });
+                            if (nap) {
+                                nap.status = 'approved';
+                                users = JSON.parse(localStorage.getItem('users')) || [];
+                                var user = users.find(function(u) { return u.username === nap.user });
+                                if (user) {
+                                    user.balance = (user.balance || 0) + nap.amount;
+                                    localStorage.setItem('users', JSON.stringify(users));
+                                    if (currentUser && currentUser.username === nap.user) {
+                                        currentUser.balance = user.balance;
+                                    }
+                                    history.push({
+                                        type: 'Nạp tiền (đã duyệt)',
+                                        product: '',
+                                        amount: nap.amount,
+                                        date: new Date().toLocaleString(),
+                                        status: 'approved'
+                                    });
+                                    // Cập nhật lại số lượng cũ
+                                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                    adminNotification.classList.remove('show');
+                                    alert('✅ Đã duyệt nạp ' + nap.amount.toLocaleString() + 'đ cho ' + nap.user);
+                                    renderAdmin();
+                                    updateUI();
+                                } else { alert('❌ Không tìm thấy user: ' + nap.user); }
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.btn-cancel-nap').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var nap = pendingNap.find(function(n) { return n.id === id });
+                            if (nap) {
+                                if (confirm('❌ Bạn chắc chắn muốn hủy yêu cầu nạp ' + nap.amount
+                                        .toLocaleString() + 'đ của ' + nap.user + '?')) {
+                                    nap.status = 'cancelled';
+                                    pendingNap = pendingNap.filter(function(n) { return n.id !== id });
+                                    history.push({
+                                        type: 'Nạp tiền (đã hủy)',
+                                        product: '',
+                                        amount: nap.amount,
+                                        date: new Date().toLocaleString(),
+                                        status: 'cancelled'
+                                    });
+                                    // Cập nhật lại số lượng cũ
+                                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                    adminNotification.classList.remove('show');
+                                    alert('✅ Đã hủy yêu cầu nạp ' + nap.amount.toLocaleString() + 'đ của ' + nap
+                                        .user);
+                                    renderAdmin();
+                                    updateUI();
+                                }
+                            }
+                        });
+                    });
+                }
+            } else {
+                // Nếu chưa đăng nhập Admin, hiển thị thông báo
+                userList.innerHTML = '<p style="color:#88c8d8;">👋 Vui lòng đăng nhập Admin để quản lý.</p>';
+                adminOrders.innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem đơn hàng.</p>';
+                adminNap.innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem yêu cầu nạp tiền.</p>';
             }
         }
 
@@ -1406,6 +1414,7 @@
                 pRole.textContent = currentUser.role || 'User';
                 pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
                 
+                // Nếu là Admin, hiển thị nội dung Admin
                 if (currentUser.role === 'admin') {
                     document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
                 } else {
@@ -1546,7 +1555,6 @@
             loginUser.value = '';
             loginPass.value = '';
             if (currentUser && currentUser.role === 'admin') { 
-                // Cập nhật lại số lượng cũ khi có user mới
                 oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
                 oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
                 renderAdmin(); 
@@ -1688,7 +1696,7 @@
                 renderAdmin();
                 console.log('🔄 Đã tự động cập nhật trang Admin');
             }
-        }, 10000); // 10 giây
+        }, 10000);
 
         // ====================================================
         // 23. KHỞI CHẠY
