@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
+        /* ===== GIỮ NGUYÊN TOÀN BỘ CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -723,9 +724,33 @@
             display: block;
         }
 
-        /* ẨN dòng chữ "Mã giảm giá chỉ dùng 1 lần!" */
         .voucher-status {
             display: none !important;
+        }
+
+        /* Thông báo Admin */
+        .admin-notification {
+            background: #ff6a00;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: none;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #ff8800;
+            animation: blink 1s infinite;
+        }
+
+        .admin-notification.show {
+            display: block;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
@@ -779,6 +804,8 @@
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
                     <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
                 </div>
+                <!-- BANNER THÔNG BÁO -->
+                <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới! Bấm Tải lại để xem.</div>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
                 <h3 style="color:#00bcd4;font-size:15px;margin:12px 0 8px;">👥 DANH SÁCH NGƯỜI DÙNG</h3>
@@ -821,7 +848,6 @@
                     <button class="copy-btn" onclick="copyNapCode()">📋 Sao chép</button>
                 </div>
 
-                <!-- Nút Đã chuyển khoản - ẨN MẶC ĐỊNH -->
                 <button id="btnTransferred" class="btn-transferred">✅ ĐÃ CHUYỂN KHOẢN</button>
                 <div id="transferredStatus" class="transferred-status"></div>
             </div>
@@ -875,7 +901,9 @@
     </div>
 
     <script>
-        // ======= DỮ LIỆU SẢN PHẨM =======
+        // ====================================================
+        // 1. DỮ LIỆU SẢN PHẨM & TÀI KHOẢN
+        // ====================================================
         const products = [
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
             { id: 2, name: 'ĐV + Nhìn xuyên keo IOS', cat: 'dv', price: 30000 },
@@ -896,7 +924,6 @@
             { id: 17, name: 'Aim Lock V3', cat: 'aim', price: 200000 },
         ];
 
-        // ======= TÀI KHOẢN =======
         const ADMIN_ACCOUNT = {
             username: 'Admin',
             password: 'Phc51580',
@@ -911,7 +938,9 @@
             localStorage.setItem('users', JSON.stringify(users));
         }
 
-        // ======= STATE =======
+        // ====================================================
+        // 2. STATE & DOM
+        // ====================================================
         let currentUser = null;
         let history = [];
         let pendingOrders = [];
@@ -925,7 +954,11 @@
         let currentNapCode = '';
         let napRequestCreated = false;
 
-        // ======= DOM =======
+        // Biến lưu số lượng cũ để so sánh
+        let oldPendingOrdersCount = 0;
+        let oldPendingNapCount = 0;
+
+        // DOM
         const productList = document.getElementById('productList');
         const categoryFilter = document.getElementById('categoryFilter');
         const userName = document.getElementById('userName');
@@ -949,8 +982,11 @@
         const napCodeContainer = document.getElementById('napCodeContainer');
         const btnTransferred = document.getElementById('btnTransferred');
         const transferredStatus = document.getElementById('transferredStatus');
+        const adminNotification = document.getElementById('adminNotification');
 
-        // ======= BOTTOM NAV CLICK =======
+        // ====================================================
+        // 3. BOTTOM NAV CLICK
+        // ====================================================
         document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var page = this.getAttribute('data-page');
@@ -965,7 +1001,9 @@
             });
         });
 
-        // ======= CHUYỂN TRANG =======
+        // ====================================================
+        // 4. CHUYỂN TRANG
+        // ====================================================
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
             var target = document.getElementById(pageId);
@@ -976,12 +1014,16 @@
             
             if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                // Ẩn thông báo khi vào trang Admin
+                adminNotification.classList.remove('show');
             } else {
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
             }
         }
 
-        // ======= TẠO MÃ NẠP TIỀN =======
+        // ====================================================
+        // 5. TẠO MÃ NẠP TIỀN
+        // ====================================================
         function generateNapCode() {
             var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             var code = 'NAP-';
@@ -1007,7 +1049,9 @@
             alert('✅ Đã sao chép mã: ' + currentNapCode);
         }
 
-        // ======= HIỆN QR + MÃ NẠP =======
+        // ====================================================
+        // 6. HIỆN/ẨN QR + MÃ NẠP
+        // ====================================================
         function showNapInfo() {
             refreshNapCode();
             qrContainer.classList.add('show');
@@ -1016,7 +1060,6 @@
             napRequestCreated = true;
         }
 
-        // ======= ẨN QR + MÃ NẠP =======
         function hideNapInfo() {
             qrContainer.classList.remove('show');
             napCodeContainer.classList.remove('show');
@@ -1025,7 +1068,9 @@
             napRequestCreated = false;
         }
 
-        // ======= RELOAD =======
+        // ====================================================
+        // 7. RELOAD ADMIN
+        // ====================================================
         window.reloadAdmin = function() {
             users = JSON.parse(localStorage.getItem('users')) || [];
             if (!users.find(function(u) { return u.username === ADMIN_ACCOUNT.username })) {
@@ -1041,10 +1086,13 @@
             }
             renderAdmin();
             updateUI();
+            adminNotification.classList.remove('show');
             alert('✅ Đã tải lại dữ liệu mới nhất!');
         };
 
-        // ======= RENDER USER =======
+        // ====================================================
+        // 8. RENDER USER
+        // ====================================================
         function renderUserList() {
             var html = '';
             users.forEach(function(u) {
@@ -1069,7 +1117,9 @@
             userList.innerHTML = html;
         }
 
-        // ======= ADMIN TIỀN =======
+        // ====================================================
+        // 9. ADMIN TIỀN
+        // ====================================================
         window.adminAddMoney = function(username) {
             var input = document.getElementById('amount_' + username);
             var amount = parseInt(input.value);
@@ -1105,7 +1155,9 @@
             }
         };
 
-        // ======= RENDER SẢN PHẨM =======
+        // ====================================================
+        // 10. RENDER SẢN PHẨM
+        // ====================================================
         function renderProducts(cat) {
             var filtered = products.filter(function(p) { return p.cat === cat });
             if (filtered.length === 0) {
@@ -1173,6 +1225,10 @@
                         discount: useVoucher ? '20%' : '0%'
                     });
 
+                    // CẬP NHẬT SỐ LƯỢNG CŨ
+                    oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
                     updateUI();
                     renderAdmin();
                     alert('⏳ Đã tạo đơn mua: ' + product.name + '\nSố tiền: ' + finalPrice.toLocaleString() + 'đ' + (
@@ -1181,13 +1237,16 @@
             });
         }
 
-        // ======= UPDATE VOUCHER =======
+        // ====================================================
+        // 11. UPDATE VOUCHER
+        // ====================================================
         function updateVoucherStatus() {
-            // ẨN HOÀN TOÀN - KHÔNG HIỂN THỊ GÌ
             voucherStatus.style.display = 'none';
         }
 
-        // ======= RENDER ADMIN =======
+        // ====================================================
+        // 12. RENDER ADMIN
+        // ====================================================
         function renderAdmin() {
             if (currentUser && currentUser.role === 'admin') {
                 renderUserList();
@@ -1195,6 +1254,22 @@
                 userList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập Admin để xem.</p>';
             }
 
+            // Đếm số lượng pending
+            var pendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+            var pendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
+            // Kiểm tra có thay đổi không
+            var hasNewOrder = pendingOrdersCount > oldPendingOrdersCount;
+            var hasNewNap = pendingNapCount > oldPendingNapCount;
+
+            if ((hasNewOrder || hasNewNap) && currentUser && currentUser.role === 'admin') {
+                adminNotification.classList.add('show');
+                // Cập nhật lại giá trị cũ
+                oldPendingOrdersCount = pendingOrdersCount;
+                oldPendingNapCount = pendingNapCount;
+            }
+
+            // Render đơn hàng
             var pending = pendingOrders.filter(function(o) { return o.status === 'pending' });
             if (pending.length === 0) {
                 adminOrders.innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
@@ -1230,6 +1305,9 @@
                                 break;
                             }
                         }
+                        // Cập nhật lại số lượng cũ
+                        oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                        adminNotification.classList.remove('show');
                         alert('✅ Đã duyệt đơn: ' + order.product + '\n🔑 Key: ' + key);
                         renderAdmin();
                         updateUI();
@@ -1237,6 +1315,7 @@
                 });
             }
 
+            // Render nạp tiền
             var pendingNapList = pendingNap.filter(function(n) { return n.status === 'pending' });
             if (pendingNapList.length === 0) {
                 adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
@@ -1274,6 +1353,9 @@
                                     date: new Date().toLocaleString(),
                                     status: 'approved'
                                 });
+                                // Cập nhật lại số lượng cũ
+                                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                adminNotification.classList.remove('show');
                                 alert('✅ Đã duyệt nạp ' + nap.amount.toLocaleString() + 'đ cho ' + nap.user);
                                 renderAdmin();
                                 updateUI();
@@ -1298,6 +1380,9 @@
                                     date: new Date().toLocaleString(),
                                     status: 'cancelled'
                                 });
+                                // Cập nhật lại số lượng cũ
+                                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                adminNotification.classList.remove('show');
                                 alert('✅ Đã hủy yêu cầu nạp ' + nap.amount.toLocaleString() + 'đ của ' + nap
                                     .user);
                                 renderAdmin();
@@ -1309,7 +1394,9 @@
             }
         }
 
-        // ======= UPDATE UI =======
+        // ====================================================
+        // 13. UPDATE UI
+        // ====================================================
         function updateUI() {
             if (currentUser) {
                 userName.textContent = currentUser.username;
@@ -1340,7 +1427,9 @@
             updateVoucherStatus();
         }
 
-        // ======= RENDER LỊCH SỬ =======
+        // ====================================================
+        // 14. RENDER LỊCH SỬ
+        // ====================================================
         function renderHistory() {
             if (!currentUser || history.length === 0) {
                 historyList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập để xem lịch sử.</p>';
@@ -1377,7 +1466,9 @@
             historyList.innerHTML = html;
         }
 
-        // ======= ĐĂNG NHẬP =======
+        // ====================================================
+        // 15. ĐĂNG NHẬP
+        // ====================================================
         document.getElementById('btnLogin').addEventListener('click', function() {
             var username = loginUser.value.trim();
             var password = loginPass.value.trim();
@@ -1406,6 +1497,11 @@
             loginPass.value = '';
             loginSuccess.textContent = '✅ Chào mừng ' + currentUser.username + '!';
             loginSuccess.style.display = 'block';
+
+            // Khởi tạo số lượng cũ
+            oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+            oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
             updateUI();
             renderProducts(currentCategory);
             renderAdmin();
@@ -1415,7 +1511,9 @@
             switchPage('page-home');
         });
 
-        // ======= ĐĂNG KÝ =======
+        // ====================================================
+        // 16. ĐĂNG KÝ
+        // ====================================================
         document.getElementById('btnRegister').addEventListener('click', function() {
             var username = loginUser.value.trim();
             var password = loginPass.value.trim();
@@ -1448,10 +1546,17 @@
             loginSuccess.style.display = 'block';
             loginUser.value = '';
             loginPass.value = '';
-            if (currentUser && currentUser.role === 'admin') { renderAdmin(); }
+            if (currentUser && currentUser.role === 'admin') { 
+                // Cập nhật lại số lượng cũ khi có user mới
+                oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                renderAdmin(); 
+            }
         });
 
-        // ======= ĐĂNG XUẤT =======
+        // ====================================================
+        // 17. ĐĂNG XUẤT
+        // ====================================================
         document.getElementById('btnLogout').addEventListener('click', function() {
             if (!currentUser) { alert('Bạn chưa đăng nhập!'); return; }
             if (confirm('Bạn muốn đăng xuất?')) {
@@ -1460,13 +1565,16 @@
                 voucherApplied = false;
                 hideNapInfo();
                 document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                adminNotification.classList.remove('show');
                 updateUI();
                 renderProducts(currentCategory);
                 switchPage('page-home');
             }
         });
 
-        // ======= VOUCHER =======
+        // ====================================================
+        // 18. VOUCHER
+        // ====================================================
         document.getElementById('btnApplyVoucher').addEventListener('click', function() {
             if (!currentUser) { alert('⚠️ Vui lòng đăng nhập trước!'); return; }
             if (currentUser.voucherUsed) { 
@@ -1485,7 +1593,9 @@
             if (e.key === 'Enter') { document.getElementById('btnApplyVoucher').click(); }
         });
 
-        // ===== NẠP TIỀN =====
+        // ====================================================
+        // 19. NẠP TIỀN
+        // ====================================================
         document.getElementById('btnNap').addEventListener('click', function() {
             if (!currentUser) {
                 alert('⚠️ Vui lòng đăng nhập để nạp tiền!');
@@ -1517,6 +1627,9 @@
                 status: 'pending'
             });
 
+            // Cập nhật số lượng cũ
+            oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
             updateUI();
             renderAdmin();
             document.getElementById('napAmount').value = '';
@@ -1524,7 +1637,9 @@
                 '\nVui lòng chờ admin duyệt!');
         });
 
-        // ===== ĐÃ CHUYỂN KHOẢN =====
+        // ====================================================
+        // 20. ĐÃ CHUYỂN KHOẢN
+        // ====================================================
         document.getElementById('btnTransferred').addEventListener('click', function() {
             if (!currentUser) {
                 alert('⚠️ Vui lòng đăng nhập!');
@@ -1554,7 +1669,9 @@
             alert('✅ Đã gửi thông báo chuyển khoản cho Admin!\n📌 Mã nạp: ' + currentNapCode);
         });
 
-        // ======= LỌC DANH MỤC =======
+        // ====================================================
+        // 21. LỌC DANH MỤC
+        // ====================================================
         categoryFilter.addEventListener('click', function(e) {
             if (e.target.tagName === 'BUTTON') {
                 document.querySelectorAll('.category-grid button').forEach(function(b) { b.classList.remove('active'); });
@@ -1564,13 +1681,36 @@
             }
         });
 
-        // ======= KHỞI CHẠY =======
+        // ====================================================
+        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN
+        // ====================================================
+        setInterval(function() {
+            if (currentUser && currentUser.role === 'admin') {
+                // Lưu số lượng cũ
+                var oldOrders = oldPendingOrdersCount;
+                var oldNap = oldPendingNapCount;
+                
+                // Render lại admin
+                renderAdmin();
+                
+                // Nếu có thay đổi, thông báo đã được hiển thị trong renderAdmin
+                console.log('🔄 Đã tự động cập nhật trang Admin');
+            }
+        }, 10000); // 10 giây
+
+        // ====================================================
+        // 23. KHỞI CHẠY
+        // ====================================================
         renderProducts('aim');
         updateUI();
         renderAdmin();
         refreshNapCode();
         hideNapInfo();
+
+        // Khởi tạo số lượng cũ
+        oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+        oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
     </script>
 
 </body>
-    </html>
+                                                                                                 </html>
