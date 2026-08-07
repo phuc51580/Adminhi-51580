@@ -1,13 +1,13 @@
 {
-  "name": "adminhi-store",
+  "name": "adminhi-51580",
   "version": "1.0.0",
-  "private": true,
+  "description": "Admin store backend",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^5.1.0",
-    "better-sqlite3": "^11.7.0",
-    "bcryptjs": "^2.4.3"
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   }
 }
