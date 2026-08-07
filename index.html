@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN HI STORE</title>
     <style>
+        /* ===== GIỮ NGUYÊN TOÀN BỘ CSS CŨ ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
+
         body {
             background: #0d0d0d;
             color: #fff;
@@ -18,6 +20,7 @@
             justify-content: center;
             padding: 20px;
         }
+
         .container {
             max-width: 420px;
             width: 100%;
@@ -27,6 +30,7 @@
             position: relative;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
+
         .zalo-float {
             position: fixed;
             bottom: 80px;
@@ -38,6 +42,7 @@
             cursor: pointer;
             animation: pulse 2s infinite;
         }
+
         .zalo-float img {
             width: 55px;
             height: 55px;
@@ -46,9 +51,11 @@
             border: 2px solid #00bcd4;
             transition: 0.3s;
         }
+
         .zalo-float img:hover {
             transform: scale(1.1);
         }
+
         .zalo-float .zalo-text {
             font-size: 11px;
             color: #00bcd4;
@@ -59,11 +66,13 @@
             border-radius: 10px;
             border: 1px solid #00bcd4;
         }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -72,23 +81,28 @@
             padding-bottom: 12px;
             margin-bottom: 16px;
         }
+
         .header h1 {
             font-size: 20px;
             color: #00bcd4;
             letter-spacing: 1px;
         }
+
         .user-info {
             text-align: right;
             font-size: 13px;
             color: #aaa;
         }
+
         .user-info .name {
             color: #fff;
             font-weight: bold;
         }
+
         .user-info .balance {
             color: #00bcd4;
         }
+
         .section-title {
             color: #00bcd4;
             font-size: 16px;
@@ -96,12 +110,14 @@
             margin: 16px 0 10px 0;
             letter-spacing: 0.5px;
         }
+
         .category-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 16px;
         }
+
         .category-grid button {
             background: #1a3a4a;
             border: 1px solid #00bcd4;
@@ -113,17 +129,20 @@
             transition: 0.2s;
             text-align: center;
         }
+
         .category-grid button:hover,
         .category-grid button.active {
             background: #00bcd4;
             color: #fff;
             border-color: #00bcd4;
         }
+
         .product-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
         .product {
             background: #1a3a4a;
             border-radius: 8px;
@@ -133,19 +152,23 @@
             align-items: center;
             border-left: 3px solid #00bcd4;
         }
+
         .product .info {
             flex: 1;
         }
+
         .product .info h3 {
             font-size: 15px;
             margin-bottom: 4px;
             color: #fff;
             font-weight: normal;
         }
+
         .product .info .tag {
             font-size: 12px;
             color: #88c8d8;
         }
+
         .product .price {
             font-size: 16px;
             font-weight: bold;
@@ -153,6 +176,7 @@
             margin-right: 12px;
             white-space: nowrap;
         }
+
         .product .btn-buy {
             background: #00bcd4;
             color: #fff;
@@ -165,20 +189,24 @@
             transition: 0.2s;
             white-space: nowrap;
         }
+
         .product .btn-buy:hover {
             background: #0097a7;
         }
+
         .card {
             background: #222;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
         }
+
         .card h2 {
             font-size: 18px;
             margin-bottom: 12px;
             color: #00bcd4;
         }
+
         .card input,
         .card select {
             width: 100%;
@@ -190,9 +218,11 @@
             margin-bottom: 10px;
             font-size: 14px;
         }
+
         .card input::placeholder {
             color: #666;
         }
+
         .card button {
             background: #00bcd4;
             color: #fff;
@@ -205,25 +235,31 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         .card button:hover {
             background: #0097a7;
         }
+
         .row-btns {
             display: flex;
             gap: 10px;
         }
+
         .row-btns button {
             flex: 1;
         }
+
         .btn-outline {
             background: transparent !important;
             border: 1px solid #00bcd4 !important;
             color: #00bcd4 !important;
         }
+
         .btn-outline:hover {
             background: #00bcd4 !important;
             color: #fff !important;
         }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -239,6 +275,7 @@
             border-radius: 16px 16px 0 0;
             z-index: 100;
         }
+
         .bottom-nav button {
             background: transparent;
             border: none;
@@ -249,16 +286,20 @@
             padding: 4px 12px;
             transition: 0.2s;
         }
+
         .bottom-nav button:hover,
         .bottom-nav button.active {
             color: #00bcd4;
         }
+
         .page {
             display: none;
         }
+
         .page.active {
             display: block;
         }
+
         .history-item,
         .order-item,
         .nap-item {
@@ -269,12 +310,14 @@
             border-left: 3px solid #00bcd4;
             font-size: 14px;
         }
+
         .history-item .date,
         .order-item .date,
         .nap-item .date {
             color: #88c8d8;
             font-size: 12px;
         }
+
         .history-item .key-display {
             background: #0a2a3a;
             padding: 6px 10px;
@@ -286,11 +329,36 @@
             margin-top: 6px;
             word-break: break-all;
         }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-pending {
+            background: #ff9800;
+            color: #000;
+        }
+
+        .badge-approved {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        .badge-delivered {
+            background: #00bcd4;
+            color: #fff;
+        }
+
         .order-item .key-input {
             margin-top: 6px;
             display: flex;
             gap: 6px;
         }
+
         .order-item .key-input input {
             flex: 1;
             padding: 6px 10px;
@@ -300,9 +368,11 @@
             color: #fff;
             font-size: 13px;
         }
+
         .order-item .key-input input::placeholder {
             color: #666;
         }
+
         .order-item .key-input button {
             padding: 6px 14px;
             background: #00bcd4;
@@ -312,21 +382,25 @@
             cursor: pointer;
             font-weight: bold;
         }
+
         .order-item .key-input button:hover {
             background: #0097a7;
         }
+
         .error-msg {
             color: #ff4444;
             font-size: 13px;
             margin-top: 6px;
             display: none;
         }
+
         .success-msg {
             color: #4caf50;
             font-size: 13px;
             margin-top: 6px;
             display: none;
         }
+
         .user-item {
             background: #1a3a4a;
             padding: 10px 14px;
@@ -335,6 +409,7 @@
             border-left: 3px solid #00bcd4;
             font-size: 14px;
         }
+
         .user-item .user-row {
             display: flex;
             justify-content: space-between;
@@ -342,30 +417,36 @@
             flex-wrap: wrap;
             gap: 6px;
         }
+
         .user-item .user-role {
             font-size: 12px;
             padding: 2px 10px;
             border-radius: 12px;
             font-weight: bold;
         }
+
         .role-admin {
             background: #ff6a00;
             color: #000;
         }
+
         .role-user {
             background: #00bcd4;
             color: #000;
         }
+
         .user-balance {
             color: #ffd700;
             font-weight: bold;
         }
+
         .user-item .user-actions {
             display: flex;
             gap: 6px;
             margin-top: 6px;
             flex-wrap: wrap;
         }
+
         .user-item .user-actions input {
             width: 80px;
             padding: 4px 8px;
@@ -375,6 +456,7 @@
             color: #fff;
             font-size: 13px;
         }
+
         .user-item .user-actions button {
             padding: 4px 10px;
             border-radius: 4px;
@@ -383,20 +465,25 @@
             font-weight: bold;
             font-size: 12px;
         }
+
         .btn-add-money {
             background: #4caf50;
             color: #fff;
         }
+
         .btn-add-money:hover {
             background: #388e3c;
         }
+
         .btn-sub-money {
             background: #ff4444;
             color: #fff;
         }
+
         .btn-sub-money:hover {
             background: #cc0000;
         }
+
         .history-item .status-badge {
             display: inline-block;
             padding: 2px 10px;
@@ -404,18 +491,22 @@
             font-size: 11px;
             font-weight: bold;
         }
+
         .status-pending {
             background: #ff9800;
             color: #000;
         }
+
         .status-approved {
             background: #4caf50;
             color: #fff;
         }
+
         .status-delivered {
             background: #00bcd4;
             color: #fff;
         }
+
         .btn-reload {
             background: #00bcd4;
             color: #fff;
@@ -428,15 +519,22 @@
             transition: 0.2s;
             margin-bottom: 12px;
         }
+
         .btn-reload:hover {
             background: #0097a7;
         }
+
+        .btn-reload:active {
+            transform: scale(0.95);
+        }
+
         .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
+
         .qr-container {
             background: #fff;
             border-radius: 12px;
@@ -445,20 +543,24 @@
             margin: 12px 0;
             display: none;
         }
+
         .qr-container.show {
             display: block;
         }
+
         .qr-container img {
             max-width: 200px;
             width: 100%;
             border-radius: 8px;
         }
+
         .qr-container .qr-code {
             color: #000;
             font-weight: bold;
             font-size: 14px;
             margin-top: 8px;
         }
+
         .nap-code {
             background: #0a2a3a;
             border: 1px solid #00bcd4;
@@ -468,13 +570,16 @@
             margin: 8px 0;
             display: none;
         }
+
         .nap-code.show {
             display: block;
         }
+
         .nap-code .label {
             color: #88c8d8;
             font-size: 12px;
         }
+
         .nap-code .code {
             color: #ffd700;
             font-size: 20px;
@@ -482,6 +587,7 @@
             letter-spacing: 2px;
             font-family: monospace;
         }
+
         .copy-btn {
             background: #00bcd4;
             color: #fff;
@@ -492,9 +598,11 @@
             font-size: 12px;
             margin-top: 4px;
         }
+
         .copy-btn:hover {
             background: #0097a7;
         }
+
         .voucher-section {
             margin-top: 12px;
             background: #1a3a4a;
@@ -502,10 +610,12 @@
             border-radius: 8px;
             padding: 12px;
         }
+
         .voucher-section .voucher-row {
             display: flex;
             gap: 8px;
         }
+
         .voucher-section .voucher-row input {
             flex: 1;
             padding: 8px 12px;
@@ -515,6 +625,7 @@
             color: #fff;
             font-size: 14px;
         }
+
         .voucher-section .voucher-row button {
             background: #00bcd4;
             color: #fff;
@@ -524,22 +635,53 @@
             font-weight: bold;
             cursor: pointer;
         }
+
         .voucher-section .voucher-row button:hover {
             background: #0097a7;
         }
-        .voucher-status {
-            display: none !important;
+
+        .voucher-status.used {
+            color: #ff4444;
         }
+
+        .voucher-status.active {
+            color: #4caf50;
+        }
+
+        .nap-info {
+            color: #88c8d8;
+            font-size: 13px;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .btn-cancel {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .btn-cancel:hover {
+            background: #cc0000;
+        }
+
         .nap-actions {
             display: flex;
             gap: 8px;
             margin-top: 6px;
             flex-wrap: wrap;
         }
+
         .nap-actions button {
             flex: 1;
             min-width: 80px;
         }
+
         .btn-transferred {
             background: #ff9800;
             color: #fff;
@@ -553,12 +695,15 @@
             margin-top: 12px;
             display: none;
         }
+
         .btn-transferred:hover {
             background: #e68900;
         }
+
         .btn-transferred.show {
             display: block;
         }
+
         .transferred-status {
             color: #88c8d8;
             font-size: 13px;
@@ -566,9 +711,15 @@
             margin-top: 6px;
             display: none;
         }
+
         .transferred-status.show {
             display: block;
         }
+
+        .voucher-status {
+            display: none !important;
+        }
+
         .admin-notification {
             background: #ff6a00;
             color: #fff;
@@ -582,32 +733,15 @@
             border: 1px solid #ff8800;
             animation: blink 1s infinite;
         }
+
         .admin-notification.show {
             display: block;
         }
+
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
-        }
-        .btn-cancel {
-            background: #ff4444;
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 6px;
-        }
-        .btn-cancel:hover {
-            background: #cc0000;
-        }
-        .db-status {
-            text-align: center;
-            padding: 4px;
-            font-size: 12px;
-            color: #4caf50;
         }
     </style>
 </head>
@@ -659,10 +793,9 @@
             <div class="card">
                 <div class="admin-header">
                     <h2>🛠️ QUẢN LÝ ADMIN</h2>
-                    <button class="btn-reload" onclick="loadAllData()">🔄 Tải lại</button>
+                    <button class="btn-reload" onclick="reloadAdmin()">🔄 Tải lại</button>
                 </div>
                 <div id="adminNotification" class="admin-notification">📢 Có yêu cầu mới!</div>
-                <div class="db-status" id="dbStatus">🟢 Đã kết nối server</div>
                 <p style="color:#88c8d8;font-size:13px;margin-bottom:12px;">Duyệt đơn hàng, quản lý người dùng và nạp tiền</p>
 
                 <h3 style="color:#00bcd4;font-size:15px;margin:12px 0 8px;">👥 DANH SÁCH NGƯỜI DÙNG</h3>
@@ -759,12 +892,7 @@
 
     <script>
         // ====================================================
-        // CẤU HÌNH API - THAY LINK NÀY BẰNG WEB SERVICE CỦA BẠN
-        // ====================================================
-        const API_URL = 'https://adminhi-51580-api.onrender.com';
-
-        // ====================================================
-        // DỮ LIỆU SẢN PHẨM
+        // 1. DỮ LIỆU SẢN PHẨM & TÀI KHOẢN
         // ====================================================
         const products = [
             { id: 1, name: 'AC CLON LV5', cat: 'ac', price: 4000 },
@@ -786,549 +914,657 @@
             { id: 17, name: 'Aim Lock V3', cat: 'aim', price: 200000 },
         ];
 
+        const ADMIN_ACCOUNT = {
+            username: 'Admin',
+            password: 'Phc51580',
+            role: 'admin',
+            balance: 0,
+            voucherUsed: false
+        };
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        if (!users.find(u => u.username === ADMIN_ACCOUNT.username)) {
+            users.push(ADMIN_ACCOUNT);
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
         // ====================================================
-        // STATE
+        // 2. STATE & DOM
         // ====================================================
         let currentUser = null;
-        let users = [];
+        let history = [];
         let pendingOrders = [];
         let pendingNap = [];
-        let history = [];
+        let orderCounter = 1;
+        let napCounter = 1;
         let currentCategory = 'aim';
+        let discountPercent = 20;
+        let voucherCode = 'Admin_hi_51580';
         let voucherApplied = false;
         let currentNapCode = '';
         let napRequestCreated = false;
-        let discountPercent = 20;
-        let lastNapCount = 0;
-        let lastOrderCount = 0;
+
+        // Biến lưu số lượng cũ để so sánh
+        let oldPendingOrdersCount = 0;
+        let oldPendingNapCount = 0;
+
+        // DOM
+        const productList = document.getElementById('productList');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const userName = document.getElementById('userName');
+        const userBalance = document.getElementById('userBalance');
+        const pName = document.getElementById('pName');
+        const pBalance = document.getElementById('pBalance');
+        const pStatus = document.getElementById('pStatus');
+        const pRole = document.getElementById('pRole');
+        const pVoucherUsed = document.getElementById('pVoucherUsed');
+        const historyList = document.getElementById('historyList');
+        const adminOrders = document.getElementById('adminOrders');
+        const adminNap = document.getElementById('adminNap');
+        const userList = document.getElementById('userList');
+        const loginUser = document.getElementById('loginUser');
+        const loginPass = document.getElementById('loginPass');
+        const loginError = document.getElementById('loginError');
+        const loginSuccess = document.getElementById('loginSuccess');
+        const voucherStatus = document.getElementById('voucherStatus');
+        const napCodeDisplay = document.getElementById('napCodeDisplay');
+        const qrContainer = document.getElementById('qrContainer');
+        const napCodeContainer = document.getElementById('napCodeContainer');
+        const btnTransferred = document.getElementById('btnTransferred');
+        const transferredStatus = document.getElementById('transferredStatus');
+        const adminNotification = document.getElementById('adminNotification');
 
         // ====================================================
-        // HÀM GỌI API
+        // 3. BOTTOM NAV CLICK
         // ====================================================
-        async function loadAllData() {
-            try {
-                const res = await fetch(`${API_URL}/api/all`);
-                if (!res.ok) throw new Error('Lỗi kết nối');
-                const data = await res.json();
-                
-                users = data.users || [];
-                pendingOrders = data.pendingOrders || [];
-                pendingNap = data.pendingNap || [];
-                history = data.history || [];
-                
-                if (currentUser) {
-                    const updated = users.find(u => u.username === currentUser.username);
-                    if (updated) {
-                        currentUser.balance = updated.balance || 0;
-                        currentUser.voucherUsed = updated.voucherUsed || false;
-                    }
+        document.querySelectorAll('.bottom-nav button').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var page = this.getAttribute('data-page');
+                // Kiểm tra nếu bấm vào Admin mà chưa đăng nhập Admin
+                if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
+                    alert('⚠️ Vui lòng đăng nhập với tài khoản Admin để truy cập!');
+                    // Chuyển sang tab Cá nhân để đăng nhập
+                    switchPage('page-profile');
+                    return;
                 }
-                
-                document.getElementById('dbStatus').textContent = '🟢 Đã kết nối server';
-                document.getElementById('dbStatus').style.color = '#4caf50';
-                
-                renderAdmin();
-                updateUI();
-                return true;
-            } catch (error) {
-                console.error('Lỗi load data:', error);
-                document.getElementById('dbStatus').textContent = '🔴 Lỗi kết nối server';
-                document.getElementById('dbStatus').style.color = '#ff4444';
-                return false;
-            }
-        }
-
-        // ====================================================
-        // RENDER SẢN PHẨM
-        // ====================================================
-        function renderProducts(cat) {
-            const filtered = products.filter(p => p.cat === cat);
-            if (filtered.length === 0) {
-                document.getElementById('productList').innerHTML = '<p style="color:#88c8d8;text-align:center;padding:20px 0;">Không có sản phẩm nào.</p>';
-                return;
-            }
-            let html = '';
-            filtered.forEach(p => {
-                html += `<div class="product">
-                    <div class="info"><h3>${p.name}</h3><span class="tag">Sản phẩm kỹ thuật số</span></div>
-                    <div class="price">${p.price.toLocaleString()}đ</div>
-                    <button class="btn-buy" data-id="${p.id}">MUA NGAY</button>
-                </div>`;
-            });
-            document.getElementById('productList').innerHTML = html;
-
-            document.querySelectorAll('.btn-buy').forEach(btn => {
-                btn.addEventListener('click', async function() {
-                    const id = parseInt(this.dataset.id);
-                    const product = products.find(p => p.id === id);
-                    if (!product) return;
-                    if (!currentUser) {
-                        alert('⚠️ Vui lòng đăng nhập!');
-                        switchPage('page-profile');
-                        return;
-                    }
-
-                    let finalPrice = product.price;
-                    const useVoucher = voucherApplied && !currentUser.voucherUsed;
-                    if (useVoucher) finalPrice = Math.round(product.price * (1 - discountPercent / 100));
-
-                    if (currentUser.balance < finalPrice) {
-                        alert(`❌ Số dư không đủ! Cần ${finalPrice.toLocaleString()}đ`);
-                        return;
-                    }
-
-                    try {
-                        const res = await fetch(`${API_URL}/api/buy`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                product: product.name,
-                                price: finalPrice,
-                                user: currentUser.username,
-                                voucherUsed: useVoucher
-                            })
-                        });
-                        const result = await res.json();
-                        if (result.success) {
-                            if (useVoucher) {
-                                voucherApplied = false;
-                                currentUser.voucherUsed = true;
-                            }
-                            await loadAllData();
-                            alert(`⏳ Đã tạo đơn mua: ${product.name}\nSố tiền: ${finalPrice.toLocaleString()}đ\nVui lòng chờ admin duyệt!`);
-                        }
-                    } catch (error) {
-                        alert('❌ Lỗi kết nối server!');
-                    }
-                });
-            });
-        }
-
-        // ====================================================
-        // RENDER ADMIN
-        // ====================================================
-        function renderAdmin() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                document.getElementById('userList').innerHTML = '<p style="color:#88c8d8;">👋 Đăng nhập Admin để quản lý.</p>';
-                document.getElementById('adminOrders').innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem.</p>';
-                document.getElementById('adminNap').innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem.</p>';
-                return;
-            }
-
-            // Render users
-            let userHtml = '';
-            users.forEach(u => {
-                const roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
-                userHtml += `<div class="user-item">
-                    <div class="user-row">
-                        <div><strong>${u.username}</strong></div>
-                        <div><span class="user-balance">${(u.balance||0).toLocaleString()}đ</span>
-                        <span class="user-role ${roleClass}">${u.role === 'admin' ? 'Admin' : 'User'}</span></div>
-                    </div>
-                    ${u.role !== 'admin' ? `<div class="user-actions">
-                        <input type="number" id="amount_${u.username}" placeholder="Số tiền" style="width:80px;" />
-                        <button class="btn-add-money" onclick="adminAddMoney('${u.username}')">+ Thêm</button>
-                        <button class="btn-sub-money" onclick="adminSubMoney('${u.username}')">- Trừ</button>
-                    </div>` : ''}
-                </div>`;
-            });
-            document.getElementById('userList').innerHTML = userHtml;
-
-            // Render pending orders
-            const pending = pendingOrders.filter(o => o.status === 'pending');
-            if (pending.length === 0) {
-                document.getElementById('adminOrders').innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
-            } else {
-                let html = '';
-                pending.forEach(o => {
-                    html += `<div class="order-item">
-                        <div><strong>${o.product}</strong> - ${o.price.toLocaleString()}đ ${o.voucherUsed ? '🎫 -20%' : ''}</div>
-                        <div>👤 ${o.user}</div>
-                        <div class="date">${o.date}</div>
-                        <div class="key-input">
-                            <input type="text" class="keyInput" placeholder="Nhập key" />
-                            <button class="btn-approve-order" data-id="${o.id}">✅ Duyệt</button>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('adminOrders').innerHTML = html;
-
-                document.querySelectorAll('.btn-approve-order').forEach(btn => {
-                    btn.addEventListener('click', async function() {
-                        const id = parseInt(this.dataset.id);
-                        const keyInput = this.closest('.order-item').querySelector('.keyInput');
-                        const key = keyInput.value.trim();
-                        if (!key) { alert('⚠️ Vui lòng nhập key!'); return; }
-                        
-                        try {
-                            const res = await fetch(`${API_URL}/api/approve-order`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ id, key })
-                            });
-                            const result = await res.json();
-                            if (result.success) {
-                                alert('✅ Đã duyệt đơn hàng!');
-                                await loadAllData();
-                            }
-                        } catch (error) {
-                            alert('❌ Lỗi kết nối!');
-                        }
-                    });
-                });
-            }
-
-            // Render pending nap
-            const napPending = pendingNap.filter(n => n.status === 'pending');
-            if (napPending.length === 0) {
-                document.getElementById('adminNap').innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
-            } else {
-                let html = '';
-                napPending.forEach(n => {
-                    html += `<div class="nap-item">
-                        <div><strong>${n.amount.toLocaleString()}đ</strong></div>
-                        <div>👤 ${n.user}</div>
-                        <div style="color:#88c8d8;font-size:12px;">Mã: ${n.code || 'Không có'}</div>
-                        <div class="date">${n.date}</div>
-                        <div class="nap-actions">
-                            <button class="btn-approve-nap" data-id="${n.id}">✅ Duyệt</button>
-                            <button class="btn-cancel-nap" data-id="${n.id}">❌ Hủy</button>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('adminNap').innerHTML = html;
-
-                document.querySelectorAll('.btn-approve-nap').forEach(btn => {
-                    btn.addEventListener('click', async function() {
-                        const id = parseInt(this.dataset.id);
-                        if (!confirm('Duyệt nạp tiền này?')) return;
-                        try {
-                            const res = await fetch(`${API_URL}/api/approve-nap`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ id })
-                            });
-                            const result = await res.json();
-                            if (result.success) {
-                                alert('✅ Đã duyệt nạp tiền!');
-                                await loadAllData();
-                            }
-                        } catch (error) {
-                            alert('❌ Lỗi kết nối!');
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.btn-cancel-nap').forEach(btn => {
-                    btn.addEventListener('click', async function() {
-                        const id = parseInt(this.dataset.id);
-                        if (!confirm('Hủy yêu cầu nạp này?')) return;
-                        try {
-                            const res = await fetch(`${API_URL}/api/cancel-nap`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ id })
-                            });
-                            const result = await res.json();
-                            if (result.success) {
-                                alert('✅ Đã hủy yêu cầu nạp!');
-                                await loadAllData();
-                            }
-                        } catch (error) {
-                            alert('❌ Lỗi kết nối!');
-                        }
-                    });
-                });
-            }
-
-            // Kiểm tra có yêu cầu mới không
-            const newNapCount = pendingNap.filter(n => n.status === 'pending').length;
-            const newOrderCount = pendingOrders.filter(o => o.status === 'pending').length;
-            if (newNapCount > lastNapCount || newOrderCount > lastOrderCount) {
-                document.getElementById('adminNotification').classList.add('show');
-                setTimeout(() => {
-                    document.getElementById('adminNotification').classList.remove('show');
-                }, 5000);
-            }
-            lastNapCount = newNapCount;
-            lastOrderCount = newOrderCount;
-        }
-
-        // ====================================================
-        // ADMIN THÊM/TRỪ TIỀN
-        // ====================================================
-        window.adminAddMoney = async function(username) {
-            const input = document.getElementById('amount_' + username);
-            const amount = parseInt(input.value);
-            if (!amount || amount <= 0) { alert('⚠️ Nhập số tiền hợp lệ!'); return; }
-            try {
-                const res = await fetch(`${API_URL}/api/update-balance`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, amount })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    alert(`✅ Đã cộng ${amount.toLocaleString()}đ cho ${username}`);
-                    input.value = '';
-                    await loadAllData();
+                if (page !== 'page-admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
                 }
-            } catch (error) {
-                alert('❌ Lỗi kết nối!');
-            }
-        };
-
-        window.adminSubMoney = async function(username) {
-            const input = document.getElementById('amount_' + username);
-            const amount = parseInt(input.value);
-            if (!amount || amount <= 0) { alert('⚠️ Nhập số tiền hợp lệ!'); return; }
-            try {
-                const res = await fetch(`${API_URL}/api/update-balance`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, amount: -amount })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    alert(`✅ Đã trừ ${amount.toLocaleString()}đ của ${username}`);
-                    input.value = '';
-                    await loadAllData();
-                }
-            } catch (error) {
-                alert('❌ Lỗi kết nối!');
-            }
-        };
-
-        // ====================================================
-        // UPDATE UI
-        // ====================================================
-        function updateUI() {
-            if (currentUser) {
-                document.getElementById('userName').textContent = currentUser.username;
-                document.getElementById('userBalance').textContent = currentUser.balance.toLocaleString() + 'đ';
-                document.getElementById('pName').textContent = currentUser.username;
-                document.getElementById('pBalance').textContent = currentUser.balance.toLocaleString() + 'đ';
-                document.getElementById('pStatus').textContent = 'Đã đăng nhập';
-                document.getElementById('pRole').textContent = currentUser.role || 'User';
-                document.getElementById('pVoucherUsed').textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
-            } else {
-                document.getElementById('userName').textContent = 'Khách';
-                document.getElementById('userBalance').textContent = '0đ';
-                document.getElementById('pName').textContent = 'Khách';
-                document.getElementById('pBalance').textContent = '0đ';
-                document.getElementById('pStatus').textContent = 'Chưa đăng nhập';
-                document.getElementById('pRole').textContent = 'Khách';
-                document.getElementById('pVoucherUsed').textContent = 'Chưa';
-                hideNapInfo();
-            }
-            renderHistory();
-        }
-
-        // ====================================================
-        // RENDER LỊCH SỬ
-        // ====================================================
-        function renderHistory() {
-            if (!currentUser || history.length === 0) {
-                document.getElementById('historyList').innerHTML = '<p style="color:#88c8d8;">Chưa có lịch sử.</p>';
-                return;
-            }
-            let html = '';
-            const reversed = [...history].reverse();
-            reversed.forEach(item => {
-                const sign = item.amount >= 0 ? '+' : '';
-                let statusBadge = '';
-                if (item.status === 'pending') statusBadge = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                else if (item.status === 'delivered') statusBadge = '<span class="status-badge status-delivered">✅ Đã giao</span>';
-                else if (item.status === 'approved') statusBadge = '<span class="status-badge status-approved">✅ Đã duyệt</span>';
-                else if (item.status === 'cancelled') statusBadge = '<span class="status-badge" style="background:#ff4444;color:#fff;">❌ Đã hủy</span>';
-                
-                html += `<div class="history-item">
-                    <div><strong>${item.type}</strong> - ${item.product || ''} ${statusBadge}</div>
-                    <div style="color:${item.amount >= 0 ? '#4caf50' : '#ff6a00'};">${sign}${item.amount.toLocaleString()}đ</div>
-                    <div class="date">${item.date}</div>
-                    ${item.key ? `<div class="key-display">🔑 Key: ${item.key}</div>` : ''}
-                </div>`;
+                switchPage(page);
             });
-            document.getElementById('historyList').innerHTML = html;
+        });
+
+        // ====================================================
+        // 4. CHUYỂN TRANG
+        // ====================================================
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+            var target = document.getElementById(pageId);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('.bottom-nav button').forEach(function(b) { b.classList.remove('active'); });
+            var navBtn = document.querySelector('.bottom-nav button[data-page="' + pageId + '"]');
+            if (navBtn) navBtn.classList.add('active');
+            
+            if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                adminNotification.classList.remove('show');
+            } else {
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+            }
         }
 
         // ====================================================
-        // TẠO MÃ NẠP
+        // 5. TẠO MÃ NẠP TIỀN
         // ====================================================
         function generateNapCode() {
-            return 'NAP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var code = 'NAP-';
+            for (var i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
         }
 
         function refreshNapCode() {
             currentNapCode = generateNapCode();
-            document.getElementById('napCodeDisplay').textContent = currentNapCode;
+            if (napCodeDisplay) napCodeDisplay.textContent = currentNapCode;
         }
 
         function copyNapCode() {
-            if (!currentNapCode) { alert('⚠️ Chưa có mã!'); return; }
-            navigator.clipboard.writeText(currentNapCode).then(() => {
-                alert('✅ Đã sao chép: ' + currentNapCode);
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = currentNapCode;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('✅ Đã sao chép: ' + currentNapCode);
-            });
+            if (!currentNapCode) { alert('⚠️ Chưa có mã nạp tiền!'); return; }
+            var textarea = document.createElement('textarea');
+            textarea.value = currentNapCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('✅ Đã sao chép mã: ' + currentNapCode);
         }
 
+        // ====================================================
+        // 6. HIỆN/ẨN QR + MÃ NẠP
+        // ====================================================
         function showNapInfo() {
             refreshNapCode();
-            document.getElementById('qrContainer').classList.add('show');
-            document.getElementById('napCodeContainer').classList.add('show');
-            document.getElementById('btnTransferred').classList.add('show');
+            qrContainer.classList.add('show');
+            napCodeContainer.classList.add('show');
+            btnTransferred.classList.add('show');
             napRequestCreated = true;
         }
 
         function hideNapInfo() {
-            document.getElementById('qrContainer').classList.remove('show');
-            document.getElementById('napCodeContainer').classList.remove('show');
-            document.getElementById('btnTransferred').classList.remove('show');
-            document.getElementById('transferredStatus').classList.remove('show');
+            qrContainer.classList.remove('show');
+            napCodeContainer.classList.remove('show');
+            btnTransferred.classList.remove('show');
+            transferredStatus.classList.remove('show');
             napRequestCreated = false;
         }
 
         // ====================================================
-        // NẠP TIỀN
+        // 7. RELOAD ADMIN
         // ====================================================
-        document.getElementById('btnNap').addEventListener('click', async function() {
-            if (!currentUser) { alert('⚠️ Vui lòng đăng nhập!'); return; }
-            const amount = parseInt(document.getElementById('napAmount').value);
-            if (!amount || amount <= 0) { alert('❌ Nhập số tiền hợp lệ!'); return; }
+        window.reloadAdmin = function() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('⚠️ Vui lòng đăng nhập Admin trước!');
+                return;
+            }
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            if (!users.find(function(u) { return u.username === ADMIN_ACCOUNT.username })) {
+                users.push(ADMIN_ACCOUNT);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            if (currentUser) {
+                var updatedUser = users.find(function(u) { return u.username === currentUser.username });
+                if (updatedUser) {
+                    currentUser.balance = updatedUser.balance || 0;
+                    currentUser.voucherUsed = updatedUser.voucherUsed || false;
+                }
+            }
+            renderAdmin();
+            updateUI();
+            adminNotification.classList.remove('show');
+            alert('✅ Đã tải lại dữ liệu mới nhất!');
+        };
 
-            currentNapCode = generateNapCode();
-            document.getElementById('napCodeDisplay').textContent = currentNapCode;
-            document.getElementById('qrContainer').classList.add('show');
-            document.getElementById('napCodeContainer').classList.add('show');
-            document.getElementById('btnTransferred').classList.add('show');
-            napRequestCreated = true;
+        // ====================================================
+        // 8. RENDER USER
+        // ====================================================
+        function renderUserList() {
+            var html = '';
+            users.forEach(function(u) {
+                var roleClass = u.role === 'admin' ? 'role-admin' : 'role-user';
+                var roleText = u.role === 'admin' ? 'Admin' : 'User';
+                var voucherText = u.voucherUsed ? 'Đã dùng' : 'Chưa dùng';
+                html +=
+                    '<div class="user-item"><div class="user-row"><div><strong>' + u.username +
+                    '</strong></div><div><span class="user-balance">' + (u.balance || 0).toLocaleString() +
+                    'đ</span><span class="user-role ' + roleClass + '">' + roleText +
+                    '</span></div></div><div style="color:#88c8d8;font-size:12px;margin-top:4px;">Voucher: ' +
+                    voucherText + '</div>';
+                if (u.role !== 'admin') {
+                    html +=
+                        '<div class="user-actions"><input type="number" id="amount_' + u.username +
+                        '" placeholder="Số tiền" style="width:80px;" /><button class="btn-add-money" onclick="adminAddMoney(\'' +
+                        u.username + '\')">+ Thêm</button><button class="btn-sub-money" onclick="adminSubMoney(\'' +
+                        u.username + '\')">- Trừ</button></div>';
+                }
+                html += '</div>';
+            });
+            userList.innerHTML = html;
+        }
 
-            try {
-                const res = await fetch(`${API_URL}/api/nap`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        amount: amount,
+        // ====================================================
+        // 9. ADMIN TIỀN
+        // ====================================================
+        window.adminAddMoney = function(username) {
+            var input = document.getElementById('amount_' + username);
+            var amount = parseInt(input.value);
+            if (!amount || amount <= 0) { alert('⚠️ Vui lòng nhập số tiền hợp lệ!'); return; }
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            var user = users.find(function(u) { return u.username === username });
+            if (user) {
+                user.balance = (user.balance || 0) + amount;
+                localStorage.setItem('users', JSON.stringify(users));
+                if (currentUser && currentUser.username === username) { currentUser.balance = user.balance; }
+                alert('✅ Đã cộng ' + amount.toLocaleString() + 'đ vào tài khoản ' + username);
+                input.value = '';
+                renderAdmin();
+                updateUI();
+            }
+        };
+
+        window.adminSubMoney = function(username) {
+            var input = document.getElementById('amount_' + username);
+            var amount = parseInt(input.value);
+            if (!amount || amount <= 0) { alert('⚠️ Vui lòng nhập số tiền hợp lệ!'); return; }
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            var user = users.find(function(u) { return u.username === username });
+            if (user) {
+                if ((user.balance || 0) < amount) { alert('❌ Số dư không đủ để trừ!'); return; }
+                user.balance = (user.balance || 0) - amount;
+                localStorage.setItem('users', JSON.stringify(users));
+                if (currentUser && currentUser.username === username) { currentUser.balance = user.balance; }
+                alert('✅ Đã trừ ' + amount.toLocaleString() + 'đ của tài khoản ' + username);
+                input.value = '';
+                renderAdmin();
+                updateUI();
+            }
+        };
+
+        // ====================================================
+        // 10. RENDER SẢN PHẨM
+        // ====================================================
+        function renderProducts(cat) {
+            var filtered = products.filter(function(p) { return p.cat === cat });
+            if (filtered.length === 0) {
+                productList.innerHTML = '<p style="color:#88c8d8;text-align:center;padding:20px 0;">Không có sản phẩm nào.</p>';
+                return;
+            }
+            var html = '';
+            filtered.forEach(function(p) {
+                html +=
+                    '<div class="product"><div class="info"><h3>' + p.name +
+                    '</h3><span class="tag">Sản phẩm kỹ thuật số</span></div><div class="price">' + p.price
+                    .toLocaleString() + 'đ</div><button class="btn-buy" data-id="' + p.id + '">MUA NGAY</button></div>';
+            });
+            productList.innerHTML = html;
+
+            document.querySelectorAll('.btn-buy').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var id = parseInt(this.getAttribute('data-id'));
+                    var product = products.find(function(p) { return p.id === id });
+                    if (!product) return;
+                    if (!currentUser) { alert('⚠️ Vui lòng đăng nhập trước khi mua!');
+                        switchPage('page-profile'); return; }
+
+                    var finalPrice = product.price;
+                    var useVoucher = voucherApplied && !currentUser.voucherUsed;
+                    if (useVoucher) { finalPrice = Math.round(product.price * (1 - discountPercent / 100)); }
+
+                    if (currentUser.balance < finalPrice) {
+                        alert('❌ Số dư không đủ! Cần ' + finalPrice.toLocaleString() + 'đ');
+                        return;
+                    }
+
+                    currentUser.balance -= finalPrice;
+                    var userInList = users.find(function(u) { return u.username === currentUser.username });
+                    if (userInList) {
+                        userInList.balance = currentUser.balance;
+                        if (useVoucher) {
+                            userInList.voucherUsed = true;
+                            currentUser.voucherUsed = true;
+                            voucherApplied = false;
+                        }
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
+
+                    pendingOrders.push({
+                        id: orderCounter++,
+                        product: product.name,
+                        price: finalPrice,
                         user: currentUser.username,
-                        code: currentNapCode
-                    })
+                        date: new Date().toLocaleString(),
+                        status: 'pending',
+                        key: null,
+                        voucherUsed: useVoucher
+                    });
+
+                    history.push({
+                        type: 'Mua key (chờ duyệt)',
+                        product: product.name,
+                        amount: -finalPrice,
+                        date: new Date().toLocaleString(),
+                        status: 'pending',
+                        key: null,
+                        voucherUsed: useVoucher,
+                        discount: useVoucher ? '20%' : '0%'
+                    });
+
+                    // CẬP NHẬT SỐ LƯỢNG CŨ
+                    oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
+                    updateUI();
+                    renderAdmin();
+                    alert('⏳ Đã tạo đơn mua: ' + product.name + '\nSố tiền: ' + finalPrice.toLocaleString() + 'đ' + (
+                        useVoucher ? ' (đã giảm 20%)' : '') + '\nVui lòng chờ admin duyệt!');
                 });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById('napAmount').value = '';
-                    await loadAllData();
-                    alert(`⏳ Đã tạo yêu cầu nạp ${amount.toLocaleString()}đ\n📌 Mã: ${currentNapCode}\nVui lòng chờ admin duyệt!`);
+            });
+        }
+
+        // ====================================================
+        // 11. UPDATE VOUCHER
+        // ====================================================
+        function updateVoucherStatus() {
+            voucherStatus.style.display = 'none';
+        }
+
+        // ====================================================
+        // 12. RENDER ADMIN
+        // ====================================================
+        function renderAdmin() {
+            // Chỉ hiển thị nội dung Admin khi đã đăng nhập Admin
+            if (currentUser && currentUser.role === 'admin') {
+                renderUserList();
+                // Đếm số lượng pending
+                var pendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                var pendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
+                // Kiểm tra có thay đổi không
+                var hasNewOrder = pendingOrdersCount > oldPendingOrdersCount;
+                var hasNewNap = pendingNapCount > oldPendingNapCount;
+
+                if ((hasNewOrder || hasNewNap)) {
+                    adminNotification.classList.add('show');
+                    // Cập nhật lại giá trị cũ
+                    oldPendingOrdersCount = pendingOrdersCount;
+                    oldPendingNapCount = pendingNapCount;
                 }
-            } catch (error) {
-                alert('❌ Lỗi kết nối server!');
+
+                // Render đơn hàng
+                var pending = pendingOrders.filter(function(o) { return o.status === 'pending' });
+                if (pending.length === 0) {
+                    adminOrders.innerHTML = '<p style="color:#88c8d8;">Chưa có đơn hàng chờ duyệt</p>';
+                } else {
+                    var html = '';
+                    pending.forEach(function(o) {
+                        html +=
+                            '<div class="order-item"><div><strong>' + o.product + '</strong> - ' + o.price
+                            .toLocaleString() + 'đ ' + (o.voucherUsed ? '🎫 -20%' : '') +
+                            '</div><div>👤 ' + o.user + '</div><div class="date">' + o.date +
+                            '</div><div class="key-input"><input type="text" class="keyInput" placeholder="Nhập key" /><button class="btn-approve-order" data-id="' +
+                            o.id + '">✅ Duyệt</button></div></div>';
+                    });
+                    adminOrders.innerHTML = html;
+
+                    document.querySelectorAll('.btn-approve-order').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var order = pendingOrders.find(function(o) { return o.id === id });
+                            if (!order) return;
+                            var keyInput = this.closest('.order-item').querySelector('.keyInput');
+                            var key = keyInput.value.trim();
+                            if (!key) { alert('⚠️ Vui lòng nhập key trước khi duyệt!'); return; }
+                            order.status = 'delivered';
+                            order.key = key;
+                            for (var i = 0; i < history.length; i++) {
+                                var h = history[i];
+                                if (h.type === 'Mua key (chờ duyệt)' &&
+                                    h.product === order.product &&
+                                    h.amount === -order.price) {
+                                    h.status = 'delivered';
+                                    h.key = key;
+                                    break;
+                                }
+                            }
+                            // Cập nhật lại số lượng cũ
+                            oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                            adminNotification.classList.remove('show');
+                            alert('✅ Đã duyệt đơn: ' + order.product + '\n🔑 Key: ' + key);
+                            renderAdmin();
+                            updateUI();
+                        });
+                    });
+                }
+
+                // Render nạp tiền
+                var pendingNapList = pendingNap.filter(function(n) { return n.status === 'pending' });
+                if (pendingNapList.length === 0) {
+                    adminNap.innerHTML = '<p style="color:#88c8d8;">Chưa có yêu cầu nạp tiền</p>';
+                } else {
+                    var html = '';
+                    pendingNapList.forEach(function(n) {
+                        html +=
+                            '<div class="nap-item"><div><strong>' + n.amount.toLocaleString() +
+                            'đ</strong></div><div>👤 ' + n.user + '</div><div style="color:#88c8d8;font-size:12px;">Mã: ' +
+                            (n.code || 'Không có') + '</div><div class="date">' + n.date +
+                            '</div><div class="nap-actions"><button class="btn-approve-nap" data-id="' + n.id +
+                            '">✅ Duyệt</button><button class="btn-cancel-nap" data-id="' + n.id +
+                            '">❌ Hủy</button></div></div>';
+                    });
+                    adminNap.innerHTML = html;
+
+                    document.querySelectorAll('.btn-approve-nap').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var nap = pendingNap.find(function(n) { return n.id === id });
+                            if (nap) {
+                                nap.status = 'approved';
+                                users = JSON.parse(localStorage.getItem('users')) || [];
+                                var user = users.find(function(u) { return u.username === nap.user });
+                                if (user) {
+                                    user.balance = (user.balance || 0) + nap.amount;
+                                    localStorage.setItem('users', JSON.stringify(users));
+                                    if (currentUser && currentUser.username === nap.user) {
+                                        currentUser.balance = user.balance;
+                                    }
+                                    history.push({
+                                        type: 'Nạp tiền (đã duyệt)',
+                                        product: '',
+                                        amount: nap.amount,
+                                        date: new Date().toLocaleString(),
+                                        status: 'approved'
+                                    });
+                                    // Cập nhật lại số lượng cũ
+                                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                    adminNotification.classList.remove('show');
+                                    alert('✅ Đã duyệt nạp ' + nap.amount.toLocaleString() + 'đ cho ' + nap.user);
+                                    renderAdmin();
+                                    updateUI();
+                                } else { alert('❌ Không tìm thấy user: ' + nap.user); }
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.btn-cancel-nap').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var id = parseInt(this.getAttribute('data-id'));
+                            var nap = pendingNap.find(function(n) { return n.id === id });
+                            if (nap) {
+                                if (confirm('❌ Bạn chắc chắn muốn hủy yêu cầu nạp ' + nap.amount
+                                        .toLocaleString() + 'đ của ' + nap.user + '?')) {
+                                    nap.status = 'cancelled';
+                                    pendingNap = pendingNap.filter(function(n) { return n.id !== id });
+                                    history.push({
+                                        type: 'Nạp tiền (đã hủy)',
+                                        product: '',
+                                        amount: nap.amount,
+                                        date: new Date().toLocaleString(),
+                                        status: 'cancelled'
+                                    });
+                                    // Cập nhật lại số lượng cũ
+                                    oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                                    adminNotification.classList.remove('show');
+                                    alert('✅ Đã hủy yêu cầu nạp ' + nap.amount.toLocaleString() + 'đ của ' + nap
+                                        .user);
+                                    renderAdmin();
+                                    updateUI();
+                                }
+                            }
+                        });
+                    });
+                }
+            } else {
+                // Nếu chưa đăng nhập Admin, hiển thị thông báo
+                userList.innerHTML = '<p style="color:#88c8d8;">👋 Vui lòng đăng nhập Admin để quản lý.</p>';
+                adminOrders.innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem đơn hàng.</p>';
+                adminNap.innerHTML = '<p style="color:#88c8d8;">🔒 Đăng nhập Admin để xem yêu cầu nạp tiền.</p>';
             }
-        });
+        }
 
         // ====================================================
-        // ĐÃ CHUYỂN KHOẢN
+        // 13. UPDATE UI
         // ====================================================
-        document.getElementById('btnTransferred').addEventListener('click', function() {
-            if (!currentUser) { alert('⚠️ Vui lòng đăng nhập!'); return; }
-            if (!napRequestCreated) { alert('⚠️ Tạo yêu cầu nạp trước!'); return; }
-            document.getElementById('transferredStatus').textContent = '✅ Đã gửi thông báo chuyển khoản!';
-            document.getElementById('transferredStatus').classList.add('show');
-            alert('✅ Đã gửi thông báo cho Admin!\n📌 Mã: ' + currentNapCode);
-        });
+        function updateUI() {
+            if (currentUser) {
+                userName.textContent = currentUser.username;
+                userBalance.textContent = currentUser.balance.toLocaleString() + 'đ';
+                pName.textContent = currentUser.username;
+                pBalance.textContent = currentUser.balance.toLocaleString() + 'đ';
+                pStatus.textContent = 'Đã đăng nhập';
+                pRole.textContent = currentUser.role || 'User';
+                pVoucherUsed.textContent = currentUser.voucherUsed ? '✅ Đã dùng' : '❌ Chưa dùng';
+                
+                // Nếu là Admin, hiển thị nội dung Admin
+                if (currentUser.role === 'admin') {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('show'); });
+                } else {
+                    document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                }
+            } else {
+                userName.textContent = 'Khách';
+                userBalance.textContent = '0đ';
+                pName.textContent = 'Khách';
+                pBalance.textContent = '0đ';
+                pStatus.textContent = 'Chưa đăng nhập';
+                pRole.textContent = 'Khách';
+                pVoucherUsed.textContent = 'Chưa';
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                hideNapInfo();
+            }
+            renderHistory();
+            updateVoucherStatus();
+        }
 
         // ====================================================
-        // ĐĂNG NHẬP / ĐĂNG KÝ / ĐĂNG XUẤT
+        // 14. RENDER LỊCH SỬ
         // ====================================================
-        document.getElementById('btnLogin').addEventListener('click', async function() {
-            const username = document.getElementById('loginUser').value.trim();
-            const password = document.getElementById('loginPass').value.trim();
-            document.getElementById('loginError').style.display = 'none';
-            document.getElementById('loginSuccess').style.display = 'none';
-            
+        function renderHistory() {
+            if (!currentUser || history.length === 0) {
+                historyList.innerHTML = '<p style="color:#88c8d8;">Vui lòng đăng nhập để xem lịch sử.</p>';
+                return;
+            }
+            var html = '';
+            var reversedHistory = history.slice().reverse();
+            for (var i = 0; i < reversedHistory.length; i++) {
+                var item = reversedHistory[i];
+                var sign = item.amount >= 0 ? '+' : '';
+                var statusBadge = '';
+                var keyDisplay = '';
+                var discountDisplay = item.discount && item.discount !== '0%' ? '🎫 ' + item.discount : '';
+
+                if (item.status === 'pending') {
+                    statusBadge = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (item.status === 'delivered') {
+                    statusBadge = '<span class="status-badge status-delivered">✅ Đã giao</span>';
+                    if (item.key) {
+                        keyDisplay = '<div class="key-display">🔑 Key: ' + item.key + '</div>';
+                    }
+                } else if (item.status === 'approved') {
+                    statusBadge = '<span class="status-badge status-approved">✅ Đã duyệt</span>';
+                } else if (item.status === 'cancelled') {
+                    statusBadge = '<span class="status-badge" style="background:#ff4444;color:#fff;">❌ Đã hủy</span>';
+                }
+
+                html +=
+                    '<div class="history-item"><div><strong>' + item.type + '</strong> - ' + (item.product || '') +
+                    ' ' + discountDisplay + ' ' + statusBadge + '</div><div style="color:' + (item.amount >= 0 ?
+                        '#4caf50' : '#ff6a00') + ';">' + sign + item.amount.toLocaleString() +
+                    'đ</div><div class="date">' + item.date + '</div>' + keyDisplay + '</div>';
+            }
+            historyList.innerHTML = html;
+        }
+
+        // ====================================================
+        // 15. ĐĂNG NHẬP
+        // ====================================================
+        document.getElementById('btnLogin').addEventListener('click', function() {
+            var username = loginUser.value.trim();
+            var password = loginPass.value.trim();
+            loginError.style.display = 'none';
+            loginSuccess.style.display = 'none';
             if (!username || !password) {
-                document.getElementById('loginError').textContent = '⚠️ Nhập đầy đủ thông tin!';
-                document.getElementById('loginError').style.display = 'block';
+                loginError.textContent = '⚠️ Vui lòng nhập đầy đủ tên và mật khẩu!';
+                loginError.style.display = 'block';
                 return;
             }
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            var user = users.find(function(u) { return u.username === username && u.password === password });
+            if (!user) {
+                loginError.textContent = '❌ Sai tên đăng nhập hoặc mật khẩu!';
+                loginError.style.display = 'block';
+                return;
+            }
+            currentUser = {
+                username: user.username,
+                password: user.password,
+                role: user.role || 'user',
+                balance: user.balance || 0,
+                voucherUsed: user.voucherUsed || false
+            };
+            loginUser.value = '';
+            loginPass.value = '';
+            loginSuccess.textContent = '✅ Chào mừng ' + currentUser.username + '!';
+            loginSuccess.style.display = 'block';
 
-            try {
-                const res = await fetch(`${API_URL}/api/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    currentUser = result.user;
-                    document.getElementById('loginUser').value = '';
-                    document.getElementById('loginPass').value = '';
-                    document.getElementById('loginSuccess').textContent = `✅ Chào mừng ${currentUser.username}!`;
-                    document.getElementById('loginSuccess').style.display = 'block';
-                    await loadAllData();
-                    renderProducts(currentCategory);
-                    alert(`✅ Chào mừng ${currentUser.username}!`);
-                    switchPage('page-home');
-                } else {
-                    document.getElementById('loginError').textContent = '❌ Sai tên hoặc mật khẩu!';
-                    document.getElementById('loginError').style.display = 'block';
-                }
-            } catch (error) {
-                alert('❌ Lỗi kết nối server!');
+            // Khởi tạo số lượng cũ
+            oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+            oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
+            updateUI();
+            renderProducts(currentCategory);
+            renderAdmin();
+            refreshNapCode();
+            hideNapInfo();
+            alert('✅ Chào mừng ' + currentUser.username + '!' + (currentUser.role === 'admin' ? ' (Admin)' : ''));
+            switchPage('page-home');
+        });
+
+        // ====================================================
+        // 16. ĐĂNG KÝ
+        // ====================================================
+        document.getElementById('btnRegister').addEventListener('click', function() {
+            var username = loginUser.value.trim();
+            var password = loginPass.value.trim();
+            loginError.style.display = 'none';
+            loginSuccess.style.display = 'none';
+            if (!username || !password) {
+                loginError.textContent = '⚠️ Vui lòng nhập đầy đủ tên và mật khẩu!';
+                loginError.style.display = 'block';
+                return;
+            }
+            if (username.length < 3) {
+                loginError.textContent = '⚠️ Tên đăng nhập phải có ít nhất 3 ký tự!';
+                loginError.style.display = 'block';
+                return;
+            }
+            if (password.length < 4) {
+                loginError.textContent = '⚠️ Mật khẩu phải có ít nhất 4 ký tự!';
+                loginError.style.display = 'block';
+                return;
+            }
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(function(u) { return u.username === username })) {
+                loginError.textContent = '❌ Tên đăng nhập đã tồn tại!';
+                loginError.style.display = 'block';
+                return;
+            }
+            users.push({ username: username, password: password, role: 'user', balance: 0, voucherUsed: false });
+            localStorage.setItem('users', JSON.stringify(users));
+            loginSuccess.textContent = '✅ Đăng ký thành công! Vui lòng đăng nhập.';
+            loginSuccess.style.display = 'block';
+            loginUser.value = '';
+            loginPass.value = '';
+            if (currentUser && currentUser.role === 'admin') { 
+                oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+                oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+                renderAdmin(); 
             }
         });
 
-        document.getElementById('btnRegister').addEventListener('click', async function() {
-            const username = document.getElementById('loginUser').value.trim();
-            const password = document.getElementById('loginPass').value.trim();
-            document.getElementById('loginError').style.display = 'none';
-            document.getElementById('loginSuccess').style.display = 'none';
-            
-            if (!username || username.length < 3) {
-                document.getElementById('loginError').textContent = '⚠️ Tên ít nhất 3 ký tự!';
-                document.getElementById('loginError').style.display = 'block';
-                return;
-            }
-            if (!password || password.length < 4) {
-                document.getElementById('loginError').textContent = '⚠️ Mật khẩu ít nhất 4 ký tự!';
-                document.getElementById('loginError').style.display = 'block';
-                return;
-            }
-
-            try {
-                const res = await fetch(`${API_URL}/api/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById('loginSuccess').textContent = '✅ Đăng ký thành công! Vui lòng đăng nhập.';
-                    document.getElementById('loginSuccess').style.display = 'block';
-                    document.getElementById('loginUser').value = '';
-                    document.getElementById('loginPass').value = '';
-                    await loadAllData();
-                } else {
-                    document.getElementById('loginError').textContent = '❌ ' + (result.error || 'Lỗi đăng ký!');
-                    document.getElementById('loginError').style.display = 'block';
-                }
-            } catch (error) {
-                alert('❌ Lỗi kết nối server!');
-            }
-        });
-
+        // ====================================================
+        // 17. ĐĂNG XUẤT
+        // ====================================================
         document.getElementById('btnLogout').addEventListener('click', function() {
-            if (!currentUser) { alert('Chưa đăng nhập!'); return; }
-            if (confirm('Đăng xuất?')) {
+            if (!currentUser) { alert('Bạn chưa đăng nhập!'); return; }
+            if (confirm('Bạn muốn đăng xuất?')) {
                 currentUser = null;
+                history = [];
                 voucherApplied = false;
-                napRequestCreated = false;
-                document.getElementById('transferredStatus').classList.remove('show');
+                hideNapInfo();
+                document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.remove('show'); });
+                adminNotification.classList.remove('show');
                 updateUI();
                 renderProducts(currentCategory);
                 switchPage('page-home');
@@ -1336,77 +1572,137 @@
         });
 
         // ====================================================
-        // VOUCHER
+        // 18. VOUCHER
         // ====================================================
         document.getElementById('btnApplyVoucher').addEventListener('click', function() {
-            if (!currentUser) { alert('⚠️ Đăng nhập trước!'); return; }
-            if (currentUser.voucherUsed) { alert('❌ Mã đã dùng!'); return; }
-            const code = document.getElementById('voucherInput').value.trim();
+            if (!currentUser) { alert('⚠️ Vui lòng đăng nhập trước!'); return; }
+            if (currentUser.voucherUsed) { 
+                alert('❌ Mã giảm giá chỉ dùng 1 lần!');
+                return; 
+            }
+            var code = document.getElementById('voucherInput').value.trim();
             if (code === 'Admin_hi_51580') {
                 voucherApplied = true;
-                alert('✅ Áp dụng giảm 20%!');
+                alert('✅ Đã áp dụng giảm giá 20% cho đơn hàng này!');
                 document.getElementById('voucherInput').value = '';
-            } else {
-                alert('❌ Mã không hợp lệ!');
-            }
+            } else { alert('❌ Mã giảm giá không hợp lệ!'); }
+        });
+
+        document.getElementById('voucherInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { document.getElementById('btnApplyVoucher').click(); }
         });
 
         // ====================================================
-        // CHUYỂN TRANG
+        // 19. NẠP TIỀN
         // ====================================================
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(pageId);
-            if (target) target.classList.add('active');
-            document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-            const navBtn = document.querySelector(`.bottom-nav button[data-page="${pageId}"]`);
-            if (navBtn) navBtn.classList.add('active');
-            
-            if (pageId === 'page-admin' && currentUser && currentUser.role === 'admin') {
-                loadAllData();
+        document.getElementById('btnNap').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('⚠️ Vui lòng đăng nhập để nạp tiền!');
+                return;
             }
-        }
+            var amount = parseInt(document.getElementById('napAmount').value);
+            if (!amount || amount <= 0) {
+                alert('❌ Vui lòng nhập số tiền hợp lệ!');
+                return;
+            }
 
-        document.querySelectorAll('.bottom-nav button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const page = this.dataset.page;
-                if (page === 'page-admin' && (!currentUser || currentUser.role !== 'admin')) {
-                    alert('⚠️ Đăng nhập Admin để truy cập!');
-                    switchPage('page-profile');
-                    return;
-                }
-                switchPage(page);
+            showNapInfo();
+
+            var napReq = {
+                id: napCounter++,
+                amount: amount,
+                user: currentUser.username,
+                date: new Date().toLocaleString(),
+                status: 'pending',
+                code: currentNapCode
+            };
+            pendingNap.push(napReq);
+
+            history.push({
+                type: 'Nạp tiền (chờ duyệt)',
+                product: '',
+                amount: amount,
+                date: new Date().toLocaleString(),
+                status: 'pending'
             });
+
+            // Cập nhật số lượng cũ
+            oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
+
+            updateUI();
+            renderAdmin();
+            document.getElementById('napAmount').value = '';
+            alert('⏳ Đã tạo yêu cầu nạp ' + amount.toLocaleString() + 'đ\n📌 Mã nạp: ' + napReq.code +
+                '\nVui lòng chờ admin duyệt!');
         });
 
         // ====================================================
-        // LỌC DANH MỤC
+        // 20. ĐÃ CHUYỂN KHOẢN
         // ====================================================
-        document.getElementById('categoryFilter').addEventListener('click', function(e) {
+        document.getElementById('btnTransferred').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('⚠️ Vui lòng đăng nhập!');
+                return;
+            }
+            if (!napRequestCreated) {
+                alert('⚠️ Vui lòng tạo yêu cầu nạp trước!');
+                return;
+            }
+            var amount = document.getElementById('napAmount').value || '0';
+            
+            history.push({
+                type: '📢 Thông báo chuyển khoản',
+                product: 'Đã chuyển khoản ' + (amount > 0 ? amount.toLocaleString() : '') + 'đ - Mã: ' + currentNapCode,
+                amount: 0,
+                date: new Date().toLocaleString(),
+                status: 'approved'
+            });
+            
+            transferredStatus.textContent = '✅ Đã gửi thông báo chuyển khoản cho Admin!';
+            transferredStatus.style.color = '#4caf50';
+            transferredStatus.classList.add('show');
+            
+            renderAdmin();
+            updateUI();
+            
+            alert('✅ Đã gửi thông báo chuyển khoản cho Admin!\n📌 Mã nạp: ' + currentNapCode);
+        });
+
+        // ====================================================
+        // 21. LỌC DANH MỤC
+        // ====================================================
+        categoryFilter.addEventListener('click', function(e) {
             if (e.target.tagName === 'BUTTON') {
-                document.querySelectorAll('.category-grid button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.category-grid button').forEach(function(b) { b.classList.remove('active'); });
                 e.target.classList.add('active');
-                currentCategory = e.target.dataset.cat;
+                currentCategory = e.target.getAttribute('data-cat');
                 renderProducts(currentCategory);
             }
         });
 
         // ====================================================
-        // TỰ ĐỘNG KIỂM TRA DỮ LIỆU MỚI
+        // 22. TỰ ĐỘNG CẬP NHẬT TRANG ADMIN
         // ====================================================
-        setInterval(async function() {
+        setInterval(function() {
             if (currentUser && currentUser.role === 'admin') {
-                await loadAllData();
+                renderAdmin();
+                console.log('🔄 Đã tự động cập nhật trang Admin');
             }
-        }, 5000);
+        }, 10000);
 
         // ====================================================
-        // KHỞI CHẠY
+        // 23. KHỞI CHẠY
         // ====================================================
         renderProducts('aim');
+        updateUI();
+        renderAdmin();
         refreshNapCode();
         hideNapInfo();
-        loadAllData();
+
+        // Khởi tạo số lượng cũ
+        oldPendingOrdersCount = pendingOrders.filter(function(o) { return o.status === 'pending' }).length;
+        oldPendingNapCount = pendingNap.filter(function(n) { return n.status === 'pending' }).length;
     </script>
+
 </body>
-                                                   </html>
+</html>
